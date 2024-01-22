@@ -1,0 +1,16 @@
+{
+  "name": "chicker",
+  "version": "1.0.0",
+  "description": "Chicker is a content-oriented application that similar to Twitter. \n Users can send their pictures, videos or any interesting ideas they want to share with others.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  }
+}

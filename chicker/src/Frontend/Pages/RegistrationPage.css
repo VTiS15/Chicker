@@ -1,0 +1,10 @@
+.RegistrartionPage {
+  display: grid;
+  place-items: center;
+  gap: 50px;
+  height: 100vh;
+  margin: 0;
+  padding: 0 32px;
+  background: #dfb682;
+  font-family: "Poppins";
+}

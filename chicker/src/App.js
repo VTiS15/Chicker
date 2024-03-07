@@ -1,13 +1,24 @@
-import "./App.css";
-import logo from "./chicker.jpg";
+import ReactDOM from "react-dom/client";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Layout from "./Frontend/Layout";
 
-function App() {
+import HomePage from "./Frontend/Pages/HomePage";
+import LoginPage from "./Frontend/Pages/LoginPage";
+import RegistrartionPage from "./Frontend/Pages/RegistrationPage";
+
+export default function App() {
   return (
-    <div className="App">
-      <img src={logo} />
-      <p>CSCI3100 project</p>
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Layout />}>
+          <Route index element={<HomePage />} />
+          <Route path="/Login" element={<LoginPage />} />
+          <Route path="/Registrartion" element={<RegistrartionPage />} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
   );
 }
 
-export default App;
+const root = ReactDOM.createRoot(document.getElementById("root"));
+root.render(<App />);

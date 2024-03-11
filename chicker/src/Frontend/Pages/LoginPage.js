@@ -5,11 +5,11 @@ import logo from "../Pictures/IconPicture.jpeg";
 export default function LoginPage() {
   return (
     <div className="LoginPage">
-      <div className="background"></div>
-      <div className="card">
+      <div className="LoginBackgrond"></div>
+      <div className="LoginCard">
         <img className="logo" src={logo} />
         <h2>Sign in to Chicker</h2>
-        <form className="form">
+        <form className="LoginForm">
           <input type="text" placeholder="UserName" id="fname"></input>
           <input type="password" placeholder="Password" id="fpassword"></input>
           <button>Sign In</button>
@@ -18,8 +18,7 @@ export default function LoginPage() {
           Do not have an account? Click{" "}
           <a>
             <Link to="/Registrartion">here</Link>
-          </a>{" "}
-          to register!
+          </a>
         </footer>
       </div>
     </div>

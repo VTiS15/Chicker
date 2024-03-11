@@ -8,3 +8,127 @@
   background: #dfb682;
   font-family: "Poppins";
 }
+
+@media (width >= 500px) {
+  .RegistrartionPage {
+    padding: 0;
+  }
+
+  .RegistrartionCard {
+    margin: 0;
+    width: 360px;
+  }
+}
+
+.RegistrartionBackground {
+  position: fixed;
+  bottom: -50vmin;
+  left: -50vmin;
+  width: 100vmin;
+  height: 100vmin;
+  border-radius: 47% 53% 61% 39% / 45% 51% 49% 55%;
+  background: #501d4b;
+}
+
+.RegistrartionBackground::after {
+  content: "";
+  position: inherit;
+  right: -50vmin;
+  top: -50vmin;
+  width: inherit;
+  height: inherit;
+  border-radius: inherit;
+  background-color: #854f6c;
+}
+
+.RegistrartionCard {
+  overflow: hidden;
+  position: relative;
+  z-index: 3;
+  width: 40%;
+  margin: 0 20px;
+  padding: 170px 30px 54px;
+  border-radius: 24px;
+  background: #ffffff;
+  text-align: center;
+  box-shadow: 0 100px 100px rgb(0 0 0 / 10%);
+}
+
+.RegistrartionCard::before {
+  content: "";
+  position: absolute;
+  top: -880px;
+  left: 50%;
+  translate: -50% 0;
+  width: 1000px;
+  height: 1040px;
+  border-radius: 50%;
+  background-color: #522b5b;
+}
+
+.RegistrartionCard .logo {
+  position: absolute;
+  top: 30px;
+  left: 50%;
+  translate: -50% 0;
+  width: 100px;
+  height: 100px;
+  border-radius: 24px;
+}
+
+.RegistrartionCard > h2 {
+  font-size: 22px;
+  font-weight: 400;
+  margin: 12px 0 24px;
+  color: rgb(0 0 0 / 38%);
+}
+
+.RegistrartionForm {
+  margin: 0 0 44px;
+  display: grid;
+  place-items: center;
+  gap: 12px;
+}
+
+.RegistrartionForm :is(input, button) {
+  width: 100%;
+  height: 56px;
+  border-radius: 12px;
+  font-size: 16px;
+  font-family: inherit;
+}
+
+.RegistrartionForm > input {
+  border: 0;
+  padding-left: 24px;
+  color: #222222;
+  background-color: #ededed;
+}
+
+.RegistrartionForm > input::placeholder {
+  color: rgb(0 0 0 / 30%);
+}
+
+.RegistrartionForm > button {
+  border: 0;
+  color: #f9f9f9;
+  background-color: #522b52;
+  display: grid;
+  place-items: center;
+  font-weight: 500;
+  cursor: pointer;
+  border-radius: 24px;
+  width: 50%;
+  transition: width 1s;
+}
+
+.RegistrartionForm > button:hover {
+  width: 100%;
+}
+
+.RegistrartionForm > footer {
+  color: #a1a1a1;
+}
+.RegistrartionForm > footer > a {
+  color: #216ce7;
+}

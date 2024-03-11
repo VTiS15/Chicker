@@ -1,14 +1,15 @@
-import "./RegistrationPage.css";
 import { Link } from "react-router-dom";
+import "./RegistrationPage.css";
 import logo from "../Pictures/IconPicture.jpeg";
 
 export default function RegistrartionPage() {
   return (
     <div className="RegistrartionPage">
-      Create an account
-      <div className="card">
+      <div className="RegistrartionBackground"></div>
+      <div className="RegistrartionCard">
         <img className="logo" src={logo} />
-        <form className="form">
+        <h2>Create an account</h2>
+        <form className="RegistrartionForm">
           <input type="text" placeholder="Username" id="fname" />
           <input type="email" placeholder="Email" id="femail" />
           <input type="password" placeholder="Password" id="fpassword" />
@@ -17,8 +18,8 @@ export default function RegistrartionPage() {
             placeholder="Enter Password again"
             id="fcheck"
           />
+          <button>Create account</button>
         </form>
-        <button>Create account</button>
         <footer>
           Already have an account?{" "}
           <a>

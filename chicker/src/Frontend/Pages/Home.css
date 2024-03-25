@@ -1,0 +1,32 @@
+.Home {
+  background-color: #dfb682;
+  font-family: "Poppins";
+  display: flex;
+  height: 3000pxauto;
+}
+
+.SideBar {
+  position: fixed;
+}
+
+.grid-container {
+  height: 200%;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  display: grid;
+  column-gap: 2%;
+  padding-left: 14%;
+  padding-right:  10px;
+  grid-template-columns: 48% 48%;
+  grid-template-rows: 48% 48%;
+}
+
+.grid-item {
+  background-color: rgba(255, 255, 255, 0.8);
+  border: 1px solid rgba(0, 0, 0, 0.8);
+  font-size: 30px;
+  text-align: center;
+  border-radius: 24px;
+  height: 80px;
+}

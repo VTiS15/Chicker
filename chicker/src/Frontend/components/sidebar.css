@@ -1,10 +1,10 @@
 .sidebar {
   position: fixed;
-  width: 12%;
+  width: 10%;
   height: 100%;
   background-color: #501d4b;
   padding: 10px;
-  display: flex; 
+  display: flex;
   flex-direction: column;
   justify-content: flex-start;
   z-index: 10;
@@ -33,7 +33,7 @@
   align-items: center;
 }
 
-.sidebar-image{
+.sidebar-image {
   width: 70%;
   display: block;
   margin: 0 auto;
@@ -58,8 +58,22 @@
   background-color: #ccc;
 }
 
-@media (max-width: 1000px) {
+@media (width <= 1140px) {
+  .sidebar-button {
+    width: 100%;
+    padding: 10px 20px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border: none;
+    border-radius: 12px;
+    background-color: transparent;
+    color: #dfb682;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+  }
+
   .button-text {
-    font-size: 0;
+    display: none;
   }
 }

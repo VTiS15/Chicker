@@ -27,10 +27,12 @@ const Sidebar = () => {
           <span className="button-text">Search</span>
         </button>
       </Link>
-      <button className="sidebar-button">
-        <img className="icon" src={profile} alt="Home" />
-        <span className="button-text">Profile</span>
-      </button>
+      <Link to="/Profile" style={linkstyle}>
+        <button className="sidebar-button">
+          <img className="icon" src={profile} alt="Home" />
+          <span className="button-text">Profile</span>
+        </button>
+      </Link>
       <button className="sidebar-button">
         <img className="icon" src={chat} alt="Home" />
         <span className="button-text">Chat</span>

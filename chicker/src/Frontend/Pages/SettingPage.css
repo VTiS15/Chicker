@@ -1,0 +1,88 @@
+.SettingPage {
+  background-color: #dfb682;
+  height: 100vh;
+  width: 300vh;
+  position: fixed;
+  padding-left: 15%;
+  align-items: center;
+}
+
+h1 {
+  padding-top: 6px;
+  position: fixed;
+  font-family: poppins;
+  z-index: 4;
+}
+
+.NavBar {
+  margin-top: 80px;
+  list-style-type: none;
+  padding: 0;
+  overflow: hidden;
+  background-color: #624776;
+  width: 80%;
+  position: fixed;
+  font-family: poppins;
+  border-radius: 6px;
+  z-index: 4;
+}
+
+.NavBar li {
+  display: inline;
+  float: left;
+}
+
+.NavBar li a {
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+.NavBar li a:hover {
+  background-color: #473852;
+}
+
+.WrapperContainer {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+}
+
+.Profile {
+  background-color: #dfb682;
+  color: #fff;
+  transition: left 0.5s cubic-bezier(0.25, 0.1, 0.25, 1);
+}
+.Security {
+  background-color: #dfb682;
+  color: #fff;
+  left: 100%;
+  transition: left 0.5s cubic-bezier(0.25, 0.1, 0.25, 1);
+}
+.Theme {
+  background-color: #dfb682;
+  color: #fff;
+  left: 100%;
+  transition: left 0.5s cubic-bezier(0.25, 0.1, 0.25, 1);
+}
+
+a[id="Profile"],
+a[id="Security"],
+a[id="Theme"] {
+  display: none;
+}
+
+.BaseLayers {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  margin-top: 5%;
+}
+
+a[id="Profile"]:target ~ main > section#profile,
+a[id="Security"]:target ~ main > section#security,
+a[id="Theme"]:target ~ main > section#theme {
+  left: 7.35%;
+}

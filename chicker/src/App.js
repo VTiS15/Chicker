@@ -6,6 +6,7 @@ import LoginPage from "./Frontend/Pages/LoginPage";
 import RegistrartionPage from "./Frontend/Pages/RegistrationPage";
 import SearchPage from "./Frontend/Pages/SearchPage";
 import ProfilePage from "./Frontend/Pages/ProfilePage";
+import SettingPage from "./Frontend/Pages/SettingPage";
 import Home from "./Frontend/Pages/Home";
 
 export default function App() {
@@ -17,7 +18,6 @@ export default function App() {
           <Route path="/Login" element={<LoginPage />} />
           <Route path="/Registrartion" element={<RegistrartionPage />} />
           <Route path="/Search" element={<SearchPage />} />
-          <Route path="/Profile" element={<ProfilePage />} />
         </Route>
       </Routes>
     </BrowserRouter>

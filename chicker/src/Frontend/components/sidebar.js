@@ -37,10 +37,12 @@ const Sidebar = () => {
         <img className="icon" src={chat} alt="Home" />
         <span className="button-text">Chat</span>
       </button>
-      <button className="sidebar-button">
-        <img className="icon" src={setting} alt="Home" />
-        <span className="button-text">Setting</span>
-      </button>
+      <Link to="/Setting" style={linkstyle}>
+        <button className="sidebar-button">
+          <img className="icon" src={setting} alt="Home" />
+          <span className="button-text">Setting</span>
+        </button>
+      </Link>
     </div>
   );
 };

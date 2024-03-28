@@ -156,6 +156,7 @@ a[id="Theme"]:target ~ main > section#theme {
 
 .Slider {
   -webkit-appearance: none;
+  appearance: none;
   width: 10%;
   height: 15px;
   border-radius: 8px;

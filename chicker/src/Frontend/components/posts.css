@@ -92,3 +92,93 @@
 .post-button:hover {
   background-color: #d9d9d9;
 }
+
+.commentPopup {
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(
+      0,
+      0,
+      0,
+      0.4
+  );
+  display: none;
+}
+.allComment {
+  background-color: white;
+  margin: 10% auto;
+  padding: 20px;
+  border: 1px solid #888888;
+  width: 30%;
+  border-radius: 15px;
+}
+.allComment button {
+  display: block;
+  margin: 0 auto;
+}
+.show {
+  display: block;
+}
+
+
+.eachComment {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  column-gap: 10px;
+  align-items: flex-start;
+  margin-bottom: 10px;
+}
+
+.comment-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.comment-content {
+  display: flex;
+  flex-direction: column;
+  background-color: rgb(240, 240, 240);
+  border-radius: 5px;
+  padding: 5px;
+}
+
+.comment-author {
+  margin: 0;
+  font-weight: bold;
+}
+
+.comment-text {
+  margin: 0;
+}
+
+.closeButton {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  color: #999;
+}
+
+.enterComment {
+  display: flex;
+}
+
+.enterCommentText {
+  width: 100%;
+}
+
+.sendIcon {
+  right: 0;
+  cursor: pointer;
+}
+
+.sendIcon:hover {
+  background-color: #fff8d3;
+}

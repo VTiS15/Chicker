@@ -1,13 +1,16 @@
 import Sidebar from "../components/sidebar";
 import "./SettingPage.css";
 
-export default function SettingPage() {
-  const textstyle = { fontFamily: "Courier New" };
+export function textstyle() {
+  var style = { fontFamily: "Courier New" };
+  return style;
+}
 
+export default function SettingPage() {
   return (
     <>
       <Sidebar />
-      <div className="SettingPage" style={textstyle}>
+      <div className="SettingPage" style={textstyle()}>
         <h1>SETTINGS</h1>
         <a id="Profile"></a>
         <a id="Security"></a>
@@ -82,6 +85,7 @@ export default function SettingPage() {
               <input className="Submit" type="submit" value="Submit"></input>
             </form>
           </section>
+
           <section className="Security BaseLayers" id={"security"}>
             <h2>Security</h2>
             <form className="SecurityForm">
@@ -102,6 +106,7 @@ export default function SettingPage() {
               <br />
             </form>
           </section>
+
           <section className="Theme BaseLayers" id={"theme"}>
             <h2>Theme</h2>
             <p>Changing Theme/Text style</p>
@@ -113,7 +118,6 @@ export default function SettingPage() {
                 <div>Light</div>
                 <div>Dark</div>
               </label>
-
               <label>Font style</label>
               <br />
               <select>

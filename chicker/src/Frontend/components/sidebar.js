@@ -31,10 +31,12 @@ const Sidebar = () => {
         <img className="icon" src={profile} alt="Home" />
         <span className="button-text">Profile</span>
       </button>
-      <button className="sidebar-button">
-        <img className="icon" src={chat} alt="Home" />
-        <span className="button-text">Chat</span>
-      </button>
+      <Link to="/Chat" style={linkstyle}>
+        <button className="sidebar-button">
+          <img className="icon" src={chat} alt="Home" />
+          <span className="button-text">Chat</span>
+        </button>
+      </Link>
       <Link to="/Setting" style={linkstyle}>
         <button className="sidebar-button">
           <img className="icon" src={setting} alt="Home" />

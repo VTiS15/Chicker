@@ -1,16 +1,28 @@
 import Sidebar from "../components/sidebar";
 import "./SettingPage.css";
+import { useState } from "react";
 
-export function textstyle() {
-  var style = { fontFamily: "Courier New" };
+function textstyle(value) {
+  var style = { fontFamily: value };
   return style;
 }
 
+export let globaltextstyle;
+
 export default function SettingPage() {
+  const [selectedValue, setSelectedValue] = useState("");
+
+  const handleTextStyleChange = (event) => {
+    const value = event.target.value;
+    setSelectedValue(value);
+  };
+
+  globaltextstyle = textstyle(selectedValue);
+
   return (
     <>
       <Sidebar />
-      <div className="SettingPage" style={textstyle()}>
+      <div className="SettingPage" style={globaltextstyle}>
         <h1>SETTINGS</h1>
         <a id="Profile"></a>
         <a id="Security"></a>
@@ -120,8 +132,10 @@ export default function SettingPage() {
               </label>
               <label>Font style</label>
               <br />
-              <select>
+              <select onChange={handleTextStyleChange}>
+                <option value="">--</option>
                 <option value="Courier New">Courier New</option>
+                <option value="Times New Roman">Times New Roman</option>
               </select>
               <br />
               <label>Font size</label>

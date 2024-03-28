@@ -7,6 +7,9 @@
   align-items: center;
 }
 
-h2 {
+h1 {
+  padding-top: 6px;
+  position: fixed;
   color: white;
+  z-index: 4;
 }

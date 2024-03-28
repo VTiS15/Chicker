@@ -10,7 +10,7 @@
 h1 {
   padding-top: 6px;
   position: fixed;
-  font-family: poppins;
+  color: white;
   z-index: 4;
 }
 
@@ -19,12 +19,11 @@ h1 {
   list-style-type: none;
   padding: 0;
   overflow: hidden;
-  background-color: #624776;
   width: 80%;
   position: fixed;
-  font-family: poppins;
-  border-radius: 6px;
   z-index: 4;
+  border-bottom: solid;
+  color: white;
 }
 
 .NavBar li {
@@ -33,6 +32,7 @@ h1 {
 }
 
 .NavBar li a {
+  border-radius: 6px;
   display: block;
   color: white;
   text-align: center;
@@ -41,7 +41,7 @@ h1 {
 }
 
 .NavBar li a:hover {
-  background-color: #473852;
+  background-color: #7e684c;
 }
 
 .WrapperContainer {
@@ -53,19 +53,20 @@ h1 {
 .Profile {
   background-color: #dfb682;
   color: #fff;
-  transition: left 0.5s cubic-bezier(0.25, 0.1, 0.25, 1);
+  left: 100%;
+  transition: left 0.7s cubic-bezier(0.25, 0.1, 0.25, 1);
 }
 .Security {
   background-color: #dfb682;
   color: #fff;
   left: 100%;
-  transition: left 0.5s cubic-bezier(0.25, 0.1, 0.25, 1);
+  transition: left 0.7s cubic-bezier(0.25, 0.1, 0.25, 1);
 }
 .Theme {
   background-color: #dfb682;
   color: #fff;
   left: 100%;
-  transition: left 0.5s cubic-bezier(0.25, 0.1, 0.25, 1);
+  transition: left 0.7s cubic-bezier(0.25, 0.1, 0.25, 1);
 }
 
 a[id="Profile"],
@@ -84,5 +85,165 @@ a[id="Theme"] {
 a[id="Profile"]:target ~ main > section#profile,
 a[id="Security"]:target ~ main > section#security,
 a[id="Theme"]:target ~ main > section#theme {
-  left: 7.35%;
+  left: 10%;
+}
+
+.ProfileForm input {
+  width: 17%;
+  border-radius: 12px;
+  padding: 4px 10px;
+}
+
+.ProfileForm > .BirthSelect {
+  width: 110px;
+}
+
+.ProfileForm select {
+  width: 10%;
+  border-radius: 12px;
+  padding: 4px 10px;
+}
+
+.ProfileForm textarea {
+  width: 20%;
+  height: 100px;
+}
+
+.ProfileForm > .Submit {
+  margin-top: 12px;
+  align-self: center;
+  background-color: #c191ac;
+  cursor: pointer;
+  width: 100px;
+  transition: width 1s;
+}
+
+.ProfileForm > .Submit:hover {
+  width: 200px;
+  background-color: #a26b89;
+}
+
+.SecurityForm > input {
+  width: 17%;
+  border-radius: 12px;
+  padding: 4px 10px;
+}
+
+.SecurityForm > .Submit {
+  margin-top: 12px;
+  align-self: center;
+  background-color: #c191ac;
+  cursor: pointer;
+  width: 100px;
+  transition: width 1s;
+}
+
+.SecurityForm > .Submit:hover {
+  background-color: #a26b89;
+  width: 200px;
+}
+
+.ThemeForm select {
+  width: 10%;
+  border-radius: 12px;
+  padding: 4px 10px;
+}
+
+.slidecontainer {
+  padding-top: 6px;
+  width: 100%;
+}
+
+.Slider {
+  -webkit-appearance: none;
+  width: 10%;
+  height: 15px;
+  border-radius: 8px;
+  background: #d3d3d3;
+  outline: none;
+  opacity: 0.7;
+  -webkit-transition: 0.2s;
+  transition: opacity 0.2s;
+}
+
+.Slider:hover {
+  opacity: 1;
+}
+
+.Slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background: #81633b;
+  cursor: pointer;
+}
+
+.Slider::-moz-range-thumb {
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background: #81633b;
+  cursor: pointer;
+}
+
+.Recommandation button {
+  border-radius: 24px;
+  height: 30px;
+  width: 50px;
+  margin: 0 4px;
+  border: #2f2f2f;
+  cursor: pointer;
+  background: #a26b89;
+}
+
+.DarkModeContainer {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  width: fit-content;
+  border: 3px solid #343434;
+  border-radius: 20px;
+  background: #343434;
+  font-weight: bold;
+  color: #343434;
+  cursor: pointer;
+}
+.DarkModeContainer::before {
+  content: "";
+  position: absolute;
+  width: 50%;
+  height: 100%;
+  left: 0%;
+  border-radius: 20px;
+  background: white;
+  transition: all 0.3s;
+}
+.DarkModeCheckbox:checked + .DarkModeContainer::before {
+  left: 50%;
+}
+.DarkModeContainer div {
+  padding: 6px;
+  text-align: center;
+  z-index: 1;
+}
+.DarkModeCheckbox {
+  display: none;
+}
+.DarkModeCheckbox:checked + .DarkModeContainer div:first-child {
+  color: white;
+  transition: color 0.3s;
+}
+.DarkModeCheckbox:checked + .DarkModeContainer div:last-child {
+  color: #343434;
+  transition: color 0.3s;
+}
+.DarkModeCheckbox + .DarkModeContainer div:first-child {
+  color: #343434;
+  transition: color 0.3s;
+}
+.DarkModeCheckbox + .DarkModeContainer div:last-child {
+  color: white;
+  transition: color 0.3s;
 }

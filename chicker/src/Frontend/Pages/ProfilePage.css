@@ -1,8 +1,58 @@
-.ProfilePage {
+body {
   background-color: #dfb682;
-  height: 100vh;
-  width: 300vh;
+}
+
+.ProfilePage {
   position: fixed;
   padding-left: 15%;
+  width: 85%;
+}
+
+.ProfileCard {
+  display: flex;
+  flex-direction: column;
   align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.ProfileImange img {
+  max-width: 300px;
+  max-height: 200px;
+  width: auto;
+  height: auto;
+}
+
+.SelfInfo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.DetailContainer {
+  border: 1px solid black;
+  border-radius: 24px;
+  padding: 8px;
+  text-align: center;
+  min-width: 400px;
+}
+
+.NumberContainer {
+  display: inline-block;
+  margin: 0 20px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.NumberContainer > .Number {
+  margin: 0 10px;
+}
+
+.NumberContainer:hover {
+  cursor: pointer;
+  opacity: 0.5;
 }

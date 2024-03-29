@@ -16,11 +16,7 @@ export default function SearchPage() {
       <Sidebar className="SideBar" />
       <div className="SearchPage">
         <h2 className="SearchTitle">Search for Users, Posts</h2>
-        <form
-          className="SearchForm"
-          onsubmit="event.preventDefault();"
-          role="search"
-        >
+        <form className="SearchForm" role="search">
           <input
             className="SearchInput"
             id="search"

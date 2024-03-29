@@ -1,8 +1,5 @@
-.Home {
+body {
   background-color: #dfb682;
-  font-family: "Poppins";
-  display: flex;
-  height: 3000pxauto;
 }
 
 .grid-container {
@@ -10,7 +7,6 @@
   justify-content: center;
   align-items: center;
   width: 100%;
-  display: grid;
   column-gap: 2%;
   padding-left: 14%;
   padding-right: 10px;

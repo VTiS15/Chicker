@@ -1,5 +1,8 @@
-.SearchPage {
+body {
   background-color: #dfb682;
+}
+
+.SearchPage {
   height: 100vh;
   width: 300vh;
   position: fixed;

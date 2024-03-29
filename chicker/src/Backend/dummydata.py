@@ -2,5 +2,20 @@ import json
 
 
 def userdata():
-    data = {"User": {"name": "Sus", "Followers": 2, "Following": 3}}
-    return json.dump(data)
+    data = {
+        "users": [
+            {
+                "userImage": "../Pictures/cyan.png",
+                "username": "User 1",
+            },
+            {
+                "userImage": "../Pictures/cyan.png",
+                "username": "User 2",
+            },
+            {
+                "userImage": "../Pictures/cyan.png",
+                "username": "User 3",
+            },
+        ],
+    }
+    return json.dumps(data)

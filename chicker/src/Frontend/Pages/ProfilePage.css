@@ -17,8 +17,8 @@ body {
 }
 
 .ProfileImange img {
-  max-width: 300px;
-  max-height: 200px;
+  max-width: 100px;
+  max-height: 100px;
   width: auto;
   height: auto;
 }
@@ -36,7 +36,7 @@ body {
   border-radius: 24px;
   padding: 8px;
   text-align: center;
-  min-width: 400px;
+  width: 400px;
 }
 
 .NumberContainer {
@@ -46,6 +46,8 @@ body {
   align-items: center;
   justify-content: center;
   text-align: center;
+  text-decoration: none;
+  color: black;
 }
 
 .NumberContainer > .Number {
@@ -55,4 +57,53 @@ body {
 .NumberContainer:hover {
   cursor: pointer;
   opacity: 0.5;
+}
+
+.Container {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+}
+
+.Posts {
+  background-color: #9b7f59;
+  color: #fff;
+  transition: left 0.7s cubic-bezier(0.25, 0.1, 0.25, 1);
+  overflow-y: scroll;
+  border-radius: 24px;
+}
+.Followers {
+  background-color: #9b7f59;
+  color: #fff;
+  left: 100%;
+  overflow-y: scroll;
+  border-radius: 24px;
+  transition: left 0.7s cubic-bezier(0.25, 0.1, 0.25, 1);
+}
+.Following {
+  background-color: #9b7f59;
+  color: #fff;
+  left: 100%;
+  overflow-y: scroll;
+  border-radius: 24px;
+  transition: left 0.7s cubic-bezier(0.25, 0.1, 0.25, 1);
+}
+
+a[id="Posts"],
+a[id="Followers"],
+a[id="Following"] {
+  display: none;
+}
+
+.Base {
+  width: 80%;
+  height: 100%;
+  position: absolute;
+  margin-top: 1vh;
+}
+
+a[id="Posts"]:target ~ main > section#posts,
+a[id="Followers"]:target ~ main > section#followers,
+a[id="Following"]:target ~ main > section#following {
+  left: 16vw;
 }

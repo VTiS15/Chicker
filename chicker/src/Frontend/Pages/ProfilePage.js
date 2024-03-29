@@ -20,20 +20,34 @@ export default function ProfilePage() {
               <p>I am not sus!!! I saw Green comes out from the vent!!!!</p>
               {isOther ? <a className="FollowButton">Follow</a> : <></>}
             </div>
-            <div class="DetailContainer">
-              <div className="NumberContainer">
-                <h3 className="Number">10</h3>
+            <a id="Posts"></a>
+            <a id="Followers"></a>
+            <a id="Following"></a>
+            <div className="DetailContainer">
+              <a className="NumberContainer" href="#Posts">
+                <h3 className="Number">0</h3>
                 <small>Posts</small>
-              </div>
-              <div class="NumberContainer">
-                <h3 className="Number">43</h3>
+              </a>
+              <a className="NumberContainer" href="#Followers">
+                <h3 className="Number">3</h3>
                 <small>Followers</small>
-              </div>
-              <div className="NumberContainer">
-                <h3 className="Number">54</h3>
+              </a>
+              <a className="NumberContainer" href="#Following">
+                <h3 className="Number">4</h3>
                 <small>Following</small>
-              </div>
+              </a>
             </div>
+            <main className="Container" id="siteContainer">
+              <section className="Posts Base" id="posts">
+                There is no Posts yet
+              </section>
+              <section className="Followers Base" id="followers">
+                3 followers
+              </section>
+              <section className="Following Base" id="following">
+                4 users following
+              </section>
+            </main>
           </div>
         </div>
       </div>

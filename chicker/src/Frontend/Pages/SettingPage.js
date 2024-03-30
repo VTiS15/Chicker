@@ -8,12 +8,19 @@ import { getStyling, setStyling } from "../functions/style";
 export default function SettingPage() {
   const [selectedFont, setSelectedFont] = useState("Courier New");
   const [selectedFontColor, setSelectedFontColor] = useState("white");
+  const [sliderValue, setSliderValue] = useState(1);
   const [themeColor, setThemeColor] = useToggle(true);
 
   const handleFontChange = (event) => {
     const font = event.target.value;
     setSelectedFont(font);
     setStyling({ fontFamily: font });
+  };
+
+  const handleSliderChange = (event) => {
+    const value = parseInt(event.target.value);
+    console.log(value);
+    setSliderValue(value);
   };
 
   const handleFontColorChange = (event) => {
@@ -164,7 +171,14 @@ export default function SettingPage() {
                 <br />
                 <label>Font size</label>
                 <div class="slidecontainer">
-                  <input className="Slider" type="range" min={1} max={7} />
+                  <input
+                    className="Slider"
+                    type="range"
+                    min={1}
+                    max={7}
+                    value={sliderValue}
+                    onChange={handleSliderChange}
+                  />
                 </div>
                 <label>Font color</label>
                 <br />

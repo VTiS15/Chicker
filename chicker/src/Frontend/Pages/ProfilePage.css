@@ -1,0 +1,117 @@
+body {
+  background-color: #dfb682;
+}
+
+.ProfilePage {
+  position: fixed;
+  padding-left: 15%;
+  width: 85%;
+}
+
+.ProfileCard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.ProfileImange img {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  border: 1px solid;
+  padding: 2px;
+  margin-top: 6px;
+  background-color: #fff;
+}
+
+.SelfInfo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.DetailContainer {
+  border: 1px solid black;
+  border-radius: 24px;
+  padding: 8px;
+  text-align: center;
+  width: 400px;
+}
+
+.NumberContainer {
+  display: inline-block;
+  margin: 0 20px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  text-decoration: none;
+}
+
+.NumberContainer > .Number {
+  margin: 0 10px;
+}
+
+.NumberContainer:hover {
+  cursor: pointer;
+  opacity: 0.5;
+}
+
+.Container {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+}
+
+.Posts {
+  background-color: #dfb682;
+  color: #fff;
+  transition: left 0.7s cubic-bezier(0.25, 0.1, 0.25, 1);
+  overflow-y: scroll;
+  border-radius: 24px;
+  left: 100%;
+}
+.Followers {
+  background-color: #dfb682;
+  color: #fff;
+  left: 100%;
+  overflow-y: scroll;
+  border-radius: 24px;
+  transition: left 0.7s cubic-bezier(0.25, 0.1, 0.25, 1);
+}
+.Following {
+  background-color: #dfb682;
+  color: #fff;
+  left: 100%;
+  overflow-y: scroll;
+  border-radius: 24px;
+  transition: left 0.7s cubic-bezier(0.25, 0.1, 0.25, 1);
+}
+
+a[id="Posts"],
+a[id="Followers"],
+a[id="Following"] {
+  display: none;
+}
+
+.Base {
+  width: 80%;
+  height: 60vh;
+  position: absolute;
+  margin-top: 2vh;
+  border: 2px solid black;
+}
+
+.Base::-webkit-scrollbar {
+  display: none;
+}
+
+a[id="Posts"]:target ~ main > section#posts,
+a[id="Followers"]:target ~ main > section#followers,
+a[id="Following"]:target ~ main > section#following {
+  left: 16vw;
+}

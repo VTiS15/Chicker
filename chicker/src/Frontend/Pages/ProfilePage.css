@@ -17,10 +17,13 @@ body {
 }
 
 .ProfileImange img {
-  max-width: 100px;
-  max-height: 100px;
-  width: auto;
-  height: auto;
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  border: 1px solid;
+  padding: 2px;
+  margin-top: 6px;
+  background-color: #fff;
 }
 
 .SelfInfo {
@@ -66,14 +69,15 @@ body {
 }
 
 .Posts {
-  background-color: #9b7f59;
+  background-color: #dfb682;
   color: #fff;
   transition: left 0.7s cubic-bezier(0.25, 0.1, 0.25, 1);
   overflow-y: scroll;
   border-radius: 24px;
+  left: 100%;
 }
 .Followers {
-  background-color: #9b7f59;
+  background-color: #dfb682;
   color: #fff;
   left: 100%;
   overflow-y: scroll;
@@ -81,7 +85,7 @@ body {
   transition: left 0.7s cubic-bezier(0.25, 0.1, 0.25, 1);
 }
 .Following {
-  background-color: #9b7f59;
+  background-color: #dfb682;
   color: #fff;
   left: 100%;
   overflow-y: scroll;
@@ -99,7 +103,7 @@ a[id="Following"] {
   width: 80%;
   height: 60vh;
   position: absolute;
-  margin-top: 3vh;
+  margin-top: 2vh;
   border: 2px solid black;
 }
 
@@ -111,25 +115,4 @@ a[id="Posts"]:target ~ main > section#posts,
 a[id="Followers"]:target ~ main > section#followers,
 a[id="Following"]:target ~ main > section#following {
   left: 16vw;
-}
-
-.UserCard {
-  border: 2px solid black;
-  border-radius: 12px;
-  width: 90%;
-  background-color: #dfb682;
-  cursor: pointer;
-  margin: 4px 0 4px 5%;
-  text-align: left;
-}
-
-.UserCard:hover {
-  background-color: #9b7f59;
-  transform: translateX(2vw);
-  transition: all 0.1s ease-in-out;
-}
-
-.UserCard > p {
-  margin-left: 6px;
-  color: black;
 }

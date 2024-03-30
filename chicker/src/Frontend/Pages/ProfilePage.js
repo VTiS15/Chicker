@@ -1,32 +1,56 @@
 import React, { useEffect, useState } from "react";
 import Sidebar from "../components/sidebar";
+import UserCard from "../components/UserCard";
 import profilePic from "../Pictures/cyan.png";
+import defaultAvatar from "../Pictures/DeafaultUserIcon.png";
 import "./ProfilePage.css";
 
 export default function ProfilePage() {
   const [isOther, setIsOther] = useState(false);
 
   const followersData = [
-    { name: "John", age: 20, email: "john@example.com" },
-    { name: "Yuden", age: 24, email: "yuden@example.com" },
-    { name: "VT", age: 21, email: "vt@example.com" },
-    { name: "Jack", age: 21, email: "jack@example.com" },
-    { name: "JC", age: 21, email: "jc@example.com" },
+    {
+      name: "John",
+      image: { defaultAvatar },
+      age: 20,
+      email: "john@example.com",
+    },
+    {
+      name: "Yuden",
+      image: { defaultAvatar },
+      age: 24,
+      email: "yuden@example.com",
+    },
+    {
+      name: "VT",
+      image: { defaultAvatar },
+      age: 21,
+      email: "vt@example.com",
+    },
+    {
+      name: "Jack",
+      image: { defaultAvatar },
+      age: 21,
+      email: "jack@example.com",
+    },
+    {
+      name: "JC",
+      image: { defaultAvatar },
+      age: 21,
+      email: "jc@example.com",
+    },
   ];
 
-  const followingData = [{ name: "John", age: 20, email: "john@example.com" }];
+  const followingData = [
+    {
+      name: "John",
+      image: { defaultAvatar },
+      age: 20,
+      email: "john@example.com",
+    },
+  ];
 
   const posts = [];
-
-  const UserCard = ({ Username }) => {
-    return (
-      <>
-        <div className="UserCard">
-          <p>{Username}</p>
-        </div>
-      </>
-    );
-  };
 
   return (
     <>
@@ -63,18 +87,34 @@ export default function ProfilePage() {
               <section className="Posts Base" id="posts">
                 {posts.length > 0 ? <></> : <h3>There is no Posts yet!</h3>}
               </section>
+
               <section className="Followers Base" id="followers">
-                <h3>Users following you:</h3>
-                {followersData.map((data) => (
-                  <UserCard Username={data.name} />
-                ))}
+                {followersData.length > 0 ? (
+                  <>
+                    <h3>Users following you:</h3>
+                    {followersData.map((data) => (
+                      <UserCard
+                        Username={data.name}
+                        UserIcon={data.image}
+                        UserEmail={data.email}
+                      />
+                    ))}
+                  </>
+                ) : (
+                  <h3>No One is following you QAQ</h3>
+                )}
               </section>
+
               <section className="Following Base" id="following">
                 {followingData.length > 0 ? (
                   <>
                     <h3>Users you following:</h3>
                     {followingData.map((data) => (
-                      <UserCard Username={data.name} />
+                      <UserCard
+                        Username={data.name}
+                        UserIcon={data.image}
+                        UserEmail={data.email}
+                      />
                     ))}
                   </>
                 ) : (

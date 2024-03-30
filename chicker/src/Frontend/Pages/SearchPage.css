@@ -11,7 +11,7 @@ body {
 }
 
 .SearchTitle {
-  margin-top: 0;
+  margin-top: 8px;
   padding-top: 10px;
   margin-bottom: 0.5rem;
 }
@@ -27,7 +27,6 @@ body {
 .SearchInput,
 .SubmitButton {
   height: 3rem;
-  font-family: "Lato", sans-serif;
   border: 0;
   color: #2f2f2f;
   font-size: 1.5rem;
@@ -71,13 +70,32 @@ body {
 }
 
 .Recommandation {
+  width: 80vw;
+  height: 90vh;
+}
+
+.RecommandationNavBar {
   margin-top: 60px;
   align-items: center;
+  display: inline-flex;
+}
+
+.RecommandationBox {
+  padding: 6px;
+  border: 1px solid black;
+  border-radius: 24px;
+  height: 72vh;
+  overflow-y: scroll;
+}
+
+.RecommandationBox::-webkit-scrollbar {
+  display: none;
 }
 
 .RecommandationTitle {
   font-style: italic;
-  margin-bottom: 2px;
+  font-size: larger;
+  margin-right: 12px;
 }
 
 .Recommandation button {
@@ -88,6 +106,7 @@ body {
   border: #2f2f2f;
   cursor: pointer;
   background: #a26b89;
+  margin-left: 12px;
 }
 
 .RecommandationContainer {

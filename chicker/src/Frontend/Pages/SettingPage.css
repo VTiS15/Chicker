@@ -13,7 +13,6 @@ body {
 h1 {
   padding-top: 6px;
   position: fixed;
-  color: white;
   z-index: 4;
 }
 
@@ -26,7 +25,6 @@ h1 {
   position: fixed;
   z-index: 4;
   border-bottom: solid;
-  color: white;
 }
 
 .NavBar li {
@@ -34,10 +32,10 @@ h1 {
   float: left;
 }
 
-.NavBar li a {
+.NavBar > li > a {
   border-radius: 6px;
   display: block;
-  color: white;
+  color: #fff;
   text-align: center;
   padding: 14px 16px;
   text-decoration: none;
@@ -55,20 +53,17 @@ h1 {
 
 .Profile {
   background-color: #dfb682;
-  color: #fff;
   left: 100%;
   transition: left 0.7s cubic-bezier(0.25, 0.1, 0.25, 1);
   overflow-y: scroll;
 }
 .Security {
   background-color: #dfb682;
-  color: #fff;
   left: 100%;
   transition: left 0.7s cubic-bezier(0.25, 0.1, 0.25, 1);
 }
 .Theme {
   background-color: #dfb682;
-  color: #fff;
   left: 100%;
   transition: left 0.7s cubic-bezier(0.25, 0.1, 0.25, 1);
 }
@@ -96,21 +91,25 @@ a[id="Theme"]:target ~ main > section#theme {
   width: 17%;
   border-radius: 12px;
   padding: 4px 10px;
+  margin-bottom: 6px;
 }
 
 .ProfileForm > .BirthSelect {
   width: 110px;
+  margin-bottom: 6px;
 }
 
 .ProfileForm select {
   width: 10%;
   border-radius: 12px;
   padding: 4px 10px;
+  margin-bottom: 6px;
 }
 
 .ProfileForm textarea {
   width: 20%;
-  height: 100px;
+  height: 50px;
+  margin-bottom: 6px;
 }
 
 .ProfileForm > .Submit {
@@ -130,6 +129,7 @@ a[id="Theme"]:target ~ main > section#theme {
 .SecurityForm > input {
   width: 17%;
   border-radius: 12px;
+  margin-bottom: 6px;
   padding: 4px 10px;
 }
 
@@ -150,11 +150,13 @@ a[id="Theme"]:target ~ main > section#theme {
 .ThemeForm select {
   width: 10%;
   border-radius: 12px;
+  margin-bottom: 6px;
   padding: 4px 10px;
 }
 
 .slidecontainer {
   padding-top: 6px;
+  margin-bottom: 6px;
   width: 100%;
 }
 
@@ -193,26 +195,18 @@ a[id="Theme"]:target ~ main > section#theme {
   cursor: pointer;
 }
 
-.Recommandation button {
-  border-radius: 24px;
-  height: 30px;
-  width: 50px;
-  margin: 0 4px;
-  border: #2f2f2f;
-  cursor: pointer;
-  background: #a26b89;
-}
-
 .DarkModeContainer {
   position: relative;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   width: fit-content;
+  height: 25px;
   border: 3px solid #343434;
   border-radius: 20px;
   background: #343434;
   font-weight: bold;
   color: #343434;
+  margin-bottom: 6px;
   cursor: pointer;
 }
 .DarkModeContainer::before {
@@ -229,7 +223,7 @@ a[id="Theme"]:target ~ main > section#theme {
   left: 50%;
 }
 .DarkModeContainer div {
-  padding: 6px;
+  padding: 4px 6px 6px 6px;
   text-align: center;
   z-index: 1;
 }

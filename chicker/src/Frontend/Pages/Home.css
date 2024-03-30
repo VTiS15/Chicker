@@ -2,7 +2,7 @@
   background-color: #dfb682;
   font-family: "Poppins";
   display: flex;
-  height: 3000pxauto;
+  height: auto;
 }
 
 .SideBar {
@@ -10,23 +10,53 @@
 }
 
 .grid-container {
-  height: 200%;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  display: grid;
-  column-gap: 2%;
-  padding-left: 14%;
-  padding-right:  10px;
-  grid-template-columns: 48% 48%;
-  grid-template-rows: 48% 48%;
+  height: auto;
+  width: 95%;
+  margin-left: 16%;
+  padding-right: 2%;
 }
 
-.grid-item {
-  background-color: rgba(255, 255, 255, 0.8);
-  border: 1px solid rgba(0, 0, 0, 0.8);
-  font-size: 30px;
-  text-align: center;
+.newPost {
+  background-color: #ffffff;
+  padding: 20px;
+  margin-top: 10px;
+  margin-bottom: 10px;
   border-radius: 24px;
-  height: 80px;
+}
+
+.title {
+  font-size: 25px;
+  padding: 5px;
+}
+
+.newPostText {
+  width: 100%;
+  height: auto;
+  resize: vertical;
+  box-sizing: border-box;
+  font-size: 16px;
+  min-height: 100px;
+}
+
+.button-container {
+  text-align: left;
+}
+
+.left-button {
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+}
+
+.right-button {
+  width: 10%;
+  margin-left: auto;
+  border-radius: 24px;
+  background-color: #ad00b9;
+  cursor: pointer;
+}
+
+.right-button:hover {
+  background-color: #8f0099;
+  cursor: pointer;
 }

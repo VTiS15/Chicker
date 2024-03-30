@@ -11,31 +11,31 @@ export default function ProfilePage() {
   const followersData = [
     {
       name: "John",
-      image: { defaultAvatar },
+      image: "https://imgur.com/zhRjMzY",
       age: 20,
       email: "john@example.com",
     },
     {
       name: "Yuden",
-      image: { defaultAvatar },
+      image: "https://imgur.com/zhRjMzY",
       age: 24,
       email: "yuden@example.com",
     },
     {
       name: "VT",
-      image: { defaultAvatar },
+      image: "https://imgur.com/zhRjMzY",
       age: 21,
       email: "vt@example.com",
     },
     {
       name: "Jack",
-      image: { defaultAvatar },
+      image: "https://imgur.com/zhRjMzY",
       age: 21,
       email: "jack@example.com",
     },
     {
       name: "JC",
-      image: { defaultAvatar },
+      image: "https://imgur.com/zhRjMzY",
       age: 21,
       email: "jc@example.com",
     },

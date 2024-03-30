@@ -1,23 +1,31 @@
 import "./Home.css";
-import Sidebar from "../components/sidebar.js";
+import Sidebar from '../components/sidebar.js';
+import PostList from '../components/posts.js';
+import image from "../Pictures/image.png";
+import video from "../Pictures/video.png";
 
 export default function Home() {
   return (
-    <>
-      <Sidebar className="SideBar" />
-      <div className="Home">
-        <div className="grid-container">
-          <div class="grid-item">1</div>
-          <div class="grid-item">2</div>
-          <div class="grid-item">3</div>
-          <div class="grid-item">4</div>
-          <div class="grid-item">5</div>
-          <div class="grid-item">6</div>
-          <div class="grid-item">7</div>
-          <div class="grid-item">8</div>
-          <div class="grid-item">9</div>
+    <div className="Home">
+    <Sidebar className="SideBar" />
+    <div className="grid-container">
+      <div className="newPost">
+        <div className="title">Share something?!</div>
+        <textarea className="newPostText" cols="1"></textarea>
+        <div class="button-container">
+          <button class="left-button">
+            <img src={image}></img>
+          </button>
+          <button class="left-button">
+            <img src={video}></img>
+          </button>
+          <button class="right-button">
+            Post
+          </button>
         </div>
       </div>
-    </>
+      <PostList />
+    </div>
+    </div>
   );
 }

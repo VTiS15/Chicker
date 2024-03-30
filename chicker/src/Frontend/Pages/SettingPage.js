@@ -1,4 +1,5 @@
 import Sidebar from "../components/sidebar";
+import { useToggle } from "@uidotdev/usehooks";
 import "./SettingPage.css";
 
 export default function SettingPage() {

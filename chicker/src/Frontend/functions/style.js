@@ -1,6 +1,7 @@
 let styling = {
   fontFamily: "Courier New",
   color: "white",
+  fontSize: "20px",
 };
 
 export const setStyling = (updatedStyling) => {

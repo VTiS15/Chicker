@@ -19,8 +19,8 @@ export default function SettingPage() {
 
   const handleSliderChange = (event) => {
     const value = parseInt(event.target.value);
-    console.log(value);
     setSliderValue(value);
+    setStyling({ fontSize: 10 + value * 2 });
   };
 
   const handleFontColorChange = (event) => {
@@ -175,7 +175,7 @@ export default function SettingPage() {
                     className="Slider"
                     type="range"
                     min={1}
-                    max={7}
+                    max={6}
                     value={sliderValue}
                     onChange={handleSliderChange}
                   />

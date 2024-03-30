@@ -16,6 +16,7 @@
 
 .UserCard > .UserContent {
   display: inline-flex;
+  width: inherit;
 }
 
 .UserCard img {
@@ -30,6 +31,7 @@
 
 .UserCard .UserInfo {
   margin-left: 16px;
+  width: 40%;
 }
 
 .UserCard .UserInfo h4 {
@@ -41,4 +43,28 @@
   margin-top: 2px;
   margin-bottom: 0;
   color: #737373;
+}
+
+.Buttons {
+  text-align: center;
+  display: flex;
+  align-items: center;
+}
+
+.Buttons > .FollowButton {
+  background-color: cornflowerblue;
+}
+
+.Buttons > .UnfollowButton {
+  background-color: crimson;
+}
+
+.Buttons > button {
+  border-radius: 12px;
+  height: 3vh;
+}
+
+.Buttons > button:hover {
+  opacity: 0.5;
+  cursor: pointer;
 }

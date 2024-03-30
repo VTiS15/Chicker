@@ -1,0 +1,42 @@
+export const userData = [
+  {
+    name: "John",
+    image: "https://imgur.com/zhRjMzY",
+    age: 20,
+    email: "john@example.com",
+    isfollowing: false,
+    isfollowingMe: true,
+  },
+  {
+    name: "Yuden",
+    image: "https://imgur.com/zhRjMzY",
+    age: 24,
+    email: "yuden@example.com",
+    isfollowingMe: true,
+    isfollowing: true,
+  },
+  {
+    name: "VT",
+    image: "https://imgur.com/zhRjMzY",
+    age: 21,
+    email: "vt@example.com",
+    isfollowingMe: false,
+    isfollowing: false,
+  },
+  {
+    name: "Jack",
+    image: "https://imgur.com/zhRjMzY",
+    age: 21,
+    email: "jack@example.com",
+    isfollowingMe: false,
+    isfollowing: true,
+  },
+  {
+    name: "JC",
+    image: "https://imgur.com/zhRjMzY",
+    age: 21,
+    email: "jc@example.com",
+    isfollowing: true,
+    isfollowingMe: false,
+  },
+];

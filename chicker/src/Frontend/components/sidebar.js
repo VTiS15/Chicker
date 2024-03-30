@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
-import React from "react";
+import React, { useContext } from "react";
 import "./sidebar.css";
+import { AuthContext } from "../AuthContext"
 
 import logo from "../Pictures/IconClear.png";
 import home from "../Pictures/home.svg";
@@ -10,6 +11,20 @@ import chat from "../Pictures/chat.svg";
 import setting from "../Pictures/setting.svg";
 
 const linkstyle = { textDecoration: "none" };
+
+function LogInOut() {
+  const { isLoggedIn, handleLogStatus } = useContext(AuthContext);
+
+  return (
+    <button
+      id="logInOutButton"
+      className={`logInOutButton ${isLoggedIn ? "logoutButton" : ""}`}
+      onClick={handleLogStatus}
+    >
+      {isLoggedIn ? "LOGOUT" : "LOGIN"}
+    </button>
+  );
+}
 
 const Sidebar = () => {
   return (
@@ -43,6 +58,7 @@ const Sidebar = () => {
           <span className="button-text">Setting</span>
         </button>
       </Link>
+      <LogInOut />
     </div>
   );
 };

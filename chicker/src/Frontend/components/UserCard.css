@@ -9,7 +9,7 @@
 }
 
 .UserCard:hover {
-  background-color: #fff;
+  background-color: #c8a476;
   transform: translateX(2vw);
   transition: all 0.1s ease-in-out;
 }
@@ -30,7 +30,6 @@
 
 .UserCard .UserInfo {
   margin-left: 16px;
-  color: black;
 }
 
 .UserCard .UserInfo h4 {

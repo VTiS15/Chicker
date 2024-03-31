@@ -1,10 +1,106 @@
 .ChatPage {
   background-color: #dfb682;
-  height: 100vh;
-  width: 300vh;
-  position: fixed;
-  padding-left: 15%;
+  font-family: "Poppins";
+  display: flex;
+  height: auto;
+}
+
+.chatContent {
+  display: grid;
+  grid-template-columns: 30% 70%;
+  height: auto;
+  width: 95%;
+  margin-left: 13%;
+  margin-top: 1%;
+  margin-bottom: 1%;
+  padding-right: 2%;
+  
+}
+
+.FriendsList {
+  height: auto;
+  margin-right: 10%;
+}
+
+.FriendItem {
+  background-color: azure;
+  margin-bottom: 5%;
+  display: grid;
+  grid-template-columns: 20% 80%;
+  border-radius: 20px;
+  transition: transform 0.2s ease;
+}
+
+.FriendItem:hover {
+  transform: scale(1.1);
+}
+
+.FriendPic {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.FriendName {
+  font-size: x-large;
   align-items: center;
+}
+ .EmptyChat {
+  font-size: xx-large;
+ }
+
+.ChatHistory {
+  background-color: white;
+  height: auto;
+  border-radius: 24px;
+  padding: 2%;
+}
+
+.FriendMessage {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  column-gap: 10px;
+  margin-bottom: 10px;
+  background-color: #f4f4f4;
+  padding: 1%;
+}
+
+.UserMessage {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  column-gap: 10px;
+  margin-bottom: 10px;
+  justify-content: end;
+  background-color: #dfb682;
+  border-radius: 10px;
+  padding: 1%;
+}
+
+.TextRight {
+  text-align: right;
+}
+
+.ChatName {
+  font-weight: bolder;
+}
+
+.enterMessage {
+  display: flex;
+}
+
+.enterMessageText {
+  align-items: flex-end;
+  width: 100%;
+}
+
+.sendIcon {
+  right: 0;
+  cursor: pointer;
+}
+
+.sendIcon:hover {
+  background-color: #fff8d3;
 }
 
 h1 {

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Sidebar from "../components/sidebar";
 import UserCard from "../components/UserCard";
 import profilePic from "../Pictures/cyan.png";
-import { userData } from "../functions/dummydata";
+import defaultAvatar from "../Pictures/DeafaultUserIcon.png";
 import "./ProfilePage.css";
 
 import { getStyling } from "../functions/style";
@@ -11,10 +11,49 @@ export default function ProfilePage() {
   const styling = getStyling();
   const [isOther, setIsOther] = useState(false);
 
-  const posts = [];
+  const followersData = [
+    {
+      name: "John",
+      image: "https://imgur.com/zhRjMzY",
+      age: 20,
+      email: "john@example.com",
+    },
+    {
+      name: "Yuden",
+      image: "https://imgur.com/zhRjMzY",
+      age: 24,
+      email: "yuden@example.com",
+    },
+    {
+      name: "VT",
+      image: "https://imgur.com/zhRjMzY",
+      age: 21,
+      email: "vt@example.com",
+    },
+    {
+      name: "Jack",
+      image: "https://imgur.com/zhRjMzY",
+      age: 21,
+      email: "jack@example.com",
+    },
+    {
+      name: "JC",
+      image: "https://imgur.com/zhRjMzY",
+      age: 21,
+      email: "jc@example.com",
+    },
+  ];
 
-  const followersData = userData.filter((user) => user.isfollowing);
-  const followingData = userData.filter((user) => user.isfollowingMe);
+  const followingData = [
+    {
+      name: "John",
+      image: { defaultAvatar },
+      age: 20,
+      email: "john@example.com",
+    },
+  ];
+
+  const posts = [];
 
   return (
     <>
@@ -22,13 +61,7 @@ export default function ProfilePage() {
         <Sidebar />
         <div className="ProfilePage">
           <div className="ProfileContainer">
-            <div
-              className="ProfileCard"
-              style={{
-                backgroundImage:
-                  "https://cdn1.epicgames.com/salesEvent/salesEvent/amoguslandscape_2560x1440-3fac17e8bb45d81ec9b2c24655758075",
-              }}
-            >
+            <div className="ProfileCard">
               <div className="SelfInfo">
                 <div className="ProfileImange">
                   <img src={profilePic} alt="user" />
@@ -80,7 +113,6 @@ export default function ProfilePage() {
                           Username={data.name}
                           UserIcon={data.image}
                           UserEmail={data.email}
-                          UserStatus={data.isfollowing}
                         />
                       ))}
                     </>
@@ -98,7 +130,6 @@ export default function ProfilePage() {
                           Username={data.name}
                           UserIcon={data.image}
                           UserEmail={data.email}
-                          UserStatus={data.isfollowing}
                         />
                       ))}
                     </>

@@ -77,3 +77,15 @@
     display: none;
   }
 }
+
+.logInOutButton {
+  background-color: #501d4b;
+  border-radius: 20px;
+  background-color: rgb(225, 172, 0);
+  margin-top: auto;
+  margin-bottom: 20%;
+}
+
+.logoutButton {
+  background-color:  transparent;
+}

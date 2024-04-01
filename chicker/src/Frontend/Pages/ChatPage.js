@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import Sidebar from "../components/sidebar";
 import "./ChatPage.css";
 import send from "../Pictures/send.png";
@@ -97,22 +97,49 @@ function FriendItem({ name, image, onClick, isSelected }) {
 }
 
 function ChatHistory({ friendId }) {
-  // Assume current user is Yuden
+  const containerRef = useRef(null);
+
+  useEffect(() => {
+    const container = containerRef.current;
+    container.scrollTop = container.scrollHeight;
+  }, [friendId]);
+
   return (
-    <div className="ChatHistory">
-      {chatHistory[friendId-1].map((chat) => (
-        <div className={chat.sender !== 'Yuden' ? 'FriendMessage' : 'UserMessage'} key={chat.id}>
-          {chat.sender !== 'Yuden' && (<img className="FriendPic" src={chat.image}/>)}
-          <div className="MessageContent">
-            <div className={chat.sender !== 'Yuden' ? '' : 'TextRight'}>{chat.message}</div>
+    <div className="ChatHistory" ref={containerRef}>
+        {chatHistory[friendId-1].map((chat) => (
+          <div className={chat.sender !== 'Yuden' ? 'FriendMessage' : 'UserMessage'} key={chat.id}>
+            {chat.sender !== 'Yuden' && (<img className="FriendPic" src={chat.image}/>)}
+            <div className="MessageContent">
+              <div className={chat.sender !== 'Yuden' ? '' : 'TextRight'}>{chat.message}</div>
+            </div>
+            {chat.sender === 'Yuden' && (<img className="FriendPic" src={chat.image}/>)}
           </div>
-          {chat.sender === 'Yuden' && (<img className="FriendPic" src={chat.image}/>)}
+        ))}
+        <div className="enterMessage">
+          <textarea className="enterMessageText"></textarea>
+          <img className="sendIcon" src={send} alt="Send" />
         </div>
-      ))}
-      <div class="enterMessage">
-        <textarea class="enterMessageText"></textarea>
-        <img class="sendIcon" src={send}></img>
-      </div>
     </div>
   );
 }
+
+// function ChatHistory({ friendId }) {
+//   // Assume current user is Yuden
+//   return (
+//     <div className="ChatHistory">
+//       {chatHistory[friendId-1].map((chat) => (
+//         <div className={chat.sender !== 'Yuden' ? 'FriendMessage' : 'UserMessage'} key={chat.id}>
+//           {chat.sender !== 'Yuden' && (<img className="FriendPic" src={chat.image}/>)}
+//           <div className="MessageContent">
+//             <div className={chat.sender !== 'Yuden' ? '' : 'TextRight'}>{chat.message}</div>
+//           </div>
+//           {chat.sender === 'Yuden' && (<img className="FriendPic" src={chat.image}/>)}
+//         </div>
+//       ))}
+//       <div class="enterMessage">
+//         <textarea class="enterMessageText"></textarea>
+//         <img class="sendIcon" src={send}></img>
+//       </div>
+//     </div>
+//   );
+// }

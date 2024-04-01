@@ -52,9 +52,12 @@
 
 .ChatHistory {
   background-color: white;
-  height: auto;
+  height: 90vh;
+  overflow: auto;
   border-radius: 24px;
   padding: 2%;
+  flex-direction: column;
+  overflow-y: auto;
 }
 
 .FriendMessage {

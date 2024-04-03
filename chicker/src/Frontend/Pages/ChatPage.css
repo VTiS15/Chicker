@@ -51,7 +51,8 @@
  }
 
 .ChatHistory {
-  background-color: white;
+  display: flex;
+  background-color: #fdfdfd;
   height: 90vh;
   overflow: auto;
   border-radius: 24px;
@@ -60,12 +61,16 @@
   overflow-y: auto;
 }
 
+.Messages {
+  flex: 1;
+}
+
 .FriendMessage {
   display: grid;
   grid-template-columns: auto 1fr;
   column-gap: 10px;
   margin-bottom: 10px;
-  background-color: #f4f4f4;
+  background-color: #ebebeb;
   padding: 1%;
 }
 

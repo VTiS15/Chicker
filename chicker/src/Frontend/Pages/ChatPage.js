@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Sidebar from "../components/sidebar";
 import "./ChatPage.css";
 import send from "../Pictures/send.png";
@@ -21,6 +21,15 @@ const chatHistory = [
   { sender: 'Jack', image: profile1, message: `Hi! How are you?` },
   { sender: 'Yuden', image: profile5, message: `I'm good, thanks!` },
   { sender: 'Jack', image: profile1, message: `That's great to hear!!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!!` },
+  { sender: 'Jack', image: profile1, message: `Yay!` },
+  { sender: 'Yuden', image: profile5, message: `I'm good, thanks!` },
+  { sender: 'Jack', image: profile1, message: `That's great to hear!!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!!` },
+  { sender: 'Jack', image: profile1, message: `Yay!` },
+  { sender: 'Yuden', image: profile5, message: `I'm good, thanks!` },
+  { sender: 'Jack', image: profile1, message: `That's great to hear!!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!!` },
+  { sender: 'Jack', image: profile1, message: `Yay!` },
+  { sender: 'Yuden', image: profile5, message: `I'm good, thanks!` },
+  { sender: 'Jack', image: profile1, message: `That's great to hear!!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!! !!!` },
   { sender: 'Jack', image: profile1, message: `Yay!` },], 
 
   [{ sender: 'Jason', image: profile2, message: `Hey` },
@@ -28,20 +37,7 @@ const chatHistory = [
   { sender: 'Jason', image: profile2, message: `I'm good, thanks!` },
   { sender: 'Yuden', image: profile5, message: `That's great to hear!` },{ sender: 'Jason', image: profile2, message: `Hey` },
   { sender: 'Yuden', image: profile5, message: `Hello! How are you?` },
-  { sender: 'Jason', image: profile2, message: `I'm good, thanks!` },
-  { sender: 'Yuden', image: profile5, message: `That's great to hear!` },{ sender: 'Jason', image: profile2, message: `Hey` },
-  { sender: 'Yuden', image: profile5, message: `Hello! How are you?` },
-  { sender: 'Jason', image: profile2, message: `I'm good, thanks!` },
-  { sender: 'Yuden', image: profile5, message: `That's great to hear!` },{ sender: 'Jason', image: profile2, message: `Hey` },
-  { sender: 'Yuden', image: profile5, message: `Hello! How are you?` },
-  { sender: 'Jason', image: profile2, message: `I'm good, thanks!` },
-  { sender: 'Yuden', image: profile5, message: `That's great to hear!` },{ sender: 'Jason', image: profile2, message: `Hey` },
-  { sender: 'Yuden', image: profile5, message: `Hello! How are you?` },
-  { sender: 'Jason', image: profile2, message: `I'm good, thanks!` },
-  { sender: 'Yuden', image: profile5, message: `That's great to hear!` },{ sender: 'Jason', image: profile2, message: `Hey` },
-  { sender: 'Yuden', image: profile5, message: `Hello! How are you?` },
-  { sender: 'Jason', image: profile2, message: `I'm good, thanks!` },
-  { sender: 'Yuden', image: profile5, message: `That's great to hear!` },], 
+  { sender: 'Jason', image: profile2, message: `I'm good, thanks!` },], 
 
   [{ sender: 'Yuden', image: profile5, message: `Heyo` },
   { sender: 'John', image: profile3, message: `Yo! How are you?` },
@@ -55,7 +51,7 @@ const chatHistory = [
 ];
 
 export default function ChatPage() {
-  const [selectedFriend, setSelectedFriend] = React.useState(null);
+  const [selectedFriend, setSelectedFriend] = useState(null);
   const handleFriendClick = (friendId) => {
     setSelectedFriend(friendId);
   };
@@ -106,6 +102,7 @@ function ChatHistory({ friendId }) {
 
   return (
     <div className="ChatHistory" ref={containerRef}>
+      <div className="Messages">
         {chatHistory[friendId-1].map((chat) => (
           <div className={chat.sender !== 'Yuden' ? 'FriendMessage' : 'UserMessage'} key={chat.id}>
             {chat.sender !== 'Yuden' && (<img className="FriendPic" src={chat.image}/>)}
@@ -115,10 +112,11 @@ function ChatHistory({ friendId }) {
             {chat.sender === 'Yuden' && (<img className="FriendPic" src={chat.image}/>)}
           </div>
         ))}
-        <div className="enterMessage">
-          <textarea className="enterMessageText"></textarea>
-          <img className="sendIcon" src={send} alt="Send" />
-        </div>
+      </div>
+      <div className="enterMessage">
+        <textarea className="enterMessageText"></textarea>
+        <img className="sendIcon" src={send} alt="Send" />
+      </div>
     </div>
   );
 }

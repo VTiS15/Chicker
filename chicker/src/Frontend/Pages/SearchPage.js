@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useToggle } from "@uidotdev/usehooks";
 import Sidebar from "../components/sidebar";
 import UserCard from "../components/UserCard";
+import { userData } from "../functions/dummydata";
 import "./SearchPage.css";
 
 import { getStyling } from "../functions/style";
@@ -9,39 +10,6 @@ import { getStyling } from "../functions/style";
 export default function SearchPage() {
   const styling = getStyling();
   const [recommandationtype, setRecommandationtype] = useToggle(true);
-
-  const RecommandUsers = [
-    {
-      name: "John",
-      image: "https://imgur.com/zhRjMzY",
-      age: 20,
-      email: "john@example.com",
-    },
-    {
-      name: "Yuden",
-      image: "https://imgur.com/zhRjMzY",
-      age: 24,
-      email: "yuden@example.com",
-    },
-    {
-      name: "VT",
-      image: "https://imgur.com/zhRjMzY",
-      age: 21,
-      email: "vt@example.com",
-    },
-    {
-      name: "Jack",
-      image: "https://imgur.com/zhRjMzY",
-      age: 21,
-      email: "jack@example.com",
-    },
-    {
-      name: "JC",
-      image: "https://imgur.com/zhRjMzY",
-      age: 21,
-      email: "jc@example.com",
-    },
-  ];
 
   return (
     <>
@@ -77,11 +45,12 @@ export default function SearchPage() {
             <div className="RecommandationBox">
               {recommandationtype ? (
                 <>
-                  {RecommandUsers.map((data) => (
+                  {userData.map((data) => (
                     <UserCard
                       Username={data.name}
                       UserIcon={data.image}
                       UserEmail={data.email}
+                      UserStatus={data.isfollowing}
                     />
                   ))}
                 </>

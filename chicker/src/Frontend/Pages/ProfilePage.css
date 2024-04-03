@@ -104,6 +104,7 @@ a[id="Following"] {
   position: absolute;
   margin-top: 2vh;
   border: 2px solid black;
+  max-height: 450px;
 }
 
 .Base::-webkit-scrollbar {

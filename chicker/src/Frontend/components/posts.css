@@ -115,7 +115,9 @@
   padding: 20px;
   border: 1px solid #888888;
   width: 30%;
+  height: 50%;
   border-radius: 15px;
+  overflow-y: auto;
 }
 .allComment button {
   display: block;

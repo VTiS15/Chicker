@@ -7,7 +7,7 @@ app = Flask(__name__)
 app.config[
     "MONGO_URI"
 ] = "mongodb+srv://csci3100:chicker@cluster0.7tf1swn.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
-app.secret_key = "chicker.secret"  # Change this!
+app.secret_key = None  # Assign a random string to this before running!
 
 login_manager.init_app(app)
 api = Api(app)

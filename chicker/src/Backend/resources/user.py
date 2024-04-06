@@ -1,12 +1,12 @@
 from datetime import datetime, timedelta
 
-from db import user_db, post_db, chat_db
+from db import chat_db, post_db, user_db
 from documents.user import User
 from flask_login import current_user, login_required, login_user, logout_user
 from flask_restful import Resource, reqparse
 from login import login_manager
 from pymongo import DESCENDING
-from werkzeug.security import generate_password_hash, check_password_hash
+from werkzeug.security import check_password_hash, generate_password_hash
 
 
 @login_manager.user_loader
@@ -176,7 +176,14 @@ class UserStatusChange(Resource):
 
             if (
                 user_db.user.update_one(
-                    {"user_id": data.user_id}, {"$set": {"is_admin": not user_db.user.find_one({"user_id": data.user_id})["is_admin"]}}
+                    {"user_id": data.user_id},
+                    {
+                        "$set": {
+                            "is_admin": not user_db.user.find_one(
+                                {"user_id": data.user_id}
+                            )["is_admin"]
+                        }
+                    },
                 ).matched_count
                 == 1
             ):

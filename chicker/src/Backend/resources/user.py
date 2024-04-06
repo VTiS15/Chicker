@@ -1,11 +1,14 @@
 from datetime import datetime, timedelta
 
+import gridfs
 from db import chat_db, post_db, user_db
-from collections.user import User
+from flask import request
 from flask_login import current_user, login_required, login_user, logout_user
 from flask_restful import Resource, reqparse
 from login import login_manager
+from mongo.user import User
 from pymongo import DESCENDING
+from werkzeug.datastructures import FileStorage
 from werkzeug.security import check_password_hash, generate_password_hash
 
 
@@ -30,7 +33,7 @@ class UserLogin(Resource):
 
     def post(self):
         data = UserLogin.parser.parse_args()
-        user = user_db.user.find_one({"username": data["username"]})
+        user = user_db.user.find_one({"username": data.username})
 
         if user:
             if check_password_hash(user["password_hash"], data.password):
@@ -208,14 +211,17 @@ class UserRecommend(Resource):
 
 class UserUpdate(Resource):
     parser = reqparse.RequestParser()
-    parser.add_argument("email", type=str, help="New email of user")
-    parser.add_argument("bio", type=str, help="New bio of user.")
+    parser.add_argument("email", type=str, help="New email of user", location="form")
+    parser.add_argument("bio", type=str, help="New bio of user.", location="form")
+    parser.add_argument(
+        "icon", type=FileStorage, help="New icon of user.", location="files"
+    )
 
     @login_required
     def post(self):
         data = UserUpdate.parser.parse_args()
 
-        if not data.email and not data.bio:
+        if not data.email and not data.bio and not data.icon:
             return {"msg": "Input is null."}, 400
 
         if data.email:
@@ -225,6 +231,23 @@ class UserUpdate(Resource):
         if data.bio:
             user_db.user.update_one(
                 {"user_id": current_user.user_id}, {"$set": {"bio": data.bio}}
+            )
+        if data.icon:
+            file = user_db.fs.files.find_one_and_delete(
+                {"filename": f"{current_user.user_id}_icon.jpg"}
+            )
+            if file:
+                user_db.fs.chunks.delete_many({"files_id": file["_id"]})
+            user_db.user.update_one(
+                {"user_id": current_user.user_id},
+                {
+                    "$set": {
+                        "icon_id": gridfs.GridFS(user_db).put(
+                            data.icon.read(),
+                            filename=f"{current_user.user_id}_icon.jpg",
+                        )
+                    }
+                },
             )
 
         return {"msg": "Success."}, 200

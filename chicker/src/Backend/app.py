@@ -2,11 +2,12 @@ from flask import Flask
 from flask_restful import Api
 from login import login_manager
 from resources.user import *
+from db import connection_string
 
 app = Flask(__name__)
 app.config[
     "MONGO_URI"
-] = MONGO_URI  # Assign connection string before running!
+] =  connection_string
 app.secret_key = None  # Assign random string before running!
 
 login_manager.init_app(app)

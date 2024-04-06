@@ -6,7 +6,7 @@ from resources.user import *
 app = Flask(__name__)
 app.config[
     "MONGO_URI"
-] = "MONGO_URI"  # Assign connection string before running!
+] = MONGO_URI  # Assign connection string before running!
 app.secret_key = None  # Assign random string before running!
 
 login_manager.init_app(app)

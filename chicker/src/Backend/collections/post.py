@@ -22,6 +22,7 @@ class Post:
         self.creator_id = creator_id
         self.content = content
         self.likes = []
+        self.dislikes = []
         self.visibility = visibility
         self.image_paths = image_paths
         self.video_paths = video_paths
@@ -33,6 +34,7 @@ class Post:
             "content": self.content,
             "visibility": self.visibility,
             "likes": self.likes,
+            "dislikes": self.dislikes,
             "images": [],
             "videos": []
         }
@@ -65,6 +67,7 @@ class Comment:
         self.post_id = post_id
         self.content = content
         self.likes = []
+        self.dislikes = []
         self.image_paths = image_paths
         self.video_paths = video_paths
 
@@ -74,6 +77,7 @@ class Comment:
             "post_id": self.postid,
             "content": self.content,
             "likes": self.likes,
+            "dislikes": self.dislikes,
             "images": [],
             "videos": []
         })

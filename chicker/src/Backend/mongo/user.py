@@ -20,6 +20,8 @@ class User:
     ):  
         if _id:
             self._id = ObjectId(_id["$oid"])
+        else:
+            self._id = None
         self.username = username
         self.password_hash = password_hash
         self.email = email
@@ -43,7 +45,7 @@ class User:
         return False
 
     def get_id(self):
-        return self._id
+        return str(self._id)
 
     def save(self):
         result = user_db.user.insert_one(
@@ -59,5 +61,6 @@ class User:
                 "date": self.date,
             }
         )
+        self._id = result.inserted_id
 
         return result

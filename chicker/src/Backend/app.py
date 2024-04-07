@@ -24,6 +24,7 @@ api.add_resource(UserUnfollow, "/unfollow")
 api.add_resource(UserRecommend, "/user/recommend")
 api.add_resource(UserUpdate, "/user/update")
 api.add_resource(SearchUsers, "/user/search")
+api.add_resource(SettingsUpdate, "/settings/update")
 
 api.add_resource(ChatCreate, "/chat/create")
 api.add_resource(MessageSend, "/send")

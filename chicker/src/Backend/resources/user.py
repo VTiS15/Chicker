@@ -280,7 +280,7 @@ class UserUpdate(Resource):
             icon.resize((64, 64))
             with BytesIO as f:
                 icon.save(f, format="ICO")
-                user_db.user.update_one(
+                if user_db.user.update_one(
                     {"_id": current_user._id},
                     {
                         "$set": {
@@ -290,9 +290,10 @@ class UserUpdate(Resource):
                             )
                         }
                     },
-                )
-
-        return {"msg": "Success."}, 200
+                ).modified_count == 1:
+                    return {"msg": "Success."}, 200
+                
+            return {"msg": "Unexpected error occurred."}, 500
     
 
 class SearchUsers(Resource):
@@ -311,3 +312,25 @@ class SearchUsers(Resource):
             response["result"].append(d)
         
         return response, 200
+    
+class SettingsUpdate(Resource):
+    parser = reqparse.RequestParser()
+    parser.add_argument("color", type=str, required=True, help="Color of font.")
+    parser.add_argument("size", type=int, required=True, help="Size of font.")
+    parser.add_argument("style", type=str, required=True, help="Style of font.")
+
+    @login_required
+    def post(self):
+        data = SettingsUpdate.parser.parse_args()
+
+        if user_db.user.update_one(
+            {"_id": current_user._id},
+            {"$set": {"settings": {
+                "color": data.color,
+                "size": data.size,
+                "style": data.style
+            }}}
+        ).modified_count == 1:
+            return {"msg": "Success."}, 200
+        
+        return {"msg": "Unexpected error occurred."}, 500

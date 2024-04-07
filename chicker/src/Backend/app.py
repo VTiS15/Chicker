@@ -7,7 +7,7 @@ from resources.user import *
 
 app = Flask(__name__)
 app.config["MONGO_URI"] = connection_string
-app.secret_key = "diu"  # Assign random string before running!
+app.secret_key = None  # Assign random string before running!
 
 login_manager.init_app(app)
 api = Api(app)

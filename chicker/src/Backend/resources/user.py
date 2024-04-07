@@ -7,6 +7,8 @@ from flask_restful import Resource, reqparse
 from login import login_manager
 from pymongo import DESCENDING
 from werkzeug.security import check_password_hash, generate_password_hash
+from PIL import Image
+from io import BytesIO
 
 
 @login_manager.user_loader
@@ -226,5 +228,27 @@ class UserUpdate(Resource):
             user_db.user.update_one(
                 {"user_id": current_user.user_id}, {"$set": {"bio": data.bio}}
             )
+        if data.icon:
+            file = user_db.fs.files.find_one_and_delete(
+                {"filename": f"{current_user.user_id}_icon.ico"}
+            )
+            if file:
+                user_db.fs.chunks.delete_many({"files_id": file["_id"]})
+
+            icon = Image.open(data.icon)
+            icon.resize((64, 64))
+            with BytesIO as f:
+                icon.save(f, format="ICO")
+                user_db.user.update_one(
+                    {"user_id": current_user.user_id},
+                    {
+                        "$set": {
+                            "icon_id": gridfs.GridFS(user_db).put(
+                                f.getvalue(),
+                                filename=f"{current_user.user_id}_icon.ico",
+                            )
+                        }
+                    },
+                )
 
         return {"msg": "Success."}, 200

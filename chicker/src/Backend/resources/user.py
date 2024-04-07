@@ -38,9 +38,27 @@ class GetUser(Resource):
         user = user_db.user.find_one({"_id": ObjectId(data.user_id)})
 
         if user:
-            return json.loads(json_util.dumps(user))
+            response = json.loads(json_util.dumps(user))
+            del response["password_hash"]
+            del response["icon_id"]
+
+            return response, 200
 
         return {"msg": "User not found."}, 404
+    
+
+class GetUsers(Resource):
+    def get(self):
+        response = {"users": []}
+
+        for user in user_db.user.find({}):
+            d = json.loads(json_util.dumps(user))
+            del d["password_hash"]
+            del d["icon_id"]
+
+            response["users"].append(d)
+
+        return response, 200
 
 
 class UserLogin(Resource):
@@ -280,3 +298,21 @@ class UserUpdate(Resource):
                 )
 
         return {"msg": "Success."}, 200
+    
+
+class SearchUsers(Resource):
+    parser = reqparse.RequestParser()
+    parser.add_argument("prompt", type=str, help="Search prompt.")
+    
+    def get(self):
+        data = SearchUsers.parser.parse_args()
+        response = {"result": []}
+
+        for user in user_db.user.find({"username": {"$regex": data.prompt, "$options": "i"}}):
+            d = json.loads(json_util.dumps(user))
+            del d["password_hash"]
+            del d["icon_id"]
+
+            response["result"].append(d)
+        
+        return response, 200

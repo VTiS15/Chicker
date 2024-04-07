@@ -40,7 +40,13 @@ class GetUser(Resource):
         if user:
             response = json.loads(json_util.dumps(user))
             del response["password_hash"]
-            del response["icon_id"]
+            del response["settings"]
+            del response["is_admin"]
+            del response["followers"]
+            del response["followees"]
+            del response["email"]
+            del response["date"]
+            del response["bio"]
 
             return response, 200
 
@@ -54,7 +60,9 @@ class GetUsers(Resource):
         for user in user_db.user.find({}):
             d = json.loads(json_util.dumps(user))
             del d["password_hash"]
-            del d["icon_id"]
+            del d["settings"]
+            del d["followers"]
+            del d["followees"]
 
             response["users"].append(d)
 
@@ -311,7 +319,13 @@ class SearchUsers(Resource):
         for user in user_db.user.find({"username": {"$regex": data.prompt, "$options": "i"}}):
             d = json.loads(json_util.dumps(user))
             del d["password_hash"]
-            del d["icon_id"]
+            del d["settings"]
+            del d["is_admin"]
+            del d["followers"]
+            del d["followees"]
+            del d["email"]
+            del d["date"]
+            del d["bio"]
 
             response["result"].append(d)
         

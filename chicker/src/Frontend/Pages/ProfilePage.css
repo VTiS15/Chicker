@@ -4,8 +4,7 @@ body {
 
 .ProfilePage {
   position: fixed;
-  padding-left: 15%;
-  width: 85%;
+  width: 100%;
 }
 
 .ProfileCard {
@@ -14,6 +13,7 @@ body {
   align-items: center;
   justify-content: center;
   text-align: center;
+  padding-left: 13%;
 }
 
 .ProfileImange img {
@@ -50,6 +50,8 @@ body {
   justify-content: center;
   text-align: center;
   text-decoration: none;
+  background-color: transparent;
+  border: 0;
 }
 
 .NumberContainer > .Number {
@@ -92,12 +94,6 @@ body {
   transition: left 0.7s cubic-bezier(0.25, 0.1, 0.25, 1);
 }
 
-a[id="Posts"],
-a[id="Followers"],
-a[id="Following"] {
-  display: none;
-}
-
 .Base {
   width: 80%;
   height: 60vh;
@@ -109,10 +105,4 @@ a[id="Following"] {
 
 .Base::-webkit-scrollbar {
   display: none;
-}
-
-a[id="Posts"]:target ~ main > section#posts,
-a[id="Followers"]:target ~ main > section#followers,
-a[id="Following"]:target ~ main > section#following {
-  left: 16vw;
 }

@@ -278,7 +278,7 @@ class UserUpdate(Resource):
             )
         if data.icon:
             file = user_db.fs.files.find_one_and_delete(
-                {"filename": f"{current_user._id}_icon.ico"}
+                {"filename": f"{str(current_user._id)}_icon.ico"}
             )
             if file:
                 user_db.fs.chunks.delete_many({"files_id": file["_id"]})

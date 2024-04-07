@@ -3,6 +3,7 @@ from flask import Flask
 from flask_restful import Api
 from login import login_manager
 from resources.user import *
+from resources.chat import *
 
 app = Flask(__name__)
 app.config["MONGO_URI"] = connection_string
@@ -20,6 +21,8 @@ api.add_resource(UserFollow, "/follow")
 api.add_resource(UserUnfollow, "/unfollow")
 api.add_resource(UserRecommend, "/user/recommend")
 api.add_resource(UserUpdate, "/user/update")
+
+api.add_resource(ChatCreate, "/chat/create")
 
 if __name__ == "__main__":
     app.run(debug=True)

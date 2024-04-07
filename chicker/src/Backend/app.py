@@ -7,7 +7,7 @@ from resources.chat import *
 
 app = Flask(__name__)
 app.config["MONGO_URI"] = connection_string
-app.secret_key = None  # Assign random string before running!
+app.secret_key = "diu"  # Assign random string before running!
 
 login_manager.init_app(app)
 api = Api(app)
@@ -23,6 +23,7 @@ api.add_resource(UserRecommend, "/user/recommend")
 api.add_resource(UserUpdate, "/user/update")
 
 api.add_resource(ChatCreate, "/chat/create")
+api.add_resource(MessageSend, "/send")
 
 if __name__ == "__main__":
     app.run(debug=True)

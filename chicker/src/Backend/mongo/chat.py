@@ -1,5 +1,7 @@
 import gridfs
 from db import chat_db
+from PIL import Image
+from io import BytesIO
 
 fs = gridfs.GridFS(chat_db)
 

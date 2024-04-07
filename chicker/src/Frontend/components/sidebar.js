@@ -12,49 +12,55 @@ import setting from "../Pictures/setting.svg";
 
 const linkstyle = { textDecoration: "none" };
 
-const Sidebar = () => {
+function LogInOut() {
   const { isLoggedIn, handleLogStatus } = useContext(AuthContext);
 
   return (
+    <Link to={isLoggedIn ? '/' : '/Login'} style={linkstyle} 
+    className={`${isLoggedIn ? "logoutButtonContainer" : "loginButtonContainer"}`}
+    onClick={handleLogStatus}>
+      <button className={`${isLoggedIn ? "logoutButton" : "loginButton"}`}>
+        {isLoggedIn ? "LOGOUT" : "LOGIN"}
+      </button>
+    </Link>
+  );
+}
+
+const Sidebar = () => {
+  return (
     <div className="sidebar">
       <img className="sidebar-image" src={logo} alt="Home" />
-      <Link to={isLoggedIn ? '/' : '/Login'} style={linkstyle}>
+      <Link to="/" style={linkstyle}>
         <button className="sidebar-button">
           <img className="icon" src={home} alt="Home" />
           <span className="button-text">Home</span>
         </button>
       </Link>
-      <Link to={isLoggedIn ? '/Search' : '/Login'} style={linkstyle}>
+      <Link to="/Search" style={linkstyle}>
         <button className="sidebar-button">
-          <img className="icon" src={search} alt="Login" />
+          <img className="icon" src={search} alt="Home" />
           <span className="button-text">Search</span>
         </button>
       </Link>
-      <Link to={isLoggedIn ? '/Profile' : '/Login'} style={linkstyle}>
+      <Link to="/Profile" style={linkstyle}>
         <button className="sidebar-button">
-          <img className="icon" src={profile} alt="Search" />
+          <img className="icon" src={profile} alt="Home" />
           <span className="button-text">Profile</span>
         </button>
       </Link>
-      <Link to={isLoggedIn ? '/Chat' : '/Login'} style={linkstyle}>
+      <Link to="/Chat" style={linkstyle}>
         <button className="sidebar-button">
-          <img className="icon" src={chat} alt="Chat" />
+          <img className="icon" src={chat} alt="Home" />
           <span className="button-text">Chat</span>
         </button>
       </Link>
-      <Link to={isLoggedIn ? '/Setting' : '/Login'} style={linkstyle}>
+      <Link to="/Setting" style={linkstyle}>
         <button className="sidebar-button">
-          <img className="icon" src={setting} alt="Setting" />
+          <img className="icon" src={setting} alt="Home" />
           <span className="button-text">Setting</span>
         </button>
       </Link>
-      <Link to={isLoggedIn ? '/' : '/Login'} style={linkstyle} 
-      className={`${isLoggedIn ? "logoutButtonContainer" : "loginButtonContainer"}`}
-      onClick={handleLogStatus}>
-        <button className={`${isLoggedIn ? "logoutButton" : "loginButton"}`}>
-          {isLoggedIn ? "LOGOUT" : "LOGIN"}
-        </button>
-      </Link>
+      <LogInOut />
     </div>
   );
 };

@@ -1,8 +1,6 @@
-import random
-import string
 from datetime import datetime
 
-import gridfs
+from bson import ObjectId
 from db import user_db
 
 
@@ -12,24 +10,33 @@ class User:
         username,
         email,
         password_hash,
-        user_id=f"u{''.join(random.choices(string.ascii_letters + string.digits, k=12))}",
+        _id=None,
         icon_id=None,
         followers=[],
         followees=[],
         bio="",
         is_admin=False,
         date=datetime.now(),
+        settings={
+            "color": "White",
+            "size": 16,
+            "style": "courier new"
+        }
     ):
+        if _id:
+            self._id = ObjectId(_id["$oid"])
+        else:
+            self._id = None
         self.username = username
-        self.user_id = user_id
         self.password_hash = password_hash
         self.email = email
         self.icon_id = icon_id
-        self.followers = followers
-        self.followees = followees
+        self.followers = [ObjectId(id["$oid"]) for id in followers]
+        self.followees = [ObjectId(id["$oid"]) for id in followees]
         self.bio = bio
         self.is_admin = is_admin
         self.date = date
+        self.settings = settings
 
     @staticmethod
     def is_authenticated():
@@ -44,13 +51,12 @@ class User:
         return False
 
     def get_id(self):
-        return self.user_id
+        return str(self._id)
 
     def save(self):
-        return user_db.user.insert_one(
+        result = user_db.user.insert_one(
             {
                 "username": self.username,
-                "user_id": self.user_id,
                 "password_hash": self.password_hash,
                 "email": self.email,
                 "icon_id": self.icon_id,
@@ -59,5 +65,9 @@ class User:
                 "bio": self.bio,
                 "is_admin": self.is_admin,
                 "date": self.date,
+                "settings": self.settings
             }
         )
+        self._id = result.inserted_id
+
+        return result

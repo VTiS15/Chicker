@@ -1,11 +1,16 @@
+import json
 from datetime import datetime, timedelta
+from io import BytesIO
 
 import gridfs
+from bson import json_util
+from bson.objectid import ObjectId
 from db import chat_db, post_db, user_db
 from flask_login import current_user, login_required, login_user, logout_user
 from flask_restful import Resource, reqparse
 from login import login_manager
 from mongo.user import User
+from PIL import Image
 from pymongo import DESCENDING
 from werkzeug.datastructures import FileStorage
 from werkzeug.security import check_password_hash, generate_password_hash
@@ -13,16 +18,47 @@ from werkzeug.security import check_password_hash, generate_password_hash
 
 @login_manager.user_loader
 def load_user(id):
-    user = user_db.user.find_one({"user_id": id})
+    user = user_db.user.find_one({"_id": ObjectId(id)})
     if not user:
         return None
-    del user["_id"]
-    return User(**user)
+    return User(**json.loads(json_util.dumps(user)))
 
 
 @login_manager.unauthorized_handler
 def unauthorized():
     return {"msg": "Not logged in."}, 401
+
+
+class GetUser(Resource):
+    parser = reqparse.RequestParser()
+    parser.add_argument("user_id", type=str, required=True, help="ID of target user.")
+
+    def get(self):
+        data = GetUser.parser.parse_args()
+        user = user_db.user.find_one({"_id": ObjectId(data.user_id)})
+
+        if user:
+            response = json.loads(json_util.dumps(user))
+            del response["password_hash"]
+            del response["icon_id"]
+
+            return response, 200
+
+        return {"msg": "User not found."}, 404
+    
+
+class GetUsers(Resource):
+    def get(self):
+        response = {"users": []}
+
+        for user in user_db.user.find({}):
+            d = json.loads(json_util.dumps(user))
+            del d["password_hash"]
+            del d["icon_id"]
+
+            response["users"].append(d)
+
+        return response, 200
 
 
 class UserLogin(Resource):
@@ -36,8 +72,7 @@ class UserLogin(Resource):
 
         if user:
             if check_password_hash(user["password_hash"], data.password):
-                del user["_id"]
-                login_user(User(**user))
+                login_user(User(**json.loads(json_util.dumps(user))))
                 return {"msg": "Success."}, 200
 
             return {"msg": "Invalid password."}, 401
@@ -85,16 +120,18 @@ class UserDelete(Resource):
         if current_user.is_admin:
             data = UserDelete.parser.parse_args()
 
-            if data.user_id == current_user.user_id:
+            if data.user_id == str(current_user._id):
                 return {"msg": "Deletion of self is forbidden."}, 400
 
-            if user_db.user.delete_one({"user_id": data.user_id}).deleted_count == 1:
-                user_db.user.update_many({}, {"$pull": {"followers": data.user_id}})
-                user_db.user.update_many({}, {"$pull": {"followees": data.user_id}})
-                post_db.post.delete_many({"creator_id": data.user_id})
-                post_db.comment.delete_many({"creator_id": data.user_id})
+            user_id = ObjectId(data.user_id)
+
+            if user_db.user.delete_one({"_id": user_id}).deleted_count == 1:
+                user_db.user.update_many({}, {"$pull": {"followers": user_id}})
+                user_db.user.update_many({}, {"$pull": {"followees": user_id}})
+                post_db.post.delete_many({"creator_id": user_id})
+                post_db.comment.delete_many({"creator_id": user_id})
                 chat_db.chat.delete_many(
-                    {"$or": [{"user1_id": data.user_id}, {"user2_id": data.user_id}]}
+                    {"$or": [{"user1_id": user_id}, {"user2_id": user_id}]}
                 )
 
                 return {"msg": "Success"}, 200
@@ -112,22 +149,24 @@ class UserFollow(Resource):
     def post(self):
         data = UserFollow.parser.parse_args()
 
-        if data.user_id == current_user.user_id:
+        if data.user_id == str(current_user._id):
             return {"msg": "Following self is forbidden."}, 400
 
-        if data.user_id in current_user.followees:
+        user_id = ObjectId(data.user_id)
+
+        if user_id in current_user.followees:
             return {"msg": "Operator is already following user."}, 400
 
         if (
             user_db.user.update_one(
-                {"user_id": data.user_id},
-                {"$push": {"followers": current_user.user_id}},
+                {"_id": user_id},
+                {"$push": {"followers": current_user._id}},
             ).matched_count
             == 1
         ):
             user_db.user.update_one(
-                {"user_id": current_user.user_id},
-                {"$push": {"followees": data.user_id}},
+                {"_id": current_user._id},
+                {"$push": {"followees": user_id}},
             )
 
             return {"msg": "Success."}, 200
@@ -143,18 +182,20 @@ class UserUnfollow(Resource):
     def post(self):
         data = UserUnfollow.parser.parse_args()
 
-        if data.user_id == current_user.user_id:
+        if data.user_id == str(current_user._id):
             return {"msg": "Unfollowing self is forbidden."}, 400
 
+        user_id = ObjectId(data.user_id)
+
         update_result = user_db.user.update_one(
-            {"user_id": data.user_id},
-            {"$pull": {"followers": current_user.user_id}},
+            {"_id": user_id},
+            {"$pull": {"followers": current_user._id}},
         )
         if update_result.matched_count == 1:
             if update_result.modified_count == 1:
                 user_db.user.update_one(
-                    {"user_id": current_user.user_id},
-                    {"$pull": {"followees": data.user_id}},
+                    {"_id": current_user._id},
+                    {"$pull": {"followees": user_id}},
                 )
 
                 return {"msg": "Success."}, 200
@@ -173,17 +214,19 @@ class UserStatusChange(Resource):
         if current_user.is_admin:
             data = UserStatusChange.parser.parse_args()
 
-            if current_user.user_id == data.user_id:
+            if str(current_user._id) == data.user_id:
                 return {"msg": "Change of status of self is forbidden."}, 400
+
+            user_id = ObjectId(data.user_id)
 
             if (
                 user_db.user.update_one(
-                    {"user_id": data.user_id},
+                    {"_id": user_id},
                     {
                         "$set": {
-                            "is_admin": not user_db.user.find_one(
-                                {"user_id": data.user_id}
-                            )["is_admin"]
+                            "is_admin": not user_db.user.find_one({"_id": user_id})[
+                                "is_admin"
+                            ]
                         }
                     },
                 ).matched_count
@@ -200,7 +243,7 @@ class UserRecommend(Resource):
     def get(self):
         return {
             "recommended_users": [
-                user["user_id"]
+                str(user["_id"])
                 for user in user_db.user.find(
                     {"date": {"$gte": datetime.now() - timedelta(days=30)}}
                 ).sort("date", DESCENDING)
@@ -225,28 +268,74 @@ class UserUpdate(Resource):
 
         if data.email:
             user_db.user.update_one(
-                {"user_id": current_user.user_id}, {"$set": {"email": data.email}}
+                {"_id": current_user._id}, {"$set": {"email": data.email}}
             )
         if data.bio:
             user_db.user.update_one(
-                {"user_id": current_user.user_id}, {"$set": {"bio": data.bio}}
+                {"_id": current_user._id}, {"$set": {"bio": data.bio}}
             )
         if data.icon:
             file = user_db.fs.files.find_one_and_delete(
-                {"filename": f"{current_user.user_id}_icon.jpg"}
+                {"filename": f"{current_user._id}_icon.ico"}
             )
             if file:
                 user_db.fs.chunks.delete_many({"files_id": file["_id"]})
-            user_db.user.update_one(
-                {"user_id": current_user.user_id},
-                {
-                    "$set": {
-                        "icon_id": gridfs.GridFS(user_db).put(
-                            data.icon.read(),
-                            filename=f"{current_user.user_id}_icon.jpg",
-                        )
-                    }
-                },
-            )
 
-        return {"msg": "Success."}, 200
+            icon = Image.open(data.icon)
+            icon.resize((64, 64))
+            with BytesIO() as f:
+                icon.save(f, format="ICO")
+                if user_db.user.update_one(
+                    {"_id": current_user._id},
+                    {
+                        "$set": {
+                            "icon_id": gridfs.GridFS(user_db).put(
+                                f.getvalue(),
+                                filename=f"{str(current_user._id)}_icon.ico",
+                            )
+                        }
+                    },
+                ).modified_count == 1:
+                    return {"msg": "Success."}, 200
+                
+            return {"msg": "Unexpected error occurred."}, 500
+    
+
+class SearchUsers(Resource):
+    parser = reqparse.RequestParser()
+    parser.add_argument("prompt", type=str, help="Search prompt.")
+    
+    def get(self):
+        data = SearchUsers.parser.parse_args()
+        response = {"result": []}
+
+        for user in user_db.user.find({"username": {"$regex": data.prompt, "$options": "i"}}):
+            d = json.loads(json_util.dumps(user))
+            del d["password_hash"]
+            del d["icon_id"]
+
+            response["result"].append(d)
+        
+        return response, 200
+    
+class SettingsUpdate(Resource):
+    parser = reqparse.RequestParser()
+    parser.add_argument("color", type=str, required=True, help="Color of font.")
+    parser.add_argument("size", type=int, required=True, help="Size of font.")
+    parser.add_argument("style", type=str, required=True, help="Style of font.")
+
+    @login_required
+    def post(self):
+        data = SettingsUpdate.parser.parse_args()
+
+        if user_db.user.update_one(
+            {"_id": current_user._id},
+            {"$set": {"settings": {
+                "color": data.color,
+                "size": data.size,
+                "style": data.style
+            }}}
+        ).modified_count == 1:
+            return {"msg": "Success."}, 200
+        
+        return {"msg": "Unexpected error occurred."}, 500

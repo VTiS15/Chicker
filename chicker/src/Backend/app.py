@@ -2,6 +2,7 @@ from db import connection_string
 from flask import Flask
 from flask_restful import Api
 from login import login_manager
+from resources.chat import *
 from resources.user import *
 
 app = Flask(__name__)
@@ -21,6 +22,10 @@ api.add_resource(UserFollow, "/follow")
 api.add_resource(UserUnfollow, "/unfollow")
 api.add_resource(UserRecommend, "/user/recommend")
 api.add_resource(UserUpdate, "/user/update")
+
+api.add_resource(ChatCreate, "/chat/create")
+api.add_resource(MessageSend, "/send")
+api.add_resource(GetHistory, "/history")
 
 if __name__ == "__main__":
     app.run(debug=True)

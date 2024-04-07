@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import Sidebar from "../components/sidebar";
 import UserCard from "../components/UserCard";
 import profilePic from "../Pictures/cyan.png";
@@ -55,8 +55,35 @@ export default function ProfilePage() {
 
   const posts = [];
 
+  const postRef = useRef();
+  const followerRef = useRef();
+  const followingRef = useRef();
+  const [activeSection, setActiveSection] = useState("post");
+
+  const handleNavClick = (section) => {
+    setActiveSection(section);
+  };
+
+  useEffect(() => {
+    if (activeSection === "post") {
+      postRef.current.style.left = "16vw";
+    } else {
+      postRef.current.style.left = "100%";
+    }
+    if (activeSection === "follower") {
+      followerRef.current.style.left = "16vw";
+    } else {
+      followerRef.current.style.left = "100%";
+    }
+    if (activeSection === "following") {
+      followingRef.current.style.left = "16vw";
+    } else {
+      followingRef.current.style.left = "100%";
+    }
+  }, [activeSection]);
+
   return (
-    <>
+    <div>
       <body style={{ ...styling }}>
         <Sidebar />
         <div className="ProfilePage">
@@ -70,46 +97,49 @@ export default function ProfilePage() {
                 <p>I am not sus!!! I saw Green comes out from the vent!!!!</p>
                 {isOther ? <a className="FollowButton">Follow</a> : <></>}
               </div>
-              <a id="Posts"></a>
-              <a id="Followers"></a>
-              <a id="Following"></a>
+
               <div className="DetailContainer">
-                <a
+                <button
                   className="NumberContainer"
-                  href="#Posts"
                   style={{ ...styling }}
+                  onClick={() => handleNavClick("post")}
                 >
                   <h3 className="Number">{posts.length}</h3>
                   <small>Posts</small>
-                </a>
-                <a
+                </button>
+                <button
                   className="NumberContainer"
-                  href="#Followers"
                   style={{ ...styling }}
+                  onClick={() => handleNavClick("follower")}
                 >
                   <h3 className="Number">{followersData.length}</h3>
                   <small>Followers</small>
-                </a>
-                <a
+                </button>
+                <button
                   className="NumberContainer"
-                  href="#Following"
                   style={{ ...styling }}
+                  onClick={() => handleNavClick("following")}
                 >
                   <h3 className="Number">{followingData.length}</h3>
                   <small>Following</small>
-                </a>
+                </button>
               </div>
               <main className="Container" id="siteContainer">
-                <section className="Posts Base" id="posts">
+                <section className="Posts Base" id="posts" ref={postRef}>
                   {posts.length > 0 ? <></> : <h3>There is no Posts yet!</h3>}
                 </section>
 
-                <section className="Followers Base" id="followers">
+                <section
+                  className="Followers Base"
+                  id="followers"
+                  ref={followerRef}
+                >
                   {followersData.length > 0 ? (
                     <>
                       <h3>Users following you:</h3>
                       {followersData.map((data) => (
                         <UserCard
+                          key={data.name}
                           Username={data.name}
                           UserIcon={data.image}
                           UserEmail={data.email}
@@ -121,12 +151,17 @@ export default function ProfilePage() {
                   )}
                 </section>
 
-                <section className="Following Base" id="following">
+                <section
+                  className="Following Base"
+                  id="following"
+                  ref={followingRef}
+                >
                   {followingData.length > 0 ? (
                     <>
                       <h3>Users you following:</h3>
                       {followingData.map((data) => (
                         <UserCard
+                          key={data.name}
                           Username={data.name}
                           UserIcon={data.image}
                           UserEmail={data.email}
@@ -142,6 +177,6 @@ export default function ProfilePage() {
           </div>
         </div>
       </body>
-    </>
+    </div>
   );
 }

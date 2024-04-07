@@ -206,6 +206,7 @@ class UserUnfollow(Resource):
 class UserStatusChange(Resource):
     parser = reqparse.RequestParser()
     parser.add_argument("user_id", type=str, required=True, help="ID of target user.")
+    parser.add_argument("is_admin", type=bool, required=True, help="New status of target user.")
 
     @login_required
     def post(self):
@@ -222,9 +223,7 @@ class UserStatusChange(Resource):
                     {"_id": user_id},
                     {
                         "$set": {
-                            "is_admin": not user_db.user.find_one(
-                                {"_id": user_id}
-                            )["is_admin"]
+                            "is_admin": data.is_admin
                         }
                     },
                 ).matched_count

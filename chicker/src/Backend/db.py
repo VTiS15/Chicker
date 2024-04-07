@@ -1,6 +1,6 @@
 from flask_pymongo import pymongo
 
-connection_string = "mongodb+srv://csci3100:chicker@cluster0.7tf1swn.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0" # Assign connection string before running!
+connection_string = None # Assign connection string before running!
 
 client = pymongo.MongoClient(connection_string)
 

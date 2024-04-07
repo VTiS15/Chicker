@@ -12,6 +12,7 @@ app.secret_key = "diu"  # Assign random string before running!
 login_manager.init_app(app)
 api = Api(app)
 
+api.add_resource(GetUser, "/user")
 api.add_resource(UserLogin, "/login")
 api.add_resource(UserLogout, "/logout")
 api.add_resource(UserRegister, "/register")

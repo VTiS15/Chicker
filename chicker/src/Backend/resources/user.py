@@ -242,7 +242,7 @@ class UserUpdate(Resource):
 
             icon = Image.open(data.icon)
             icon.resize((64, 64))
-            with BytesIO as f:
+            with BytesIO() as f:
                 icon.save(f, format="ICO")
                 user_db.user.update_one(
                     {"user_id": current_user.user_id},

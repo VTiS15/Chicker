@@ -1,7 +1,7 @@
 from datetime import datetime
 
-from db import user_db
 from bson import ObjectId
+from db import user_db
 
 
 class User:
@@ -17,7 +17,7 @@ class User:
         bio="",
         is_admin=False,
         date=datetime.now(),
-    ):  
+    ):
         if _id:
             self._id = ObjectId(_id["$oid"])
         else:

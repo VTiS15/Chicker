@@ -17,7 +17,7 @@ import json
 
 @login_manager.user_loader
 def load_user(id):
-    user = user_db.user.find_one({"_id": ObjectId(id["$oid"])})
+    user = user_db.user.find_one({"_id": ObjectId(id)})
     if not user:
         return None
     return User(**json.loads(json_util.dumps(user)))

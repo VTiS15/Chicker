@@ -6,7 +6,6 @@ import gridfs
 from bson import json_util
 from bson.objectid import ObjectId
 from db import chat_db, post_db, user_db
-from flask import jsonify
 from flask_login import current_user, login_required, login_user, logout_user
 from flask_restful import Resource, reqparse
 from login import login_manager

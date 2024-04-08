@@ -16,13 +16,13 @@ function LogInOut() {
   const { isLoggedIn, handleLogStatus } = useContext(AuthContext);
 
   return (
-    <button
-      id="logInOutButton"
-      className={`logInOutButton ${isLoggedIn ? "logoutButton" : ""}`}
-      onClick={handleLogStatus}
-    >
-      {isLoggedIn ? "LOGOUT" : "LOGIN"}
-    </button>
+    <Link to={isLoggedIn ? '/' : '/Login'} style={linkstyle} 
+    className={`${isLoggedIn ? "logoutButtonContainer" : "loginButtonContainer"}`}
+    onClick={handleLogStatus}>
+      <button className={`${isLoggedIn ? "logoutButton" : "loginButton"}`}>
+        {isLoggedIn ? "LOGOUT" : "LOGIN"}
+      </button>
+    </Link>
   );
 }
 

@@ -70,7 +70,6 @@
     color: #dfb682;
     cursor: pointer;
     display: flex;
-    align-items: center;
   }
 
   .button-text {
@@ -78,14 +77,33 @@
   }
 }
 
-.logInOutButton {
-  background-color: #501d4b;
+
+.loginButtonContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   border-radius: 20px;
-  background-color: rgb(225, 172, 0);
   margin-top: auto;
   margin-bottom: 20%;
+  background-color: rgb(225, 172, 0);
+}
+
+.logoutButtonContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 20px;
+  margin-top: auto;
+  margin-bottom: 20%;
+  background-color:  #b740a9;
+}
+
+.loginButton {
+  border: none;
+  background-color: rgb(225, 172, 0);
 }
 
 .logoutButton {
+  border: none;
   background-color:  transparent;
 }

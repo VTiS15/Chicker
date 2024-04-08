@@ -12,7 +12,9 @@ export default function LoginPage() {
         <form className="LoginForm">
           <input type="text" placeholder="UserName" id="fname"></input>
           <input type="password" placeholder="Password" id="fpassword"></input>
-          <button>Sign In</button>
+          <Link to="/">
+            <button>Sign In</button>
+          </Link>
         </form>
         <footer>
           Do not have an account? Click{" "}

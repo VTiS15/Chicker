@@ -231,7 +231,7 @@ class Repost(Resource):
                 return {"msg": "Success."}, 200
 
             return {"msg": "Unexpected error occurred."}, 500
-        
+
         return {"msg": "Post not found."}, 404
 
 

@@ -6,8 +6,8 @@ from db import chat_db
 from flask_login import current_user, login_required
 from flask_restful import Resource, reqparse
 from mongo.chat import Chat
-from werkzeug.datastructures import FileStorage
 from utils import allowed_file
+from werkzeug.datastructures import FileStorage
 
 
 class ChatCreate(Resource):

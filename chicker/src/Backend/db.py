@@ -1,6 +1,8 @@
+import os
+
 from flask_pymongo import pymongo
 
-connection_string = None  # Assign connection string before running!"
+connection_string = os.getenv("MONGO_CONNECTION_STRING")
 
 client = pymongo.MongoClient(connection_string)
 

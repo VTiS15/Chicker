@@ -24,8 +24,8 @@ class ChatCreate(Resource):
         if chat_db.chat.find_one(
             {
                 "$and": [
-                    {"$or": [{"user1_id": current_user._id}, {"user2_id": data.user_id}]},
-                    {"$or": [{"user1_id": user_id}, {"user2_id": current_user._id}]},
+                    {"$or": [{"user1_id": data.user1_id}, {"user2_id": data.user1_id}]},
+                    {"$or": [{"user1_id": data.user2_id}, {"user2_id": data.user2_id}]},
                 ]
             }
         ):

@@ -1,5 +1,11 @@
-from flask_restful import Resource, reqparse
+import json
+
+import gridfs
+from bson import ObjectId, json_util
+from db import chat_db
 from flask_login import current_user, login_required
+from flask_restful import Resource, reqparse
+from mongo.chat import Chat
 from werkzeug.datastructures import FileStorage
 from utils import allowed_file
 
@@ -102,5 +108,48 @@ class MessageSend(Resource):
                 return {"msg": "Success."}, 200
             
             return {"msg": "Unexpected error occurred."}, 500
+
+        return {"msg": "Chat not found."}, 404
+
+
+class GetHistory(Resource):
+    parser = reqparse.RequestParser()
+    parser.add_argument("user1_id", type=str, required=True, help="ID of user1 of chat")
+    parser.add_argument("user2_id", type=str, required=True, help="ID of user2 of chat")
+
+    def get(self):
+        data = GetHistory.parser.parse_args()
+
+        user1_id = ObjectId(data.user1_id)
+        user2_id = ObjectId(data.user2_id)
+        chat = chat_db.chat.find_one(
+            {
+                "$or": [
+                    {
+                        "$and": [
+                            {"user1_id": user1_id},
+                            {"user2_id": user2_id},
+                        ]
+                    },
+                    {
+                        "$and": [
+                            {"user1_id": user2_id},
+                            {"user2_id": user1_id},
+                        ]
+                    },
+                ]
+            }
+        )
+
+        if chat:
+            response = {
+                "user1_id": str(chat["user1_id"]),
+                "user2_id": str(chat["user2_id"]),
+                "history": [],
+            }
+            for message in chat["messages"]:
+                response["history"].append(json.loads(json_util.dumps(message)))
+
+            return response, 200
 
         return {"msg": "Chat not found."}, 404

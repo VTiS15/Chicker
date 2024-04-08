@@ -1,4 +1,7 @@
+import os
+
 from db import connection_string
+from dotenv import load_dotenv
 from flask import Flask
 from flask_restful import Api
 from login import login_manager
@@ -6,9 +9,11 @@ from resources.chat import *
 from resources.post import *
 from resources.user import *
 
+load_dotenv(".env")
+
 app = Flask(__name__)
 app.config["MONGO_URI"] = connection_string
-app.secret_key = None  # Assign random string before running!
+app.secret_key = os.getenv("APP_SECRET_KEY")
 
 login_manager.init_app(app)
 api = Api(app)

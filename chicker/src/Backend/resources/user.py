@@ -151,7 +151,9 @@ class UserDelete(Resource):
                 post_db.post.delete_many({"creator_id": user_id})
                 post_db.comment.delete_many({"creator_id": user_id})
 
-                for chat in chat_db.chat.find({"$or": [{"user1_id": user_id}, {"user2_id": user_id}]}):
+                for chat in chat_db.chat.find(
+                    {"$or": [{"user1_id": user_id}, {"user2_id": user_id}]}
+                ):
                     for message in chat["messages"]:
                         for image_id in message["image_ids"]:
                             chat_db.fs.chunks.delete_many({"files_id": image_id})

@@ -5,7 +5,7 @@
 }
 
 .post {
-  background-color: #ffffff;
+  background-color: #e3cdb1;
   padding: 10px;
   margin-top: 10px;
   margin-bottom: 10px;
@@ -101,32 +101,31 @@
   width: 100%;
   height: 100%;
   overflow: auto;
-  background-color: rgba(
-      0,
-      0,
-      0,
-      0.4
-  );
+  background-color: rgba(0, 0, 0, 0.4);
   display: none;
 }
 .allComment {
   background-color: white;
   margin: 10% auto;
-  padding: 20px;
+  padding: 20px 20px 0 20px;
   border: 1px solid #888888;
   width: 30%;
   height: 50%;
   border-radius: 15px;
   overflow-y: auto;
+  position: relative;
 }
 .allComment button {
   display: block;
   margin: 0 auto;
 }
+.allComment::-webkit-scrollbar {
+  display: none;
+}
+
 .show {
   display: block;
 }
-
 
 .eachComment {
   display: grid;
@@ -166,14 +165,29 @@
   cursor: pointer;
   font-size: 16px;
   color: #999;
+  padding: 6px;
+  position: sticky;
+  top: 0;
+  right: 0;
+  background-color: white;
+  border-radius: 4px;
 }
 
 .enterComment {
   display: flex;
+  position: sticky;
+  bottom: 0;
+  background-color: white;
 }
 
 .enterCommentText {
+  resize: none;
+  height: 32px;
   width: 100%;
+  position: sticky;
+  bottom: 0;
+  border-radius: 4px;
+  padding: 4px;
 }
 
 .sendIcon {

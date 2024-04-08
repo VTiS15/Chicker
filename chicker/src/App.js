@@ -9,6 +9,7 @@ import ProfilePage from "./Frontend/Pages/ProfilePage";
 import SettingPage from "./Frontend/Pages/SettingPage";
 import ChatPage from "./Frontend/Pages/ChatPage";
 import Home from "./Frontend/Pages/Home";
+import AdminPage from "./Frontend/Pages/AdminPage";
 import { AuthProvider } from "./Frontend/AuthContext";
 
 export default function App() {
@@ -24,6 +25,7 @@ export default function App() {
             <Route path="/Setting" element={<SettingPage />} />
             <Route path="/Chat" element={<ChatPage />} />
             <Route path="/Profile" element={<ProfilePage />} />
+            <Route path="/Admin" element={<AdminPage />} />
           </Route>
         </Routes>
       </AuthProvider>

@@ -60,6 +60,12 @@ const Sidebar = () => {
           <span className="button-text">Setting</span>
         </button>
       </Link>
+      <Link to="/Admin" style={linkstyle}>
+        <button className="sidebar-button">
+          <img className="icon" src={setting} />
+          <span className="button-text">Admin</span>
+        </button>
+      </Link>
       <LogInOut />
     </div>
   );

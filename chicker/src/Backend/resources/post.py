@@ -113,14 +113,14 @@ class PostRecommend(Resource):
                     str(post["_id"])
                     for post in posts
                 ], k=5)
-            }
+            }, 200
 
         return {
             "recommended_posts": [
                 str(post["_id"])
                 for post in posts
             ]
-        }
+        }, 200
 
 
 class PostUpdate(Resource):

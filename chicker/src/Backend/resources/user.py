@@ -135,8 +135,32 @@ class UserDelete(Resource):
             if user_db.user.delete_one({"_id": user_id}).deleted_count == 1:
                 user_db.user.update_many({}, {"$pull": {"followers": user_id}})
                 user_db.user.update_many({}, {"$pull": {"followees": user_id}})
+
+                for post in post_db.post.find({"creator_id": user_id}):
+                    for image_id in post["image_ids"]:
+                        post_db.fs.chunks.delete_many({"files_id": image_id})
+                        post_db.fs.files.delete_one({"_id": image_id})
+
+                    for video_id in post["video_ids"]:
+                        post_db.fs.chunks.delete_many({"files_id": video_id})
+                        post_db.fs.files.delete_one({"_id": video_id})
+
+                    for comment_id in post["comment_ids"]:
+                        post_db.comment.delete_one({"_id", comment_id})
+
                 post_db.post.delete_many({"creator_id": user_id})
                 post_db.comment.delete_many({"creator_id": user_id})
+
+                for chat in chat_db.chat.find({"$or": [{"user1_id": user_id}, {"user2_id": user_id}]}):
+                    for message in chat["messages"]:
+                        for image_id in message["image_ids"]:
+                            chat_db.fs.chunks.delete_many({"files_id": image_id})
+                            chat_db.fs.files.delete_one({"_id": image_id})
+
+                        for video_id in message["video_ids"]:
+                            chat_db.fs.chunks.delete_many({"files_id": video_id})
+                            chat_db.fs.files.delete_one({"_id": video_id})
+
                 chat_db.chat.delete_many(
                     {"$or": [{"user1_id": user_id}, {"user2_id": user_id}]}
                 )

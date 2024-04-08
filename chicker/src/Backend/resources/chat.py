@@ -13,26 +13,25 @@ from werkzeug.datastructures import FileStorage
 class ChatCreate(Resource):
     parser = reqparse.RequestParser()
     parser.add_argument(
-        "user1_id", type=str, required=True, help="ID of user1 of chat."
-    )
-    parser.add_argument(
-        "user2_id", type=str, required=True, help="ID of user2 of chat."
+        "user_id", type=str, required=True, help="ID of other user of chat."
     )
 
+    @login_required
     def post(self):
         data = ChatCreate.parser.parse_args()
+        user_id = ObjectId(data.user_id)
 
         if chat_db.chat.find_one(
             {
                 "$and": [
-                    {"$or": [{"user1_id": data.user1_id}, {"user2_id": data.user1_id}]},
-                    {"$or": [{"user1_id": data.user2_id}, {"user2_id": data.user2_id}]},
+                    {"$or": [{"user1_id": current_user._id}, {"user2_id": data.user_id}]},
+                    {"$or": [{"user1_id": user_id}, {"user2_id": current_user._id}]},
                 ]
             }
         ):
             return {"msg": "Chat already exists."}, 409
 
-        if Chat(data.user1_id, data.user2_id).save().inserted_id:
+        if Chat(current_user._id, user_id).save().inserted_id:
             return {"msg": "Success."}, 200
 
         return {"msg": "Unexpected error occured."}, 500
@@ -66,19 +65,20 @@ class MessageSend(Resource):
     @login_required
     def post(self):
         data = MessageSend.parser.parse_args()
+        receiver_id = ObjectId(data.receiver_id)
         chat = chat_db.chat.find_one(
             {
                 "$or": [
                     {
                         "$and": [
-                            {"user1_id": current_user.user_id},
-                            {"user2_id": data.receiver_id},
+                            {"user1_id": current_user._id},
+                            {"user2_id": receiver_id},
                         ]
                     },
                     {
                         "$and": [
-                            {"user1_id": data.receiver_id},
-                            {"user2_id": current_user.user_id},
+                            {"user1_id": receiver_id},
+                            {"user2_id": current_user._id},
                         ]
                     },
                 ]
@@ -90,7 +90,7 @@ class MessageSend(Resource):
                 return {"msg": "Input is null."}, 400
 
             message = {
-                "sender_id": current_user.user_id,
+                "sender_id": current_user._id,
                 "text": data.text,
                 "image_ids": [],
                 "video_ids": [],
@@ -138,7 +138,6 @@ class GetHistory(Resource):
 
     def get(self):
         data = GetHistory.parser.parse_args()
-
         user1_id = ObjectId(data.user1_id)
         user2_id = ObjectId(data.user2_id)
         chat = chat_db.chat.find_one(

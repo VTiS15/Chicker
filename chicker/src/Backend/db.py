@@ -1,6 +1,6 @@
 from flask_pymongo import pymongo
 
-connection_string = None # Assign connection string before running!"
+connection_string = None  # Assign connection string before running!"
 
 client = pymongo.MongoClient(connection_string)
 

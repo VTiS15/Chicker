@@ -1,13 +1,7 @@
 from flask_restful import Resource, reqparse
 from flask_login import current_user, login_required
 from werkzeug.datastructures import FileStorage
-from db import chat_db
-from mongo.chat import Chat
-import gridfs
-
-
-def allowed_file(filename, extensions):
-    return '.' in filename and filename.rsplit('.', 1)[1].lower() in extensions
+from utils import allowed_file
 
 
 class ChatCreate(Resource):
@@ -95,12 +89,16 @@ class MessageSend(Resource):
                             gridfs.GridFS(chat_db).put(video.read())
                         )
                     else:
-                        return {"msg": "Only images with extension \"mp4\" and \"mov\" are allowed."}, 400
-            
-            if chat_db.chat.update_one(
-                {"_id": chat["_id"]},
-                {"$push": {"messages": message}}
-            ).modified_count == 1:
+                        return {
+                            "msg": 'Only videos with extension "mp4" and "mov" are allowed.'
+                        }, 400
+
+            if (
+                chat_db.chat.update_one(
+                    {"_id": chat["_id"]}, {"$push": {"messages": message}}
+                ).modified_count
+                == 1
+            ):
                 return {"msg": "Success."}, 200
             
             return {"msg": "Unexpected error occurred."}, 500

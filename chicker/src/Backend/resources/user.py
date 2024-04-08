@@ -12,7 +12,6 @@ from login import login_manager
 from mongo.user import User
 from PIL import Image
 from pymongo import DESCENDING
-from werkzeug.datastructures import FileStorage
 from werkzeug.security import check_password_hash, generate_password_hash
 
 
@@ -76,7 +75,7 @@ class UserLogin(Resource):
 
     def post(self):
         data = UserLogin.parser.parse_args()
-        user = user_db.user.find_one({"username": data.username})
+        user = user_db.user.find_one({"username": data["username"]})
 
         if user:
             if check_password_hash(user["password_hash"], data.password):
@@ -258,17 +257,14 @@ class UserRecommend(Resource):
 
 class UserUpdate(Resource):
     parser = reqparse.RequestParser()
-    parser.add_argument("email", type=str, help="New email of user", location="form")
-    parser.add_argument("bio", type=str, help="New bio of user.", location="form")
-    parser.add_argument(
-        "icon", type=FileStorage, help="New icon of user.", location="files"
-    )
+    parser.add_argument("email", type=str, help="New email of user")
+    parser.add_argument("bio", type=str, help="New bio of user.")
 
     @login_required
     def post(self):
         data = UserUpdate.parser.parse_args()
 
-        if not data.email and not data.bio and not data.icon:
+        if not data.email and not data.bio:
             return {"msg": "Input is null."}, 400
 
         if data.email:
@@ -288,7 +284,7 @@ class UserUpdate(Resource):
 
             icon = Image.open(data.icon)
             icon.resize((64, 64))
-            with BytesIO() as f:
+            with BytesIO as f:
                 icon.save(f, format="ICO")
                 if (
                     user_db.user.update_one(

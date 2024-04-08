@@ -22,20 +22,17 @@ class ChatCreate(Resource):
     def post(self):
         data = ChatCreate.parser.parse_args()
 
-        user1_id = ObjectId(data.user1_id)
-        user2_id = ObjectId(data.user2_id)
-
         if chat_db.chat.find_one(
             {
                 "$and": [
-                    {"$or": [{"user1_id": user1_id}, {"user2_id": user1_id}]},
-                    {"$or": [{"user1_id": user2_id}, {"user2_id": user2_id}]},
+                    {"$or": [{"user1_id": data.user1_id}, {"user2_id": data.user1_id}]},
+                    {"$or": [{"user1_id": data.user2_id}, {"user2_id": data.user2_id}]},
                 ]
             }
         ):
             return {"msg": "Chat already exists."}, 409
 
-        if Chat(user1_id, user2_id).save().inserted_id:
+        if Chat(data.user1_id, data.user2_id).save().inserted_id:
             return {"msg": "Success."}, 200
 
         return {"msg": "Unexpected error occured."}, 500
@@ -69,21 +66,19 @@ class MessageSend(Resource):
     @login_required
     def post(self):
         data = MessageSend.parser.parse_args()
-
-        receiver_id = ObjectId(data.receiver_id)
         chat = chat_db.chat.find_one(
             {
                 "$or": [
                     {
                         "$and": [
-                            {"user1_id": current_user._id},
-                            {"user2_id": receiver_id},
+                            {"user1_id": current_user.user_id},
+                            {"user2_id": data.receiver_id},
                         ]
                     },
                     {
                         "$and": [
-                            {"user1_id": receiver_id},
-                            {"user2_id": current_user._id},
+                            {"user1_id": data.receiver_id},
+                            {"user2_id": current_user.user_id},
                         ]
                     },
                 ]
@@ -95,7 +90,7 @@ class MessageSend(Resource):
                 return {"msg": "Input is null."}, 400
 
             message = {
-                "sender": 1 + (current_user._id != chat["user1_id"]),
+                "sender_id": current_user.user_id,
                 "text": data.text,
                 "image_ids": [],
                 "video_ids": [],

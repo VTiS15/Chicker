@@ -22,6 +22,7 @@ class CreatePost(Resource):
         "is_private",
         type=bool,
         help="Whether post is private.",
+        required=True,
         location="form",
     )
     parser.add_argument(
@@ -51,7 +52,7 @@ class CreatePost(Resource):
 
         if data.images:
             for image in data.images:
-                if allowed_file(image.filename, ["png", "jpg", "jpeg"]):
+                if allowed_file(image.filename, {"png", "jpg", "jpeg"}):
                     image_ids.append(gridfs.GridFS(post_db).put(image.read()))
                 else:
                     return {
@@ -60,7 +61,7 @@ class CreatePost(Resource):
 
         if data.videos:
             for video in data.videos:
-                if allowed_file(video.filename, ["mp4", "mov"]):
+                if allowed_file(video.filename, {"mp4", "mov"}):
                     video_ids.append(gridfs.GridFS(post_db).put(video.read()))
                 else:
                     return {

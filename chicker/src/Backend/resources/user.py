@@ -12,6 +12,7 @@ from login import login_manager
 from mongo.user import User
 from PIL import Image
 from pymongo import DESCENDING
+from werkzeug.datastructures import FileStorage
 from werkzeug.security import check_password_hash, generate_password_hash
 
 
@@ -131,10 +132,15 @@ class UserDelete(Resource):
                 return {"msg": "Deletion of self is forbidden."}, 400
 
             user_id = ObjectId(data.user_id)
+            user = user_db.user.find_one_and_delete({"_id": user_id})
 
-            if user_db.user.delete_one({"_id": user_id}).deleted_count == 1:
+            if user:
                 user_db.user.update_many({}, {"$pull": {"followers": user_id}})
                 user_db.user.update_many({}, {"$pull": {"followees": user_id}})
+
+                icon = user_db.fs.files.find_one_and_delete({"_id": user["icon_id"]})
+                if icon:
+                    user_db.fs.chunks.delete_many({"files_id": icon["_id"]})
 
                 for post in post_db.post.find({"creator_id": user_id}):
                     for image_id in post["image_ids"]:
@@ -146,7 +152,7 @@ class UserDelete(Resource):
                         post_db.fs.files.delete_one({"_id": video_id})
 
                     for comment_id in post["comment_ids"]:
-                        post_db.comment.delete_one({"_id", comment_id})
+                        post_db.comment.delete_one({"_id": comment_id})
 
                 post_db.post.delete_many({"creator_id": user_id})
                 post_db.comment.delete_many({"creator_id": user_id})
@@ -283,14 +289,17 @@ class UserRecommend(Resource):
 
 class UserUpdate(Resource):
     parser = reqparse.RequestParser()
-    parser.add_argument("email", type=str, help="New email of user")
-    parser.add_argument("bio", type=str, help="New bio of user.")
+    parser.add_argument("email", type=str, help="New email of user", location="form")
+    parser.add_argument("bio", type=str, help="New bio of user.", location="form")
+    parser.add_argument(
+        "icon", type=FileStorage, help="New icon of user.", location="files"
+    )
 
     @login_required
     def post(self):
         data = UserUpdate.parser.parse_args()
 
-        if not data.email and not data.bio:
+        if not data.email and not data.bio and not data.icon:
             return {"msg": "Input is null."}, 400
 
         if data.email:
@@ -302,27 +311,21 @@ class UserUpdate(Resource):
                 {"_id": current_user._id}, {"$set": {"bio": data.bio}}
             )
         if data.icon:
-            file = user_db.fs.files.find_one_and_delete(
-                {"filename": f"{str(current_user._id)}_icon.ico"}
-            )
-            if file:
-                user_db.fs.chunks.delete_many({"files_id": file["_id"]})
+            if current_user.icon_id:
+                file = user_db.fs.files.find_one_and_delete(
+                    {"_id": ObjectId(current_user.icon_id["$oid"])}
+                )
+                if file:
+                    user_db.fs.chunks.delete_many({"files_id": file["_id"]})
 
             icon = Image.open(data.icon)
             icon.resize((64, 64))
-            with BytesIO as f:
+            with BytesIO() as f:
                 icon.save(f, format="ICO")
                 if (
                     user_db.user.update_one(
                         {"_id": current_user._id},
-                        {
-                            "$set": {
-                                "icon_id": gridfs.GridFS(user_db).put(
-                                    f.getvalue(),
-                                    filename=f"{str(current_user._id)}_icon.ico",
-                                )
-                            }
-                        },
+                        {"$set": {"icon_id": gridfs.GridFS(user_db).put(f.getvalue())}},
                     ).modified_count
                     == 1
                 ):

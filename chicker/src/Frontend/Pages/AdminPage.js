@@ -4,28 +4,35 @@ import React, { useState, useEffect } from 'react';
 import Sidebar from "../components/sidebar";
 
 const AdminPage = () => {
-  // const [users, setUsers] = useState([]);
 
-  // useEffect(() => {
-  //   fetch('/api/users') // Replace with your Flask API endpoint for retrieving user information
-  //     .then(response => response.json())
-  //     .then(data => setUsers(data))
-  //     .catch(error => console.log(error));
-  // }, []);
+  const [users, setUsers] = useState([]);
 
-  // const deleteUser = (userId) => {
-  //   fetch(`/api/users/${userId}`, { method: 'DELETE' }) // Replace with your Flask API endpoint for deleting a user
-  //     .then(response => {
-  //       if (response.ok) {
-  //         setUsers(users.filter(user => user.id !== userId));
-  //       } else {
-  //         console.log('Failed to delete user');
-  //       }
-  //     })
-  //     .catch(error => console.log(error));
-  // };
+  // Using useEffect for single rendering
+  useEffect(() => {
+      // Using fetch to fetch the api from 
+      // flask server it will be redirected to proxy
+      fetch("/api/users").then((res) =>
+      res.json().then((data) => {
+        const modifiedUsers = data.users.map((user) => ({
+          id: user._id.$oid,
+          username: user.username
+        }));
+        setUsers(modifiedUsers);
+      })
+    );
+  }, []);
 
-  const users = [{id: 1, name: "John",}, {id: 2, name: "Jack",},]
+  const deleteUser = (userId) => {
+    fetch(`/api/user/delete/${userId}`) // Replace with your Flask API endpoint for deleting a user
+      .then(response => {
+        if (response.ok) {
+          setUsers(users.filter(user => user.id !== userId));
+        } else {
+          console.log('Failed to delete user');
+        }
+      })
+      .catch(error => console.log(error));
+  };
 
   return (
     <div>
@@ -44,9 +51,9 @@ const AdminPage = () => {
             {users.map(user => (
               <tr key={user.id}>
                 <td>{user.id}</td>
-                <td>{user.name}</td>
+                <td>{user.username}</td>
                 <td>
-                  <button>Delete</button>
+                  <button onClick={() => deleteUser(user.id)}>Delete</button>
                 </td>
               </tr>
             ))}

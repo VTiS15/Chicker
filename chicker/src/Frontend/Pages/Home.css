@@ -1,6 +1,5 @@
 .Home {
   background-color: #dfb682;
-  font-family: "Poppins";
   display: flex;
   height: auto;
 }
@@ -11,17 +10,20 @@
 
 .grid-container {
   height: auto;
-  width: 95%;
+  width: 80%;
   margin-left: 16%;
   padding-right: 2%;
 }
 
 .newPost {
-  background-color: #ffffff;
+  background-color: #e3cdb1;
   padding: 20px;
   margin-top: 10px;
   margin-bottom: 10px;
   border-radius: 24px;
+  /* position: sticky;
+  top: 0px;
+  z-index: 10; */
 }
 
 .title {
@@ -35,7 +37,15 @@
   resize: vertical;
   box-sizing: border-box;
   font-size: 16px;
-  min-height: 100px;
+  min-height: 60px;
+  background-color: #dfb682;
+  border-radius: 12px;
+  padding: 8px;
+  resize: none;
+}
+
+.newPostText::-webkit-scrollbar {
+  background: transparent;
 }
 
 .button-container {
@@ -52,7 +62,7 @@
   width: 10%;
   margin-left: auto;
   border-radius: 24px;
-  background-color: #ad00b9;
+  background-color: #cb86d0;
   cursor: pointer;
 }
 

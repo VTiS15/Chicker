@@ -51,7 +51,7 @@ class GetUser(Resource):
             return response, 200
 
         return {"msg": "User not found."}, 404
-    
+
 
 class GetUsers(Resource):
     def get(self):
@@ -216,7 +216,9 @@ class UserUnfollow(Resource):
 class UserStatusChange(Resource):
     parser = reqparse.RequestParser()
     parser.add_argument("user_id", type=str, required=True, help="ID of target user.")
-    parser.add_argument("is_admin", type=bool, required=True, help="New status of target user.")
+    parser.add_argument(
+        "is_admin", type=bool, required=True, help="New status of target user."
+    )
 
     @login_required
     def post(self):
@@ -231,11 +233,7 @@ class UserStatusChange(Resource):
             if (
                 user_db.user.update_one(
                     {"_id": user_id},
-                    {
-                        "$set": {
-                            "is_admin": data.is_admin
-                        }
-                    },
+                    {"$set": {"is_admin": data.is_admin}},
                 ).matched_count
                 == 1
             ):
@@ -292,31 +290,36 @@ class UserUpdate(Resource):
             icon.resize((64, 64))
             with BytesIO() as f:
                 icon.save(f, format="ICO")
-                if user_db.user.update_one(
-                    {"_id": current_user._id},
-                    {
-                        "$set": {
-                            "icon_id": gridfs.GridFS(user_db).put(
-                                f.getvalue(),
-                                filename=f"{str(current_user._id)}_icon.ico",
-                            )
-                        }
-                    },
-                ).modified_count == 1:
+                if (
+                    user_db.user.update_one(
+                        {"_id": current_user._id},
+                        {
+                            "$set": {
+                                "icon_id": gridfs.GridFS(user_db).put(
+                                    f.getvalue(),
+                                    filename=f"{str(current_user._id)}_icon.ico",
+                                )
+                            }
+                        },
+                    ).modified_count
+                    == 1
+                ):
                     return {"msg": "Success."}, 200
-                
+
             return {"msg": "Unexpected error occurred."}, 500
-    
+
 
 class SearchUsers(Resource):
     parser = reqparse.RequestParser()
     parser.add_argument("prompt", type=str, help="Search prompt.")
-    
+
     def get(self):
         data = SearchUsers.parser.parse_args()
         response = {"result": []}
 
-        for user in user_db.user.find({"username": {"$regex": data.prompt, "$options": "i"}}):
+        for user in user_db.user.find(
+            {"username": {"$regex": data.prompt, "$options": "i"}}
+        ):
             d = json.loads(json_util.dumps(user))
             del d["password_hash"]
             del d["settings"]
@@ -328,9 +331,10 @@ class SearchUsers(Resource):
             del d["bio"]
 
             response["result"].append(d)
-        
+
         return response, 200
-    
+
+
 class SettingsUpdate(Resource):
     parser = reqparse.RequestParser()
     parser.add_argument("color", type=str, required=True, help="Color of font.")
@@ -341,14 +345,21 @@ class SettingsUpdate(Resource):
     def post(self):
         data = SettingsUpdate.parser.parse_args()
 
-        if user_db.user.update_one(
-            {"_id": current_user._id},
-            {"$set": {"settings": {
-                "color": data.color,
-                "size": data.size,
-                "style": data.style
-            }}}
-        ).modified_count == 1:
+        if (
+            user_db.user.update_one(
+                {"_id": current_user._id},
+                {
+                    "$set": {
+                        "settings": {
+                            "color": data.color,
+                            "size": data.size,
+                            "style": data.style,
+                        }
+                    }
+                },
+            ).modified_count
+            == 1
+        ):
             return {"msg": "Success."}, 200
-        
+
         return {"msg": "Unexpected error occurred."}, 500

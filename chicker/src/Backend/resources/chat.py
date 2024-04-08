@@ -7,10 +7,7 @@ from flask_login import current_user, login_required
 from flask_restful import Resource, reqparse
 from mongo.chat import Chat
 from werkzeug.datastructures import FileStorage
-
-
-def allowed_file(filename, extensions):
-    return "." in filename and filename.rsplit(".", 1)[1].lower() in extensions
+from utils import allowed_file
 
 
 class ChatCreate(Resource):
@@ -123,7 +120,7 @@ class MessageSend(Resource):
                         )
                     else:
                         return {
-                            "msg": 'Only images with extension "mp4" and "mov" are allowed.'
+                            "msg": 'Only videos with extension "mp4" and "mov" are allowed.'
                         }, 400
 
             if (

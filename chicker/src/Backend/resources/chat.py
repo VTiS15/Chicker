@@ -24,8 +24,8 @@ class ChatCreate(Resource):
         if chat_db.chat.find_one(
             {
                 "$and": [
-                    {"$or": [{"user1_id": data.user1_id}, {"user2_id": data.user1_id}]},
-                    {"$or": [{"user1_id": data.user2_id}, {"user2_id": data.user2_id}]},
+                    {"$or": [{"user1_id": current_user._id}, {"user2_id": user_id}]},
+                    {"$or": [{"user1_id": user_id}, {"user2_id": current_user._id}]},
                 ]
             }
         ):
@@ -90,7 +90,7 @@ class MessageSend(Resource):
                 return {"msg": "Input is null."}, 400
 
             message = {
-                "sender_id": current_user._id,
+                "sender": 1 + (current_user._id != chat["user1_id"]),
                 "text": data.text,
                 "image_ids": [],
                 "video_ids": [],

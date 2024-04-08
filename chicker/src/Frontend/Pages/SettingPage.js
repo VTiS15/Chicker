@@ -1,6 +1,6 @@
 import Sidebar from "../components/sidebar";
 import { useToggle } from "@uidotdev/usehooks";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import "./SettingPage.css";
 
 import { getStyling, setStyling } from "../functions/style";
@@ -37,94 +37,90 @@ export default function SettingPage() {
 
   const styling = getStyling();
 
+  const profileRef = useRef();
+  const securityRef = useRef();
+  const themeRef = useRef();
+  const [activeSection, setActiveSection] = useState("profile");
+
+  const handleClick = (section) => {
+    setActiveSection(section);
+  };
+
+  useEffect(() => {
+    if (activeSection === "profile") {
+      profileRef.current.style.left = "16vw";
+    } else {
+      profileRef.current.style.left = "100%";
+    }
+    if (activeSection === "security") {
+      securityRef.current.style.left = "16vw";
+    } else {
+      securityRef.current.style.left = "100%";
+    }
+    if (activeSection === "theme") {
+      themeRef.current.style.left = "16vw";
+    } else {
+      themeRef.current.style.left = "100%";
+    }
+  }, [activeSection]);
+
   return (
-    <>
+    <div>
       <body style={{ ...styling }}>
         <Sidebar />
         <div className="SettingPage">
           <h1>SETTINGS</h1>
-          <a id="Profile"></a>
-          <a id="Security"></a>
-          <a id="Theme"></a>
           <ul className="NavBar">
-            <li>
-              <a href="#Profile" style={{ ...styling }}>
+            <div className="NavBarButton">
+              <button
+                style={{ ...styling }}
+                onClick={() => handleClick("profile")}
+              >
                 Profile
-              </a>
-            </li>
-            <li>
-              <a href="#Security" style={{ ...styling }}>
+              </button>
+              <button
+                style={{ ...styling }}
+                onClick={() => handleClick("security")}
+              >
                 Security
-              </a>
-            </li>
-            <li>
-              <a href="#Theme" style={{ ...styling }}>
+              </button>
+              <button
+                style={{ ...styling }}
+                onClick={() => handleClick("theme")}
+              >
                 Theme
-              </a>
-            </li>
+              </button>
+            </div>
           </ul>
           <main class="WrapperContainer" id="siteContainer">
-            <section className="Profile BaseLayers" id="profile">
+            <section
+              className="Profile BaseLayers"
+              id="profile"
+              ref={profileRef}
+            >
               <h2>Profile</h2>
               <p>Changing personal information</p>
               <form className="ProfileForm">
-                <label>Username</label>
+                <label>Profile Pictures</label>
                 <br />
-                <input type="text" required></input>
-                <br />
-                <label>First Name</label>
-                <br />
-                <input></input>
-                <br />
-                <label>Last Name</label>
-                <br />
-                <input></input>
-                <br />
-                <label>Gender</label>
-                <br />
-                <select>
-                  <option value="--">--</option>
-                  <option value="Male">Male</option>
-                  <option value="Female">Female</option>
-                  <option value="Attack Helicopter">Attack Helicopter</option>
-                </select>
-                <br />
-                <label>Date of birth</label>
-                <br />
-                <input className="BirthSelect" type="date"></input>
-                <br />
-                <label type="tel">Phone Number</label>
-                <br />
-                <input></input>
+                <input type="file"></input>
                 <br />
                 <label>Email Address</label>
                 <br />
                 <input type="email"></input>
                 <br />
-
-                <label>Location</label>
-                <br />
-                <select>
-                  <option value="--">--</option>
-                  <option value="Central and Western">
-                    Central and Western
-                  </option>
-                  <option value="Wan Chai">Wan Chai</option>
-                  <option value="Eastern">Eastern</option>
-                  <option value="Southern">Southern</option>
-                  <option value="Sha Tin">Sha Tin</option>
-                  <option value="Tai Po">Tai Po</option>
-                  <option value="Tuen Mun">Tuen Mun</option>
-                </select>
-                <br />
                 <label>About you</label>
                 <br />
-                <textarea placeholder="Write something.."></textarea>
+                <textarea placeholder="Write something about you.."></textarea>
                 <br />
                 <input className="Submit" type="submit" value="Submit"></input>
               </form>
             </section>
-            <section className="Security BaseLayers" id={"security"}>
+            <section
+              className="Security BaseLayers"
+              id={"security"}
+              ref={securityRef}
+            >
               <h2>Security</h2>
               <form className="SecurityForm">
                 <p>Reset your password</p>
@@ -144,7 +140,7 @@ export default function SettingPage() {
                 <br />
               </form>
             </section>
-            <section className="Theme BaseLayers" id={"theme"}>
+            <section className="Theme BaseLayers" id={"theme"} ref={themeRef}>
               <h2>Theme</h2>
               <p>Changing Theme/Text style</p>
               <form className="ThemeForm">
@@ -196,6 +192,6 @@ export default function SettingPage() {
           </main>
         </div>
       </body>
-    </>
+    </div>
   );
 }

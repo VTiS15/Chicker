@@ -17,11 +17,7 @@ class User:
         bio="",
         is_admin=False,
         date=datetime.now(),
-        settings={
-            "color": "White",
-            "size": 16,
-            "style": "courier new"
-        }
+        settings={"color": "White", "size": 16, "style": "courier new"},
     ):
         if _id:
             self._id = ObjectId(_id["$oid"])
@@ -65,7 +61,7 @@ class User:
                 "bio": self.bio,
                 "is_admin": self.is_admin,
                 "date": self.date,
-                "settings": self.settings
+                "settings": self.settings,
             }
         )
         self._id = result.inserted_id

@@ -133,3 +133,19 @@
 .LoginForm > footer > a {
   color: #216ce7;
 }
+
+.BackButton {
+  cursor: pointer;
+  position: fixed;
+  top: 0;
+  left: 0;
+  margin: 5vh;
+  padding: 4px;
+  font-size: large;
+  background: transparent;
+  border-radius: 12px;
+}
+
+.BackButton:hover {
+  opacity: 0.3;
+}

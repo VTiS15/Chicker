@@ -6,6 +6,9 @@ export default function RegistrartionPage() {
   return (
     <div className="RegistrartionPage">
       <div className="RegistrartionBackground"></div>
+      <Link to="/" style={{ position: "fixed", top: 0 }}>
+        <button className="BackButton">Back</button>
+      </Link>
       <div className="RegistrartionCard">
         <img className="logo" src={logo} />
         <h2>Create an account</h2>

@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import React, { useContext } from "react";
 import "./sidebar.css";
-import { AuthContext } from "../AuthContext"
+import { AuthContext } from "../AuthContext";
 
 import logo from "../Pictures/IconClear.png";
 import home from "../Pictures/home.svg";
@@ -10,16 +10,28 @@ import profile from "../Pictures/profile.svg";
 import chat from "../Pictures/chat.svg";
 import setting from "../Pictures/setting.svg";
 
-const linkstyle = { textDecoration: "none" };
+const linkstyle = {
+  textDecoration: "none",
+  cursor: "pointer",
+  padding: "5px 10px",
+};
 
 function LogInOut() {
   const { isLoggedIn, handleLogStatus } = useContext(AuthContext);
 
   return (
-    <Link to={isLoggedIn ? '/' : '/Login'} style={linkstyle} 
-    className={`${isLoggedIn ? "logoutButtonContainer" : "loginButtonContainer"}`}
-    onClick={handleLogStatus}>
-      <button className={`${isLoggedIn ? "logoutButton" : "loginButton"}`}>
+    <Link
+      to={isLoggedIn ? "/" : "/Login"}
+      className={`${
+        isLoggedIn ? "logoutButtonContainer" : "loginButtonContainer"
+      }`}
+      onClick={handleLogStatus}
+      style={linkstyle}
+    >
+      <button
+        className={`${isLoggedIn ? "logoutButton" : "loginButton"}`}
+        style={linkstyle}
+      >
         {isLoggedIn ? "LOGOUT" : "LOGIN"}
       </button>
     </Link>

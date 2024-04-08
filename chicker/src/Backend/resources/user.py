@@ -1,17 +1,18 @@
+import json
 from datetime import datetime, timedelta
+from io import BytesIO
 
+import gridfs
+from bson import json_util
+from bson.objectid import ObjectId
 from db import chat_db, post_db, user_db
 from flask_login import current_user, login_required, login_user, logout_user
 from flask_restful import Resource, reqparse
 from login import login_manager
+from mongo.user import User
+from PIL import Image
 from pymongo import DESCENDING
 from werkzeug.security import check_password_hash, generate_password_hash
-from PIL import Image
-from io import BytesIO
-from bson.objectid import ObjectId
-from flask import jsonify
-from bson import json_util
-import json
 
 
 @login_manager.user_loader
@@ -128,7 +129,7 @@ class UserDelete(Resource):
 
             if data.user_id == str(current_user._id):
                 return {"msg": "Deletion of self is forbidden."}, 400
-            
+
             user_id = ObjectId(data.user_id)
 
             if user_db.user.delete_one({"_id": user_id}).deleted_count == 1:
@@ -157,7 +158,7 @@ class UserFollow(Resource):
 
         if data.user_id == str(current_user._id):
             return {"msg": "Following self is forbidden."}, 400
-        
+
         user_id = ObjectId(data.user_id)
 
         if user_id in current_user.followees:
@@ -190,7 +191,7 @@ class UserUnfollow(Resource):
 
         if data.user_id == str(current_user._id):
             return {"msg": "Unfollowing self is forbidden."}, 400
-        
+
         user_id = ObjectId(data.user_id)
 
         update_result = user_db.user.update_one(
@@ -225,7 +226,7 @@ class UserStatusChange(Resource):
 
             if str(current_user._id) == data.user_id:
                 return {"msg": "Change of status of self is forbidden."}, 400
-            
+
             user_id = ObjectId(data.user_id)
 
             if (

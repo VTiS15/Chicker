@@ -6,8 +6,8 @@ from db import chat_db
 from flask_login import current_user, login_required
 from flask_restful import Resource, reqparse
 from mongo.chat import Chat
-from werkzeug.datastructures import FileStorage
 from utils import allowed_file
+from werkzeug.datastructures import FileStorage
 
 
 class ChatCreate(Resource):
@@ -66,7 +66,24 @@ class MessageSend(Resource):
     @login_required
     def post(self):
         data = MessageSend.parser.parse_args()
-        chat = chat_db.chat.find_one({"$or": [{"$and": [{"user1_id": current_user.user_id}, {"user2_id": data.receiver_id}]}, {"$and": [{"user1_id": data.receiver_id}, {"user2_id": current_user.user_id}]}]})
+        chat = chat_db.chat.find_one(
+            {
+                "$or": [
+                    {
+                        "$and": [
+                            {"user1_id": current_user.user_id},
+                            {"user2_id": data.receiver_id},
+                        ]
+                    },
+                    {
+                        "$and": [
+                            {"user1_id": data.receiver_id},
+                            {"user2_id": current_user.user_id},
+                        ]
+                    },
+                ]
+            }
+        )
 
         if chat:
             if not data.text and not data.images and not data.videos:
@@ -76,7 +93,7 @@ class MessageSend(Resource):
                 "sender_id": current_user.user_id,
                 "text": data.text,
                 "image_ids": [],
-                "video_ids": []
+                "video_ids": [],
             }
 
             if data.images:
@@ -86,8 +103,10 @@ class MessageSend(Resource):
                             gridfs.GridFS(chat_db).put(image.read())
                         )
                     else:
-                        return {"msg": "Only images with extension \"png\", \"jpg\", and \"jpeg\" are allowed."}, 400
-            
+                        return {
+                            "msg": 'Only images with extension "png", "jpg", and "jpeg" are allowed.'
+                        }, 400
+
             if data.videos:
                 for video in data.videos:
                     if allowed_file(video.filename, ["mp4", "mov"]):
@@ -106,7 +125,7 @@ class MessageSend(Resource):
                 == 1
             ):
                 return {"msg": "Success."}, 200
-            
+
             return {"msg": "Unexpected error occurred."}, 500
 
         return {"msg": "Chat not found."}, 404

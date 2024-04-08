@@ -2,7 +2,6 @@ from db import connection_string
 from flask import Flask
 from flask_restful import Api
 from login import login_manager
-from resources.user import *
 from resources.chat import *
 from resources.post import *
 from resources.user import *

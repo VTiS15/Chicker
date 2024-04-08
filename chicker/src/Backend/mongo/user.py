@@ -1,7 +1,7 @@
 from datetime import datetime
 
-from db import user_db
 from bson import ObjectId
+from db import user_db
 
 
 class User:

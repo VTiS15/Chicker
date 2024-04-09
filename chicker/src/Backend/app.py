@@ -20,6 +20,7 @@ api = Api(app)
 
 api.add_resource(GetUser, "/api/user")
 api.add_resource(GetUsers, "/api/users")
+api.add_resource(GetIcon, "/api/icon")
 api.add_resource(UserLogin, "/api/login")
 api.add_resource(UserLogout, "/api/logout")
 api.add_resource(UserRegister, "/api/register")

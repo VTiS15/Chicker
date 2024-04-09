@@ -106,20 +106,13 @@ class GetPost(Resource):
 class PostRecommend(Resource):
     def get(self):
         posts = list(post_db.post.find({}))
-
         if len(posts) > 5:
-            return {
-                "recommended_posts": choices([
-                    str(post["_id"])
-                    for post in posts
-                ], k=5)
-            }, 200
+            recommended_posts = choices(posts, k=5)
+        else:
+            recommended_posts = posts
 
         return {
-            "recommended_posts": [
-                str(post["_id"])
-                for post in posts
-            ]
+            "recommended_posts": [json.loads(json_util.dumps(p)) for p in recommended_posts]
         }, 200
 
 

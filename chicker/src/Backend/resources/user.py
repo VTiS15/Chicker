@@ -283,7 +283,7 @@ class UserRecommend(Resource):
                 for user in user_db.user.find(
                     {"date": {"$gte": datetime.now() - timedelta(days=30)}}
                 ).sort("date", DESCENDING)
-            ][:5]
+            ][:10]
         }
 
 

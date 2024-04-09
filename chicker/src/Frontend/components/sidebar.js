@@ -12,7 +12,6 @@ import setting from "../Pictures/setting.svg";
 
 const linkstyle = {
   textDecoration: "none",
-  padding: "5px 10px",
 };
 
 const disablestyle = {
@@ -69,13 +68,13 @@ const Sidebar = () => {
     <div className="sidebar">
       <img className="sidebar-image" src={logo} alt="Home" />
       <div className="ButtonContainer">
-        <Link to="/" style={{ padding: "5px 0", textDecoration: "none" }}>
+        <Link to="/" style={{ textDecoration: "none" }}>
           <button className="sidebar-button" style={linkstyle}>
             <img className="icon" src={home} alt="Home" />
             <span className="button-text">Home</span>
           </button>
         </Link>
-        <Link to="/Search" style={{ padding: "5px 0", textDecoration: "none" }}>
+        <Link to="/Search" style={{ textDecoration: "none" }}>
           <button
             className="sidebar-button"
             style={isLoggedIn ? linkstyle : disablestyle}
@@ -85,10 +84,7 @@ const Sidebar = () => {
             <span className="button-text">Search</span>
           </button>
         </Link>
-        <Link
-          to="/Profile"
-          style={{ padding: "5px 0", textDecoration: "none" }}
-        >
+        <Link to="/Profile" style={{ textDecoration: "none" }}>
           <button
             className="sidebar-button"
             style={isLoggedIn ? linkstyle : disablestyle}
@@ -98,7 +94,7 @@ const Sidebar = () => {
             <span className="button-text">Profile</span>
           </button>
         </Link>
-        <Link to="/Chat" style={{ padding: "5px 0", textDecoration: "none" }}>
+        <Link to="/Chat" style={{ textDecoration: "none" }}>
           <button
             className="sidebar-button"
             style={isLoggedIn ? linkstyle : disablestyle}
@@ -108,10 +104,7 @@ const Sidebar = () => {
             <span className="button-text">Chat</span>
           </button>
         </Link>
-        <Link
-          to="/Setting"
-          style={{ padding: "5px 0", textDecoration: "none" }}
-        >
+        <Link to="/Setting" style={{ textDecoration: "none" }}>
           <button
             className="sidebar-button"
             style={isLoggedIn ? linkstyle : disablestyle}

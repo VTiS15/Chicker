@@ -7,83 +7,13 @@ import "./ProfilePage.css";
 
 import { getStyling } from "../functions/style";
 
+var posts = [],
+  followersData = [],
+  followingData = [];
+
 export default function ProfilePage() {
   const styling = getStyling();
   const [isOther, setIsOther] = useState(false);
-
-  const followersData = [
-    {
-      name: "John",
-      image: "https://imgur.com/zhRjMzY",
-      age: 20,
-      email: "john@example.com",
-    },
-    {
-      name: "Yuden",
-      image: "https://imgur.com/zhRjMzY",
-      age: 24,
-      email: "yuden@example.com",
-    },
-    {
-      name: "VT",
-      image: "https://imgur.com/zhRjMzY",
-      age: 21,
-      email: "vt@example.com",
-    },
-    {
-      name: "Jack",
-      image: "https://imgur.com/zhRjMzY",
-      age: 21,
-      email: "jack@example.com",
-    },
-    {
-      name: "JC",
-      image: "https://imgur.com/zhRjMzY",
-      age: 21,
-      email: "jc@example.com",
-    },
-    {
-      name: "John",
-      image: "https://imgur.com/zhRjMzY",
-      age: 20,
-      email: "john@example.com",
-    },
-    {
-      name: "Yuden",
-      image: "https://imgur.com/zhRjMzY",
-      age: 24,
-      email: "yuden@example.com",
-    },
-    {
-      name: "VT",
-      image: "https://imgur.com/zhRjMzY",
-      age: 21,
-      email: "vt@example.com",
-    },
-    {
-      name: "Jack",
-      image: "https://imgur.com/zhRjMzY",
-      age: 21,
-      email: "jack@example.com",
-    },
-    {
-      name: "JC",
-      image: "https://imgur.com/zhRjMzY",
-      age: 21,
-      email: "jc@example.com",
-    },
-  ];
-
-  const followingData = [
-    {
-      name: "John",
-      image: { defaultAvatar },
-      age: 20,
-      email: "john@example.com",
-    },
-  ];
-
-  const posts = [];
 
   const postRef = useRef();
   const followerRef = useRef();
@@ -93,6 +23,14 @@ export default function ProfilePage() {
   const handleNavClick = (section) => {
     setActiveSection(section);
   };
+
+  useEffect(() => {
+    fetch("/api/user").then((res) =>
+      res.json().then((data) => {
+        console.log(data);
+      })
+    );
+  });
 
   useEffect(() => {
     if (activeSection === "post") {

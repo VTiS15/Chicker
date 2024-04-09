@@ -14,6 +14,7 @@ from PIL import Image
 from pymongo import DESCENDING
 from werkzeug.datastructures import FileStorage
 from werkzeug.security import check_password_hash, generate_password_hash
+from flask import make_response
 
 
 @login_manager.user_loader
@@ -62,6 +63,24 @@ class GetUsers(Resource):
             response["users"].append(d)
 
         return response, 200
+    
+
+class GetIcon(Resource):
+    parser = reqparse.RequestParser()
+    parser.add_argument("user_id", type=str, required=True, help="ID of target user.")
+
+    def get(self):
+        data = GetIcon.parser.parse_args()
+        fs = gridfs.GridFS(user_db)
+
+        user = user_db.user.find_one({"_id": ObjectId(data.user_id)})
+        if user:
+            try:
+                f = fs.get(ObjectId(user["icon_id"]))
+            except gridfs.NoFile:
+                return {"msg": "File not found."}, 404
+        
+        return make_response(f.read())
 
 
 class UserLogin(Resource):
@@ -76,7 +95,7 @@ class UserLogin(Resource):
         if user:
             if check_password_hash(user["password_hash"], data.password):
                 login_user(User(**json.loads(json_util.dumps(user))))
-                return {"msg": "Success."}, 200
+                return {"user_id": str(current_user._id)}, 200
 
             return {"msg": "Invalid password."}, 401
 
@@ -320,7 +339,7 @@ class UserUpdate(Resource):
                 if (
                     user_db.user.update_one(
                         {"_id": current_user._id},
-                        {"$set": {"icon_id": gridfs.GridFS(user_db).put(f.getvalue())}},
+                        {"$set": {"icon_id": gridfs.GridFS(user_db).put(f.getvalue(), filename=f"{current_user._id}.ico")}},
                     ).modified_count
                     == 1
                 ):
@@ -346,7 +365,6 @@ class SearchUsers(Resource):
             del d["is_admin"]
             del d["followers"]
             del d["followees"]
-            del d["email"]
             del d["date"]
             del d["bio"]
 

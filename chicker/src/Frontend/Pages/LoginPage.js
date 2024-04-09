@@ -6,12 +6,12 @@ import { useGetUsers } from "../functions/getUsers";
 
 let login = false;
 
-export const getUserLogin = () => {
-  return login;
-};
-
 export const setUserLogin = (updatedUserLogin) => {
   login = updatedUserLogin;
+};
+
+export const getUserLogin = () => {
+  return login;
 };
 
 export default function LoginPage() {

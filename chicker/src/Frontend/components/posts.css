@@ -75,12 +75,12 @@
   background-color: #f7f7f7;
   display: flex;
   align-items: center;
-  padding-left: 14%;
+  padding-left: 4%;
+  cursor: pointer;
 }
 
 .post-count.colored {
   color: #ffd500;
-  font-weight: 800;
 }
 
 .post-count {

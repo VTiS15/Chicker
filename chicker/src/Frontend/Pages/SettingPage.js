@@ -10,7 +10,6 @@ export default function SettingPage() {
   const [selectedFontColor, setSelectedFontColor] = useState("white");
   const [sliderValue, setSliderValue] = useState(1);
   const [themeColor, setThemeColor] = useToggle(true);
-
   const handleFontChange = (event) => {
     const font = event.target.value;
     setSelectedFont(font);

@@ -15,8 +15,13 @@
 }
 
 .UserCard > .UserContent {
-  display: inline-flex;
+  display: flex;
   width: inherit;
+  justify-content: space-between;
+}
+
+.UserContent > .UserPreview {
+  display: inline-flex;
 }
 
 .UserCard img {

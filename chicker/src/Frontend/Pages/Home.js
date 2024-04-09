@@ -4,6 +4,7 @@ import PostList from "../components/posts.js";
 import image from "../Pictures/image.png";
 import video from "../Pictures/video.png";
 import { getStyling } from "../functions/style.js";
+import { getUserLogin } from "./LoginPage.js";
 
 import dummy1 from "../Pictures/dummyPictures/dummy (1).png";
 import dummy2 from "../Pictures/dummyPictures/dummy (2).png";
@@ -164,27 +165,32 @@ const commentsOfEachPost = posts.map((post) => post.comments);
 const styling = getStyling();
 
 export default function Home() {
+  const isLoggedIn = getUserLogin();
   return (
     <div className="Home" style={{ styling }}>
       <Sidebar />
       <div className="grid-container">
-        <div className="newPost">
-          <div className="title">Share something?!</div>
-          <textarea
-            className="newPostText"
-            cols="1"
-            placeholder="write something..."
-          ></textarea>
-          <div class="button-container">
-            <button class="left-button">
-              <img src={image}></img>
-            </button>
-            <button class="left-button">
-              <img src={video}></img>
-            </button>
-            <button class="right-button">Post</button>
+        {isLoggedIn ? (
+          <div className="newPost">
+            <div className="title">Share something?!</div>
+            <textarea
+              className="newPostText"
+              cols="1"
+              placeholder="write something..."
+            ></textarea>
+            <div class="button-container">
+              <button class="left-button">
+                <img src={image}></img>
+              </button>
+              <button class="left-button">
+                <img src={video}></img>
+              </button>
+              <button class="right-button">Post</button>
+            </div>
           </div>
-        </div>
+        ) : (
+          <></>
+        )}
         <PostList posts={posts} comments={commentsOfEachPost} />
       </div>
     </div>

@@ -1,7 +1,13 @@
+import profile1 from "../Pictures/dummyPictures/profile (1).jpg";
+import profile2 from "../Pictures/dummyPictures/profile (2).jpg";
+import profile3 from "../Pictures/dummyPictures/profile (3).jpg";
+import profile4 from "../Pictures/dummyPictures/profile (4).jpg";
+import profile5 from "../Pictures/dummyPictures/profile (5).jpg";
+
 export const userData = [
   {
     name: "John",
-    image: "https://imgur.com/zhRjMzY",
+    image: profile5,
     age: 20,
     email: "john@example.com",
     isfollowing: false,
@@ -9,7 +15,7 @@ export const userData = [
   },
   {
     name: "Yuden",
-    image: "https://imgur.com/zhRjMzY",
+    image: profile4,
     age: 24,
     email: "yuden@example.com",
     isfollowingMe: true,
@@ -17,7 +23,7 @@ export const userData = [
   },
   {
     name: "VT",
-    image: "https://imgur.com/zhRjMzY",
+    image: profile3,
     age: 21,
     email: "vt@example.com",
     isfollowingMe: false,
@@ -25,7 +31,7 @@ export const userData = [
   },
   {
     name: "Jack",
-    image: "https://imgur.com/zhRjMzY",
+    image: profile2,
     age: 21,
     email: "jack@example.com",
     isfollowingMe: false,
@@ -33,7 +39,7 @@ export const userData = [
   },
   {
     name: "JC",
-    image: "https://imgur.com/zhRjMzY",
+    image: profile1,
     age: 21,
     email: "jc@example.com",
     isfollowing: true,

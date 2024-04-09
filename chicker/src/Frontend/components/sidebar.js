@@ -114,6 +114,15 @@ const Sidebar = () => {
             <span className="button-text">Setting</span>
           </button>
         </Link>
+        <Link to="/Admin" style={{ textDecoration: "none" }}>
+          <button
+            className="sidebar-button"
+            style={isLoggedIn ? linkstyle : disablestyle}
+            disabled={!isLoggedIn}
+          >
+            <span className="button-text">Admin</span>
+          </button>
+        </Link>
       </div>
       <LogInOut />
     </div>

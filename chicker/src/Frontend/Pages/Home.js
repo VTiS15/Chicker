@@ -166,7 +166,7 @@ const styling = getStyling();
 export default function Home() {
   return (
     <div className="Home" style={{ styling }}>
-      <Sidebar className="SideBar" />
+      <Sidebar />
       <div className="grid-container">
         <div className="newPost">
           <div className="title">Share something?!</div>

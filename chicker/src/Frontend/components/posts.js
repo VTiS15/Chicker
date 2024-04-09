@@ -1,14 +1,14 @@
-import React, { useState, useRef, useEffect } from "react";
 import "./posts.css";
+import React, { useState, useRef, useEffect } from "react";
 import like from "../Pictures/like.png";
 import liked from "../Pictures/liked.png";
 import comment from "../Pictures/comment.png";
 import share from "../Pictures/share.png";
 import send from "../Pictures/send.png";
-import { getStyling } from "../functions/style";
+
+import { getUserLogin } from "../Pages/LoginPage";
 
 function CommentPopup({ post, onClose }) {
-  const styling = getStyling();
   const commentSectionRef = useRef(null);
 
   useEffect(() => {
@@ -52,6 +52,7 @@ function CommentPopup({ post, onClose }) {
 }
 
 function PostList({ posts }) {
+  const isLoggedIn = getUserLogin();
   const [likeStates, setLikeStates] = useState(posts.map(() => false));
   const [showMore, setShowMore] = useState(false);
   const [selectedPost, setSelectedPost] = useState(null); // Track the selected post for comments
@@ -85,8 +86,10 @@ function PostList({ posts }) {
       {posts.map((post, index) => (
         <div key={post.postID} className="post">
           <div className="user-info">
-            <img src={post.user.profilePicture} alt="Profile Picture" />
-            <span className="username">{post.user.username}</span>
+            <div className="IconAndName">
+              <img src={post.user.profilePicture} alt="Profile Picture" />
+              <span className="username">{post.user.username}</span>
+            </div>
             <span className="timestamp">{post.timestamp}</span>
           </div>
           <div className="content">
@@ -118,6 +121,8 @@ function PostList({ posts }) {
                 id="like"
                 className="post-button"
                 onClick={() => handleButtonClick(index)}
+                style={isLoggedIn ? {} : { cursor: "not-allowed" }}
+                disabled={!isLoggedIn}
               >
                 {likeStates[index] ? (
                   <img src={liked} alt="Liked" />
@@ -133,11 +138,17 @@ function PostList({ posts }) {
               <button
                 className="post-button"
                 onClick={() => openCommentPopup(post)} // Pass the post to openCommentPopup
+                style={isLoggedIn ? {} : { cursor: "not-allowed" }}
+                disabled={!isLoggedIn}
               >
                 <img src={comment} alt="Comment" />
                 <span className="post-count">{post.comments}</span>
               </button>
-              <button className="post-button">
+              <button
+                className="post-button"
+                style={isLoggedIn ? {} : { cursor: "not-allowed" }}
+                disabled={!isLoggedIn}
+              >
                 <img src={share} alt="Share" />
                 <span className="post-count">{post.shares}</span>
               </button>

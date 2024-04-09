@@ -129,12 +129,12 @@ class GetPost(Resource):
             return {"msg": "Post not found."}, 404
 
 
-class GetFile(Resource):
+class GetPostFile(Resource):
     parser = reqparse.RequestParser()
     parser.add_argument("file_id", type=str, required=True, help="ID of target file.")
 
     def get(self):
-        data = GetFile.parser.parse_args()
+        data = GetPostFile.parser.parse_args()
         fs = gridfs.GridFS(post_db)
 
         try:

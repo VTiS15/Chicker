@@ -1,8 +1,10 @@
 import json
+from io import BytesIO
 
 import gridfs
 from bson import ObjectId, json_util
 from db import chat_db
+from flask import send_file
 from flask_login import current_user, login_required
 from flask_restful import Resource, reqparse
 from mongo.chat import Chat
@@ -191,3 +193,24 @@ class GetHistory(Resource):
             return response, 200
 
         return {"msg": "Chat not found."}, 404
+
+
+class GetChatFile(Resource):
+    parser = reqparse.RequestParser()
+    parser.add_argument("file_id", type=str, required=True, help="ID of target file.")
+
+    def get(self):
+        data = GetChatFile.parser.parse_args()
+        fs = gridfs.GridFS(chat_db)
+
+        try:
+            f = fs.get(ObjectId(data.file_id))
+        except gridfs.NoFile:
+            return {"msg": "File not found."}, 404
+
+        return send_file(
+            BytesIO(f.read()),
+            mimetype=f.metadata["contentType"],
+            as_attachment=True,
+            download_name=f.filename,
+        )

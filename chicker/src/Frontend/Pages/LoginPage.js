@@ -43,13 +43,14 @@ export default function LoginPage() {
     })
       .then(response => response.json())
       .then(data => {
-        if (data.msg === "Success.") {
-          console.log("Login successfully")
+        if (data.user_id) {
+          console.log("Login successfully");
           setUserLogin(true);
           navigate("/");
         } else {
-          console.log("Login failed")
+          console.log("Login failed");
           alert("Wrong username/password");
+          console.log(data.user_id);
         }
       })
       .catch(error => {

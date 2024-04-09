@@ -42,11 +42,6 @@ class GetUser(Resource):
             del response["password_hash"]
             del response["settings"]
             del response["is_admin"]
-            del response["followers"]
-            del response["followees"]
-            del response["email"]
-            del response["date"]
-            del response["bio"]
 
             return response, 200
 
@@ -283,7 +278,7 @@ class UserRecommend(Resource):
                 for user in user_db.user.find(
                     {"date": {"$gte": datetime.now() - timedelta(days=30)}}
                 ).sort("date", DESCENDING)
-            ][:5]
+            ][:10]
         }
 
 

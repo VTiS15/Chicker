@@ -6,6 +6,7 @@ import gridfs
 from bson import json_util
 from bson.objectid import ObjectId
 from db import chat_db, post_db, user_db
+from flask import make_response
 from flask_login import current_user, login_required, login_user, logout_user
 from flask_restful import Resource, reqparse
 from login import login_manager
@@ -14,7 +15,6 @@ from PIL import Image
 from pymongo import DESCENDING
 from werkzeug.datastructures import FileStorage
 from werkzeug.security import check_password_hash, generate_password_hash
-from flask import make_response
 
 
 @login_manager.user_loader
@@ -63,7 +63,7 @@ class GetUsers(Resource):
             response["users"].append(d)
 
         return response, 200
-    
+
 
 class GetIcon(Resource):
     parser = reqparse.RequestParser()
@@ -79,8 +79,10 @@ class GetIcon(Resource):
                 f = fs.get(ObjectId(user["icon_id"]))
             except gridfs.NoFile:
                 return {"msg": "File not found."}, 404
-        
-        return make_response(f.read())
+
+            return {"data": f.read()}, 200
+
+        return {"msg": "User not found."}, 404
 
 
 class UserLogin(Resource):
@@ -339,7 +341,13 @@ class UserUpdate(Resource):
                 if (
                     user_db.user.update_one(
                         {"_id": current_user._id},
-                        {"$set": {"icon_id": gridfs.GridFS(user_db).put(f.getvalue(), filename=f"{current_user._id}.ico")}},
+                        {
+                            "$set": {
+                                "icon_id": gridfs.GridFS(user_db).put(
+                                    f.getvalue(), filename=f"{current_user._id}.ico"
+                                )
+                            }
+                        },
                     ).modified_count
                     == 1
                 ):

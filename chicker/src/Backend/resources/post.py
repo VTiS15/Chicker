@@ -1,14 +1,15 @@
 import json
+from random import choices
 
 import gridfs
 from bson import ObjectId, json_util
 from db import post_db
+from flask import make_response
 from flask_login import current_user, login_required
 from flask_restful import Resource, reqparse
 from mongo.post import Comment, Post
 from utils import allowed_file
 from werkzeug.datastructures import FileStorage
-from random import choices
 
 
 class PostCreate(Resource):
@@ -54,7 +55,12 @@ class PostCreate(Resource):
         if data.images:
             for image in data.images:
                 if allowed_file(image.filename, {"png", "jpg", "jpeg"}):
-                    image_ids.append(gridfs.GridFS(post_db).put(image.read()))
+                    image_ids.append(
+                        gridfs.GridFS(post_db).put(
+                            image.read(),
+                            filename=f"{ObjectId()}.{image.filename.rsplit('.', 1)[1].lower()}",
+                        )
+                    )
                 else:
                     return {
                         "msg": 'Only images with extension "png", "jpg", and "jpeg" are allowed.'
@@ -63,7 +69,12 @@ class PostCreate(Resource):
         if data.videos:
             for video in data.videos:
                 if allowed_file(video.filename, {"mp4", "mov"}):
-                    video_ids.append(gridfs.GridFS(post_db).put(video.read()))
+                    video_ids.append(
+                        gridfs.GridFS(post_db).put(
+                            video.read(),
+                            filename=f"{ObjectId()}.{video.filename.rsplit('.', 1)[1].lower()}",
+                        )
+                    )
                 else:
                     return {
                         "msg": 'Only videos with extension "mp4" and "mov" are allowed.'
@@ -96,11 +107,27 @@ class GetPost(Resource):
     def get(self):
         data = GetPost.parser.parse_args()
 
-        post= post_db.post.find_one({"_id": ObjectId(data.post_id)})
+        post = post_db.post.find_one({"_id": ObjectId(data.post_id)})
         if post:
             return json.loads(json_util.dumps(post)), 200
         else:
             return {"msg": "Post not found."}, 404
+
+
+class GetFile(Resource):
+    parser = reqparse.RequestParser()
+    parser.add_argument("file_id", type=str, required=True, help="ID of target file.")
+
+    def get(self):
+        data = GetFile.parser.parse_args()
+        fs = gridfs.GridFS(post_db)
+
+        try:
+            f = fs.get(ObjectId(data.file_id))
+        except gridfs.NoFile:
+            return {"msg": "File not found."}, 404
+
+        return {"type": f.filename.rsplit(".", 1)[1].lower(), "data": f.read()}, 200
 
 
 class PostRecommend(Resource):
@@ -112,7 +139,9 @@ class PostRecommend(Resource):
             recommended_posts = posts
 
         return {
-            "recommended_posts": [json.loads(json_util.dumps(p)) for p in recommended_posts]
+            "recommended_posts": [
+                json.loads(json_util.dumps(p)) for p in recommended_posts
+            ]
         }, 200
 
 

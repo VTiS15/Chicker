@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import React, { useContext } from "react";
 import "./sidebar.css";
-import { AuthContext } from "../AuthContext"
+import { getUserLogin, setUserLogin } from "../Pages/LoginPage";
 
 import logo from "../Pictures/IconClear.png";
 import home from "../Pictures/home.svg";
@@ -10,19 +10,29 @@ import profile from "../Pictures/profile.svg";
 import chat from "../Pictures/chat.svg";
 import setting from "../Pictures/setting.svg";
 
-const linkstyle = { textDecoration: "none" };
+const linkstyle = {
+  textDecoration: "none",
+  cursor: "pointer",
+  padding: "5px 10px",
+};
 
 function LogInOut() {
-  const { isLoggedIn, handleLogStatus } = useContext(AuthContext);
+  const isLoggedIn = getUserLogin();
 
   return (
-    <Link to={isLoggedIn ? '/' : '/Login'} style={linkstyle} 
-    className={`${isLoggedIn ? "logoutButtonContainer" : "loginButtonContainer"}`}
-    onClick={handleLogStatus}>
-      <button className={`${isLoggedIn ? "logoutButton" : "loginButton"}`}>
-        {isLoggedIn ? "LOGOUT" : "LOGIN"}
-      </button>
-    </Link>
+    <>
+      {isLoggedIn ? (
+        <Link to="/" className="logoutButtonContainer">
+          <button className="logoutButton" onClick={setUserLogin(false)}>
+            LogOut
+          </button>
+        </Link>
+      ) : (
+        <Link to="/Login" className="loginButtonContainer" style={linkstyle}>
+          <button className="loginButton">LogIn</button>
+        </Link>
+      )}
+    </>
   );
 }
 

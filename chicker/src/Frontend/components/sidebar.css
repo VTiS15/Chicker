@@ -77,7 +77,6 @@
   }
 }
 
-
 .loginButtonContainer {
   display: flex;
   justify-content: center;
@@ -85,7 +84,7 @@
   border-radius: 20px;
   margin-top: auto;
   margin-bottom: 20%;
-  background-color: rgb(225, 172, 0);
+  background-color: #dfb682;
 }
 
 .logoutButtonContainer {
@@ -95,15 +94,23 @@
   border-radius: 20px;
   margin-top: auto;
   margin-bottom: 20%;
-  background-color:  #b740a9;
+  background-color: #a06499;
 }
 
 .loginButton {
   border: none;
-  background-color: rgb(225, 172, 0);
+  background-color: #dfb682;
+}
+
+.loginButton:hover {
+  opacity: 0.5;
 }
 
 .logoutButton {
   border: none;
-  background-color:  transparent;
+  background-color: transparent;
+}
+
+.logoutButton:hover {
+  opacity: 0.5;
 }

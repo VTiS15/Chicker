@@ -42,11 +42,6 @@ class GetUser(Resource):
             del response["password_hash"]
             del response["settings"]
             del response["is_admin"]
-            del response["followers"]
-            del response["followees"]
-            del response["email"]
-            del response["date"]
-            del response["bio"]
 
             return response, 200
 

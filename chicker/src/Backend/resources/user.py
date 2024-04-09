@@ -6,13 +6,14 @@ import gridfs
 from bson import json_util
 from bson.objectid import ObjectId
 from db import chat_db, post_db, user_db
-from flask import make_response
+from flask import send_file
 from flask_login import current_user, login_required, login_user, logout_user
 from flask_restful import Resource, reqparse
 from login import login_manager
 from mongo.user import User
 from PIL import Image
 from pymongo import DESCENDING
+from utils import allowed_file
 from werkzeug.datastructures import FileStorage
 from werkzeug.security import check_password_hash, generate_password_hash
 
@@ -80,7 +81,12 @@ class GetIcon(Resource):
             except gridfs.NoFile:
                 return {"msg": "File not found."}, 404
 
-            return {"data": f.read()}, 200
+            return send_file(
+                BytesIO(f.read()),
+                mimetype="image/vnd.microsoft.icon",
+                as_attachment=True,
+                download_name=f.filename,
+            )
 
         return {"msg": "User not found."}, 404
 
@@ -334,24 +340,29 @@ class UserUpdate(Resource):
                 if file:
                     user_db.fs.chunks.delete_many({"files_id": file["_id"]})
 
-            icon = Image.open(data.icon)
-            icon.resize((64, 64))
-            with BytesIO() as f:
-                icon.save(f, format="ICO")
-                if (
-                    user_db.user.update_one(
-                        {"_id": current_user._id},
-                        {
-                            "$set": {
-                                "icon_id": gridfs.GridFS(user_db).put(
-                                    f.getvalue(), filename=f"{current_user._id}.ico"
-                                )
-                            }
-                        },
-                    ).modified_count
-                    == 1
-                ):
-                    return {"msg": "Success."}, 200
+            if allowed_file(data.icon.filename, {"png", "jpg", "jpeg", "ico"}):
+                icon = Image.open(data.icon)
+                icon.resize((64, 64))
+                with BytesIO() as f:
+                    icon.save(f, format="ICO")
+                    if (
+                        user_db.user.update_one(
+                            {"_id": current_user._id},
+                            {
+                                "$set": {
+                                    "icon_id": gridfs.GridFS(user_db).put(
+                                        f.getvalue(), filename=f"{current_user._id}.ico"
+                                    )
+                                }
+                            },
+                        ).modified_count
+                        == 1
+                    ):
+                        return {"msg": "Success."}, 200
+
+                return {
+                    "msg": 'Only images with extension "png", "jpg", "jpeg", and "ico" are allowed.'
+                }, 400
 
             return {"msg": "Unexpected error occurred."}, 500
 

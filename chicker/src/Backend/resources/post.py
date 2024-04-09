@@ -1,10 +1,11 @@
 import json
+from io import BytesIO
 from random import choices
 
 import gridfs
 from bson import ObjectId, json_util
 from db import post_db
-from flask import make_response
+from flask import send_file
 from flask_login import current_user, login_required
 from flask_restful import Resource, reqparse
 from mongo.post import Comment, Post
@@ -55,10 +56,17 @@ class PostCreate(Resource):
         if data.images:
             for image in data.images:
                 if allowed_file(image.filename, {"png", "jpg", "jpeg"}):
+                    extension = image.filename.rsplit(".", 1)[1].lower()
+                    if extension == "png":
+                        mimetype = "image/png"
+                    else:
+                        mimetype = "image/jpeg"
+
                     image_ids.append(
                         gridfs.GridFS(post_db).put(
                             image.read(),
-                            filename=f"{ObjectId()}.{image.filename.rsplit('.', 1)[1].lower()}",
+                            filename=f"{ObjectId()}.{extension}",
+                            metadata={"contentType": mimetype},
                         )
                     )
                 else:
@@ -69,10 +77,17 @@ class PostCreate(Resource):
         if data.videos:
             for video in data.videos:
                 if allowed_file(video.filename, {"mp4", "mov"}):
+                    extension = video.filename.rsplit(".", 1)[1].lower()
+                    if extension == "mp4":
+                        mimetype = "video/mp4"
+                    else:
+                        mimetype = "video/quicktime"
+
                     video_ids.append(
                         gridfs.GridFS(post_db).put(
                             video.read(),
-                            filename=f"{ObjectId()}.{video.filename.rsplit('.', 1)[1].lower()}",
+                            filename=f"{ObjectId()}.{extension}",
+                            metadata={"contentType": mimetype},
                         )
                     )
                 else:
@@ -127,7 +142,12 @@ class GetFile(Resource):
         except gridfs.NoFile:
             return {"msg": "File not found."}, 404
 
-        return {"type": f.filename.rsplit(".", 1)[1].lower(), "data": f.read()}, 200
+        return send_file(
+            BytesIO(f.read()),
+            mimetype=f.metadata["contentType"],
+            as_attachment=True,
+            download_name=f.filename,
+        )
 
 
 class PostRecommend(Resource):

@@ -98,9 +98,19 @@ class MessageSend(Resource):
 
             if data.images:
                 for image in data.images:
-                    if allowed_file(image.filename, ["png", "jpg", "jpeg"]):
+                    if allowed_file(image.filename, {"png", "jpg", "jpeg"}):
+                        extension = image.filename.rsplit(".", 1)[1].lower()
+                        if extension == "png":
+                            mimetype = "image/png"
+                        else:
+                            mimetype = "image/jpeg"
+
                         message["image_ids"].append(
-                            gridfs.GridFS(chat_db).put(image.read())
+                            gridfs.GridFS(chat_db).put(
+                                image.read(),
+                                filename=f"{ObjectId()}.{extension}",
+                                metadata={"contentType": mimetype},
+                            )
                         )
                     else:
                         return {
@@ -109,13 +119,23 @@ class MessageSend(Resource):
 
             if data.videos:
                 for video in data.videos:
-                    if allowed_file(video.filename, ["mp4", "mov"]):
+                    if allowed_file(video.filename, {"mp4", "mov"}):
+                        extension = video.filename.rsplit(".", 1)[1].lower()
+                        if extension == "mp4":
+                            mimetype = "video/mp4"
+                        else:
+                            mimetype = "video/quicktime"
+
                         message["video_ids"].append(
-                            gridfs.GridFS(chat_db).put(video.read())
+                            gridfs.GridFS(chat_db).put(
+                                video.read(),
+                                filename=f"{ObjectId()}.{extension}",
+                                metadata={"contentType": mimetype},
+                            )
                         )
                     else:
                         return {
-                            "msg": 'Only videos with extension "mp4" and "mov" are allowed.'
+                            "msg": 'Only videos with extension "mp4" are allowed.'
                         }, 400
 
             if (

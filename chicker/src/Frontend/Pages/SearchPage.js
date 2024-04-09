@@ -18,24 +18,56 @@ export default function SearchPage() {
   const [showSearchResult, setShowSearchResult] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [results, setResults] = useState([]);
+  const [users, setUsers] = useState([]);
+  const [recommandUserID, setRecommandUserID] = useState([]);
+  const [recommandPostID, setRecommandPostID] = useState([]);
 
   const handleSearch = (event) => {
     event.preventDefault();
     setShowSearchResult(true);
-    setResults(searchUsers(searchTerm, userData));
+    setResults(searchUsers(searchTerm, users));
   };
 
   const searchUsers = (term) => {
-    return userData.filter((user) => {
-      return user.name.toLowerCase().includes(term.toLowerCase());
+    return users.filter((user) => {
+      return user.username.toLowerCase().includes(term.toLowerCase());
     });
   };
+
+  useEffect(() => {
+    fetch("/api/users").then((res) =>
+      res.json().then((data) => {
+        const modifiedUsers = data.users.map((user) => ({
+          id: user._id.$oid,
+          username: user.username,
+          email: user.email,
+        }));
+        setUsers(modifiedUsers);
+      })
+    );
+
+    fetch("/api/user/recommend").then((res) =>
+      res.json().then((data) => {
+        setRecommandUserID(data);
+      })
+    );
+
+    fetch("/api/post/recommend").then((res) =>
+      res.json().then((data) => {
+        setRecommandPostID(data);
+      })
+    );
+  }, []);
+
+  const recommendedUsers = users.filter((user) => {
+    return [].concat(...Object.values(recommandUserID)).includes(user.id);
+  });
 
   return (
     <body style={{ ...styling }}>
       <Sidebar className="SideBar" />{" "}
       <div className="SearchPage">
-        <h2 className="SearchTitle">Search for Users, Posts</h2>
+        <h2 className="SearchTitle">Search for Users</h2>
         <form
           className="SearchForm"
           role="search"
@@ -61,7 +93,7 @@ export default function SearchPage() {
               <div className="SearchResultBox">
                 {results.map((data) => (
                   <UserCard
-                    Username={data.name}
+                    Username={data.username}
                     UserIcon={data.image}
                     UserEmail={data.email}
                     UserStatus={data.isfollowing}
@@ -70,7 +102,7 @@ export default function SearchPage() {
               </div>
             ) : (
               <>
-                <div>No matchces...</div>
+                <div>No matches...</div>
                 <img
                   src={CryPic}
                   style={{ height: "50vh", borderRadius: "12px" }}
@@ -81,7 +113,7 @@ export default function SearchPage() {
         ) : (
           <div className="Recommandation">
             <div className="RecommandationNavBar">
-              <p className="RecommandationTitle">Recommand to you: </p>
+              <p className="RecommandationTitle">Recommend to you: </p>
               <input
                 type="checkbox"
                 id="toggle"
@@ -96,9 +128,9 @@ export default function SearchPage() {
             <div className="RecommandationBox">
               {recommandationtype ? (
                 <>
-                  {userData.map((data) => (
+                  {recommendedUsers.map((data) => (
                     <UserCard
-                      Username={data.name}
+                      Username={data.username}
                       UserIcon={data.image}
                       UserEmail={data.email}
                       UserStatus={data.isfollowing}

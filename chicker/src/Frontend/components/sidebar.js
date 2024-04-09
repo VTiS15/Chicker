@@ -20,13 +20,30 @@ const disablestyle = {
 };
 
 function LogInOut() {
+
   const isLoggedIn = getUserLogin();
   const navigate = useNavigate();
 
-  const handleLogOut = () => {
-    setUserLogin(false);
-    navigate("/");
-    window.location.reload();
+  const handleLogOut = (event) => {
+    event.preventDefault();
+    fetch('/api/logout', {
+      method: 'POST',
+    })
+      .then(response => response.json())
+      .then(data => {
+        if (data.msg === "Success.") {
+          console.log("Logout successfully")
+          setUserLogin(false);
+          navigate("/");
+          window.location.reload();
+        } else {
+          console.log("Logout failed")
+          alert("Logout failed");
+        }
+      })
+      .catch(error => {
+        // Handle any errors
+      });
   };
 
   return (

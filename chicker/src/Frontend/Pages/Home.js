@@ -1,8 +1,9 @@
 import "./Home.css";
-import Sidebar from '../components/sidebar.js';
-import PostList from '../components/posts.js';
+import Sidebar from "../components/sidebar.js";
+import PostList from "../components/posts.js";
 import image from "../Pictures/image.png";
 import video from "../Pictures/video.png";
+import { getStyling } from "../functions/style.js";
 
 import dummy1 from "../Pictures/dummyPictures/dummy (1).png";
 import dummy2 from "../Pictures/dummyPictures/dummy (2).png";
@@ -22,56 +23,117 @@ const posts = [
   {
     postID: 1,
     user: {
-      username: 'JohnDoe',
+      username: "JohnDoe",
       profilePicture: profile1,
     },
-    timestamp: '2 hours ago',
-    text: 'This is the first post. Lorem ipsum dolor sit amet, adipiscing elit. In this example, the component maintains a state variable isTextColored using the useState hook. It starts with an initial value of false. The handleButtonClick function is responsible for toggling the value of isTextColored when the button is clicked. It uses the setIsTextColored function to update the state. The button\'s className is conditionally set based on the value of isTextColored. If isTextColored is true, the button will have the additional class colored. You can define CSS styles for the colored class to change the text color. When the button is clicked, the handleButtonClick function is invoked, triggering the state update and causing a re-render of the component. As a result, the button\'s text color will toggle based on the value of isTextColored. This is the first post. Lorem ipsum dolor sit amet, consectetur adipiscing elit. In this example, the ButtonTextColorToggle component maintains a state variable isTextColored using the useState hook. It starts with an initial value of false. The handleButtonClick function is responsible for toggling the value of isTextColored when the button is clicked. It uses the setIsTextColored function to update the state. The button\'s className is conditionally set based on the value of isTextColored. If isTextColored is true, the button will have the additional class colored. You can define CSS styles for the colored class to change the text color. When the button is clicked, the handleButtonClick function is invoked, triggering the state update and causing a re-render of the component. As a result, the button\'s text color will toggle based on the value of isTextColored. This is the first post. Lorem ipsum dolor sit amet, consectetur adipiscing elit. In this example, the ButtonTextColorToggle component maintains a state variable isTextColored using the useState hook. It starts with an initial value of false. The handleButtonClick function is responsible for toggling the value of isTextColored when the button is clicked. It uses the setIsTextColored function to update the state. The button\'s className is conditionally set based on the value of isTextColored. If isTextColored is true, the button will have the additional class colored. You can define CSS styles for the colored class to change the text color. When the button is clicked, the handleButtonClick function is invoked, triggering the state update and causing a re-render of the component. As a result, the button\'s text color will toggle based on the value of isTextColored. This is the first post. Lorem ipsum dolor sit amet, consectetur adipiscing elit. In this example, the ButtonTextColorToggle component maintains a state variable isTextColored using the useState hook. It starts with an initial value of false. The handleButtonClick function is responsible for toggling the value of isTextColored when the button is clicked. It uses the setIsTextColored function to update the state. The button\'s className is conditionally set based on the value of isTextColored. If isTextColored is true, the button will have the additional class colored. You can define CSS styles for the colored class to change the text color. When the button is clicked, the handleButtonClick function is invoked, triggering the state update and causing a re-render of the component. As a result, the button\'s text color will toggle based on the value of isTextColored.',
+    timestamp: "2 hours ago",
+    text: "This is the first post. Lorem ipsum dolor sit amet, adipiscing elit. In this example, the component maintains a state variable isTextColored using the useState hook. It starts with an initial value of false. The handleButtonClick function is responsible for toggling the value of isTextColored when the button is clicked. It uses the setIsTextColored function to update the state. The button's className is conditionally set based on the value of isTextColored. If isTextColored is true, the button will have the additional class colored. You can define CSS styles for the colored class to change the text color. When the button is clicked, the handleButtonClick function is invoked, triggering the state update and causing a re-render of the component. As a result, the button's text color will toggle based on the value of isTextColored. This is the first post. Lorem ipsum dolor sit amet, consectetur adipiscing elit. In this example, the ButtonTextColorToggle component maintains a state variable isTextColored using the useState hook. It starts with an initial value of false. The handleButtonClick function is responsible for toggling the value of isTextColored when the button is clicked. It uses the setIsTextColored function to update the state. The button's className is conditionally set based on the value of isTextColored. If isTextColored is true, the button will have the additional class colored. You can define CSS styles for the colored class to change the text color. When the button is clicked, the handleButtonClick function is invoked, triggering the state update and causing a re-render of the component. As a result, the button's text color will toggle based on the value of isTextColored. This is the first post. Lorem ipsum dolor sit amet, consectetur adipiscing elit. In this example, the ButtonTextColorToggle component maintains a state variable isTextColored using the useState hook. It starts with an initial value of false. The handleButtonClick function is responsible for toggling the value of isTextColored when the button is clicked. It uses the setIsTextColored function to update the state. The button's className is conditionally set based on the value of isTextColored. If isTextColored is true, the button will have the additional class colored. You can define CSS styles for the colored class to change the text color. When the button is clicked, the handleButtonClick function is invoked, triggering the state update and causing a re-render of the component. As a result, the button's text color will toggle based on the value of isTextColored. This is the first post. Lorem ipsum dolor sit amet, consectetur adipiscing elit. In this example, the ButtonTextColorToggle component maintains a state variable isTextColored using the useState hook. It starts with an initial value of false. The handleButtonClick function is responsible for toggling the value of isTextColored when the button is clicked. It uses the setIsTextColored function to update the state. The button's className is conditionally set based on the value of isTextColored. If isTextColored is true, the button will have the additional class colored. You can define CSS styles for the colored class to change the text color. When the button is clicked, the handleButtonClick function is invoked, triggering the state update and causing a re-render of the component. As a result, the button's text color will toggle based on the value of isTextColored.",
     image: dummy1,
     video: null,
     likes: 10,
     comments: 5,
-    commentContent: [{image: profile1, commenter: "John", comment: "On 1st post"}, {image: profile2, commenter: "Jack", comment: "1st post. post. dolor sit amet, adipiscing elit. In this example, the component maintains a state variable. Lorem ipsum dolor sit amet, adipiscing elit. In this example, the component maintains a state variable."}, {image: profile3, commenter: "Jason", comment: "1st post, fantastic"}],
+    commentContent: [
+      { image: profile1, commenter: "John", comment: "On 1st post" },
+      {
+        image: profile2,
+        commenter: "Jack",
+        comment:
+          "1st post. post. dolor sit amet, adipiscing elit. In this example, the component maintains a state variable. Lorem ipsum dolor sit amet, adipiscing elit. In this example, the component maintains a state variable.",
+      },
+      { image: profile3, commenter: "Jason", comment: "1st post, fantastic" },
+      { image: profile3, commenter: "Jason", comment: "1st post, fantastic" },
+      { image: profile3, commenter: "Jason", comment: "1st post, fantastic" },
+      { image: profile3, commenter: "Jason", comment: "1st post, fantastic" },
+      { image: profile3, commenter: "Jason", comment: "1st post, fantastic" },
+      { image: profile3, commenter: "Jason", comment: "1st post, fantastic" },
+      { image: profile3, commenter: "Jason", comment: "1st post, fantastic" },
+      { image: profile3, commenter: "Jason", comment: "1st post, fantastic" },
+    ],
     shares: 3,
   },
   {
     postID: 2,
     user: {
-      username: 'JaneSmith',
+      username: "JaneSmith",
       profilePicture: profile2,
     },
-    timestamp: '1 day ago',
-    text: 'Check out this beautiful view!',
+    timestamp: "1 day ago",
+    text: "Check out this beautiful view!",
     image: null,
     video: video1,
     likes: 7,
     comments: 2,
-    commentContent: [{image: profile1, commenter: "John", comment: "2nd post, Lorem ipsum dolor sit amet, adipiscing elit. In this example, the component maintains a state variable. Lorem ipsum dolor sit amet, adipiscing elit. In this example, the component maintains a state variable."}, {image: profile2, commenter: "Jack", comment: "2nd post, Nice"}],
+    commentContent: [
+      {
+        image: profile1,
+        commenter: "John",
+        comment:
+          "2nd post, Lorem ipsum dolor sit amet, adipiscing elit. In this example, the component maintains a state variable. Lorem ipsum dolor sit amet, adipiscing elit. In this example, the component maintains a state variable.",
+      },
+      { image: profile2, commenter: "Jack", comment: "2nd post, Nice" },
+    ],
     shares: 1,
   },
   {
     postID: 3,
     user: {
-      username: 'MikeJohnson',
+      username: "MikeJohnson",
       profilePicture: profile3,
     },
-    timestamp: '3 days ago',
-    text: 'Just had an amazing meal at the new restaurant!',
+    timestamp: "3 days ago",
+    text: "Just had an amazing meal at the new restaurant!",
     image: null,
     video: null,
     likes: 15,
     comments: 8,
-    commentContent: [{image: profile1, commenter: "John", comment: "3rd post, Lorem ipsum dolor sit amet, adipiscing elit. In this example, the component maintains a state variable. Lorem ipsum dolor sit amet, adipiscing elit. In this example, the component maintains a state variable."}, {image: profile2, commenter: "Jack", comment: "3d post, Nice"}, {image: profile3, commenter: "John", comment: "3rd post, Nice"}, {image: profile4, commenter: "Jack", comment: "3rd post, Nice"}, {image: profile2, commenter: "Jack", comment: "3d post, Nice"}, {image: profile3, commenter: "John", comment: "3rd post, Nice"}, {image: profile4, commenter: "Jack", comment: "3rd post, Nice"}, {image: profile2, commenter: "Jack", comment: "3d post, Nice"}, {image: profile3, commenter: "John", comment: "3rd post, Nice"}, {image: profile4, commenter: "Jack", comment: "3rd post, Nice"}, {image: profile2, commenter: "Jack", comment: "3d post, Nice"}, {image: profile3, commenter: "John", comment: "3rd post, Nice"}, {image: profile4, commenter: "Jack", comment: "3rd post, Nice"}, {image: profile2, commenter: "Jack", comment: "3d post, Nice"}, {image: profile3, commenter: "John", comment: "3rd post, Nice"}, {image: profile4, commenter: "Jack", comment: "3rd post, Nice"}, {image: profile2, commenter: "Jack", comment: "3d post, Nice"}, {image: profile3, commenter: "John", comment: "3rd post, Nice"}, {image: profile4, commenter: "Jack", comment: "3rd post, Nice"}, {image: profile2, commenter: "Jack", comment: "3d post, Nice"}, {image: profile3, commenter: "John", comment: "3rd post, Nice"}, {image: profile4, commenter: "Jack", comment: "3rd post, Nice"}, {image: profile2, commenter: "Jack", comment: "3d post, Nice"}, {image: profile3, commenter: "John", comment: "3rd post, Nice"}, {image: profile4, commenter: "Jack", comment: "3rd post, Nice"}, {image: profile2, commenter: "Jack", comment: "3d post, Nice"}, {image: profile3, commenter: "John", comment: "3rd post, Nice"}, {image: profile4, commenter: "Jack", comment: "3rd post, Nice"}, {image: profile2, commenter: "Jack", comment: "3d post, Nice"}, {image: profile3, commenter: "John", comment: "3rd post, Nice"}, {image: profile4, commenter: "Jack", comment: "3rd post, Nice"}],
+    commentContent: [
+      {
+        image: profile1,
+        commenter: "John",
+        comment:
+          "3rd post, Lorem ipsum dolor sit amet, adipiscing elit. In this example, the component maintains a state variable. Lorem ipsum dolor sit amet, adipiscing elit. In this example, the component maintains a state variable.",
+      },
+      { image: profile2, commenter: "Jack", comment: "3d post, Nice" },
+      { image: profile3, commenter: "John", comment: "3rd post, Nice" },
+      { image: profile4, commenter: "Jack", comment: "3rd post, Nice" },
+      { image: profile2, commenter: "Jack", comment: "3d post, Nice" },
+      { image: profile3, commenter: "John", comment: "3rd post, Nice" },
+      { image: profile4, commenter: "Jack", comment: "3rd post, Nice" },
+      { image: profile2, commenter: "Jack", comment: "3d post, Nice" },
+      { image: profile3, commenter: "John", comment: "3rd post, Nice" },
+      { image: profile4, commenter: "Jack", comment: "3rd post, Nice" },
+      { image: profile2, commenter: "Jack", comment: "3d post, Nice" },
+      { image: profile3, commenter: "John", comment: "3rd post, Nice" },
+      { image: profile4, commenter: "Jack", comment: "3rd post, Nice" },
+      { image: profile2, commenter: "Jack", comment: "3d post, Nice" },
+      { image: profile3, commenter: "John", comment: "3rd post, Nice" },
+      { image: profile4, commenter: "Jack", comment: "3rd post, Nice" },
+      { image: profile2, commenter: "Jack", comment: "3d post, Nice" },
+      { image: profile3, commenter: "John", comment: "3rd post, Nice" },
+      { image: profile4, commenter: "Jack", comment: "3rd post, Nice" },
+      { image: profile2, commenter: "Jack", comment: "3d post, Nice" },
+      { image: profile3, commenter: "John", comment: "3rd post, Nice" },
+      { image: profile4, commenter: "Jack", comment: "3rd post, Nice" },
+      { image: profile2, commenter: "Jack", comment: "3d post, Nice" },
+      { image: profile3, commenter: "John", comment: "3rd post, Nice" },
+      { image: profile4, commenter: "Jack", comment: "3rd post, Nice" },
+      { image: profile2, commenter: "Jack", comment: "3d post, Nice" },
+      { image: profile3, commenter: "John", comment: "3rd post, Nice" },
+      { image: profile4, commenter: "Jack", comment: "3rd post, Nice" },
+      { image: profile2, commenter: "Jack", comment: "3d post, Nice" },
+      { image: profile3, commenter: "John", comment: "3rd post, Nice" },
+      { image: profile4, commenter: "Jack", comment: "3rd post, Nice" },
+    ],
     shares: 2,
   },
   {
     postID: 4,
     user: {
-      username: 'Johnny',
+      username: "Johnny",
       profilePicture: profile4,
     },
-    timestamp: '4 day ago',
-    text: 'Check out this beautiful view!',
+    timestamp: "4 day ago",
+    text: "Check out this beautiful view!",
     image: dummy4,
     video: null,
     likes: 7,
@@ -82,44 +144,49 @@ const posts = [
   {
     postID: 5,
     user: {
-      username: 'JamesMcGill',
+      username: "JamesMcGill",
       profilePicture: profile5,
     },
-    timestamp: '8 day ago',
-    text: 'Check out this beautiful view!',
+    timestamp: "8 day ago",
+    text: "Check out this beautiful view!",
     image: dummy5,
     video: null,
     likes: 7,
     comments: 2,
-    commentContent: [{image: profile1, commenter: "Jack", comment: "5th post, Nice"}],
+    commentContent: [
+      { image: profile1, commenter: "Jack", comment: "5th post, Nice" },
+    ],
     shares: 1,
   },
 ];
 
-const commentsOfEachPost = posts.map(post => post.comments);
+const commentsOfEachPost = posts.map((post) => post.comments);
+const styling = getStyling();
 
 export default function Home() {
   return (
-    <div className="Home">
-    <Sidebar className="SideBar" />
-    <div className="grid-container">
-      <div className="newPost">
-        <div className="title">Share something?!</div>
-        <textarea className="newPostText" cols="1"></textarea>
-        <div class="button-container">
-          <button class="left-button">
-            <img src={image}></img>
-          </button>
-          <button class="left-button">
-            <img src={video}></img>
-          </button>
-          <button class="right-button">
-            Post
-          </button>
+    <div className="Home" style={{ styling }}>
+      <Sidebar />
+      <div className="grid-container">
+        <div className="newPost">
+          <div className="title">Share something?!</div>
+          <textarea
+            className="newPostText"
+            cols="1"
+            placeholder="write something..."
+          ></textarea>
+          <div class="button-container">
+            <button class="left-button">
+              <img src={image}></img>
+            </button>
+            <button class="left-button">
+              <img src={video}></img>
+            </button>
+            <button class="right-button">Post</button>
+          </div>
         </div>
+        <PostList posts={posts} comments={commentsOfEachPost} />
       </div>
-      <PostList posts={posts} comments={commentsOfEachPost}/>
-    </div>
     </div>
   );
 }

@@ -42,7 +42,7 @@ h1 {
 
 .NavBarButton button:hover {
   cursor: pointer;
-  background-color: #81633b;
+  opacity: 0.5;
 }
 
 .WrapperContainer {

@@ -35,6 +35,7 @@ api.add_resource(SettingsUpdate, "/api/settings/update")
 
 api.add_resource(PostCreate, "/api/post/create")
 api.add_resource(GetPost, "/api/post")
+api.add_resource(GetFile, "/api/file")
 api.add_resource(PostRecommend, "/api/post/recommend")
 api.add_resource(PostUpdate, "/api/post/update")
 api.add_resource(PostLike, "/api/post/like")

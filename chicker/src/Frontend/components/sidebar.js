@@ -40,6 +40,7 @@ function LogInOut() {
             padding: "5px 10px",
             marginBottom: "20px",
           }}
+          onClick={handleLogOut}
         >
           <button className="logoutButton" onClick={handleLogOut}>
             Logout

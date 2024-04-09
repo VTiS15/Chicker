@@ -9,6 +9,7 @@ import search from "../Pictures/search.svg";
 import profile from "../Pictures/profile.svg";
 import chat from "../Pictures/chat.svg";
 import setting from "../Pictures/setting.svg";
+import admin from "../Pictures/admin.svg";
 
 const linkstyle = {
   textDecoration: "none",
@@ -138,6 +139,7 @@ const Sidebar = () => {
             style={isLoggedIn ? linkstyle : disablestyle}
             disabled={!isLoggedIn}
           >
+            <img className="icon" src={admin} alt="Home" />
             <span className="button-text">Admin</span>
           </button>
         </Link>

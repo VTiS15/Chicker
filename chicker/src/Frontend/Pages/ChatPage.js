@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import Sidebar from "../components/sidebar";
 import send from "../Pictures/send.png";
 import { getStyling } from "../functions/style";
+
 import "./ChatPage.css";
 
 import profile1 from "../Pictures/dummyPictures/profile (1).jpg";
@@ -85,7 +86,7 @@ export default function ChatPage() {
   };
 
   return (
-    <div className="ChatPage" style={{ styling }}>
+    <div className="ChatPage" style={{ ...styling }}>
       <Sidebar className="SideBar" />
       <div className="chatContent">
         <div className="FriendsList">

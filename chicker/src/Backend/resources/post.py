@@ -1,8 +1,10 @@
 import json
+from random import choices
 
 import gridfs
 from bson import ObjectId, json_util
 from db import post_db
+from flask import make_response
 from flask_login import current_user, login_required
 from flask_restful import Resource, reqparse
 from mongo.post import Comment, Post
@@ -10,7 +12,7 @@ from utils import allowed_file
 from werkzeug.datastructures import FileStorage
 
 
-class CreatePost(Resource):
+class PostCreate(Resource):
     parser = reqparse.RequestParser()
     parser.add_argument(
         "text",
@@ -42,7 +44,7 @@ class CreatePost(Resource):
 
     @login_required
     def post(self):
-        data = CreatePost.parser.parse_args()
+        data = PostCreate.parser.parse_args()
 
         if not data.text and not data.images and not data.videos:
             return {"msg": "Input is null."}, 400
@@ -53,7 +55,12 @@ class CreatePost(Resource):
         if data.images:
             for image in data.images:
                 if allowed_file(image.filename, {"png", "jpg", "jpeg"}):
-                    image_ids.append(gridfs.GridFS(post_db).put(image.read()))
+                    image_ids.append(
+                        gridfs.GridFS(post_db).put(
+                            image.read(),
+                            filename=f"{ObjectId()}.{image.filename.rsplit('.', 1)[1].lower()}",
+                        )
+                    )
                 else:
                     return {
                         "msg": 'Only images with extension "png", "jpg", and "jpeg" are allowed.'
@@ -62,7 +69,12 @@ class CreatePost(Resource):
         if data.videos:
             for video in data.videos:
                 if allowed_file(video.filename, {"mp4", "mov"}):
-                    video_ids.append(gridfs.GridFS(post_db).put(video.read()))
+                    video_ids.append(
+                        gridfs.GridFS(post_db).put(
+                            video.read(),
+                            filename=f"{ObjectId()}.{video.filename.rsplit('.', 1)[1].lower()}",
+                        )
+                    )
                 else:
                     return {
                         "msg": 'Only videos with extension "mp4" and "mov" are allowed.'
@@ -95,14 +107,45 @@ class GetPost(Resource):
     def get(self):
         data = GetPost.parser.parse_args()
 
-        post_data = post_db.post.find_one({"_id": ObjectId(data.post_id)})
-        if post_data:
-            return json.loads(json_util.dumps(post_data)), 200
+        post = post_db.post.find_one({"_id": ObjectId(data.post_id)})
+        if post:
+            return json.loads(json_util.dumps(post)), 200
         else:
             return {"msg": "Post not found."}, 404
 
 
-class UpdatePost(Resource):
+class GetFile(Resource):
+    parser = reqparse.RequestParser()
+    parser.add_argument("file_id", type=str, required=True, help="ID of target file.")
+
+    def get(self):
+        data = GetFile.parser.parse_args()
+        fs = gridfs.GridFS(post_db)
+
+        try:
+            f = fs.get(ObjectId(data.file_id))
+        except gridfs.NoFile:
+            return {"msg": "File not found."}, 404
+
+        return {"type": f.filename.rsplit(".", 1)[1].lower(), "data": f.read()}, 200
+
+
+class PostRecommend(Resource):
+    def get(self):
+        posts = list(post_db.post.find({}))
+        if len(posts) > 5:
+            recommended_posts = choices(posts, k=5)
+        else:
+            recommended_posts = posts
+
+        return {
+            "recommended_posts": [
+                json.loads(json_util.dumps(p)) for p in recommended_posts
+            ]
+        }, 200
+
+
+class PostUpdate(Resource):
     parser = reqparse.RequestParser()
     parser.add_argument(
         "is_private",
@@ -119,7 +162,7 @@ class UpdatePost(Resource):
 
     @login_required
     def post(self):
-        data = UpdatePost.parser.parse_args()
+        data = PostUpdate.parser.parse_args()
 
         if (
             post_db.post.update_one(
@@ -133,7 +176,7 @@ class UpdatePost(Resource):
         return {"msg": "Post not found"}, 404
 
 
-class LikePost(Resource):
+class PostLike(Resource):
     parser = reqparse.RequestParser()
     parser.add_argument(
         "post_id",
@@ -144,7 +187,7 @@ class LikePost(Resource):
 
     @login_required
     def post(self):
-        data = LikePost.parser.parse_args()
+        data = PostLike.parser.parse_args()
 
         post_id = ObjectId(data.post_id)
         post = post_db.post.find_one({"_id": post_id})
@@ -168,7 +211,7 @@ class LikePost(Resource):
         return {"msg": "Post not found."}, 404
 
 
-class UnlikePost(Resource):
+class PostUnlike(Resource):
     parser = reqparse.RequestParser()
     parser.add_argument(
         "post_id",
@@ -179,7 +222,7 @@ class UnlikePost(Resource):
 
     @login_required
     def post(self):
-        data = UnlikePost.parser.parse_args()
+        data = PostUnlike.parser.parse_args()
 
         post_id = ObjectId(data.post_id)
         post = post_db.post.find_one({"_id": post_id})
@@ -236,7 +279,7 @@ class Repost(Resource):
         return {"msg": "Post not found."}, 404
 
 
-class DeletePost(Resource):
+class PostDelete(Resource):
     parser = reqparse.RequestParser()
     parser.add_argument(
         "post_id",
@@ -247,7 +290,7 @@ class DeletePost(Resource):
 
     @login_required
     def delete(self):
-        data = DeletePost.parser.parse_args()
+        data = PostDelete.parser.parse_args()
 
         post_id = ObjectId(data.post_id)
         post = post_db.post.find_one({"_id": post_id})
@@ -272,7 +315,7 @@ class DeletePost(Resource):
         return {"msg": "Post not found."}, 404
 
 
-class CreateComment(Resource):
+class CommentCreate(Resource):
     parser = reqparse.RequestParser()
     parser.add_argument(
         "post_id",
@@ -288,7 +331,7 @@ class CreateComment(Resource):
 
     @login_required
     def post(self):
-        data = CreateComment.parser.parse_args()
+        data = CommentCreate.parser.parse_args()
 
         if (
             Comment(
@@ -305,7 +348,7 @@ class CreateComment(Resource):
         return {"msg": "Unexpected error occurred."}, 500
 
 
-class LikeComment(Resource):
+class CommentLike(Resource):
     parser = reqparse.RequestParser()
     parser.add_argument(
         "comment_id",
@@ -316,7 +359,7 @@ class LikeComment(Resource):
 
     @login_required
     def post(self):
-        data = LikeComment.parser.parse_args()
+        data = CommentLike.parser.parse_args()
         comment_id = ObjectId(data.comment_id)
         comment = post_db.comment.find_one({"_id": comment_id})
 
@@ -340,7 +383,7 @@ class LikeComment(Resource):
         return {"msg": "Comment not found."}, 404
 
 
-class UnlikeComment(Resource):
+class CommentUnlike(Resource):
     parser = reqparse.RequestParser()
     parser.add_argument(
         "comment_id",
@@ -351,7 +394,7 @@ class UnlikeComment(Resource):
 
     @login_required
     def post(self):
-        data = UnlikeComment.parser.parse_args()
+        data = CommentUnlike.parser.parse_args()
         comment_id = ObjectId(data.comment_id)
         comment = post_db.comment.find_one({"_id": comment_id})
 
@@ -375,7 +418,7 @@ class UnlikeComment(Resource):
         return {"msg": "Comment not found."}, 404
 
 
-class DeleteComment(Resource):
+class CommentDelete(Resource):
     parser = reqparse.RequestParser()
     parser.add_argument(
         "comment_id",
@@ -386,7 +429,7 @@ class DeleteComment(Resource):
 
     @login_required
     def delete(self):
-        data = DeleteComment.parser.parse_args()
+        data = CommentDelete.parser.parse_args()
         comment_id = ObjectId(data.comment_id)
         comment = post_db.comment.find_one({"_id": comment_id})
 

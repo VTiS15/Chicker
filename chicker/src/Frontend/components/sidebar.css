@@ -15,12 +15,15 @@
   padding: 10px;
 }
 
+.ButtonContainer {
+  height: 100%;
+  display: contents;
+}
+
 .sidebar-button {
   display: block;
-  width: fit-content;
-  padding: 10px 20px;
-  margin-top: 10px;
-  margin-bottom: 10px;
+  width: 100%;
+  padding: 20px;
   border: none;
   border-radius: 12px;
   background-color: transparent;
@@ -31,6 +34,7 @@
   cursor: pointer;
   display: flex;
   align-items: center;
+  justify-content: center;
 }
 
 .sidebar-image {
@@ -61,22 +65,23 @@
 @media (width <= 1140px) {
   .sidebar-button {
     width: 100%;
-    padding: 10px 20px;
-    margin-top: 10px;
-    margin-bottom: 10px;
     border: none;
     border-radius: 12px;
     background-color: transparent;
     color: #dfb682;
     cursor: pointer;
     display: flex;
+    justify-content: center;
   }
 
   .button-text {
     display: none;
   }
-}
 
+  .icon {
+    margin: 0;
+  }
+}
 
 .loginButtonContainer {
   display: flex;
@@ -85,7 +90,7 @@
   border-radius: 20px;
   margin-top: auto;
   margin-bottom: 20%;
-  background-color: rgb(225, 172, 0);
+  background-color: #dfb682;
 }
 
 .logoutButtonContainer {
@@ -95,15 +100,25 @@
   border-radius: 20px;
   margin-top: auto;
   margin-bottom: 20%;
-  background-color:  #b740a9;
+  background-color: #a06499;
 }
 
 .loginButton {
   border: none;
-  background-color: rgb(225, 172, 0);
+  background-color: #dfb682;
+  cursor: pointer;
+}
+
+.loginButtonContainer:hover {
+  opacity: 0.5;
 }
 
 .logoutButton {
   border: none;
-  background-color:  transparent;
+  background-color: transparent;
+  cursor: pointer;
+}
+
+.logoutButtonContainer:hover {
+  opacity: 0.5;
 }

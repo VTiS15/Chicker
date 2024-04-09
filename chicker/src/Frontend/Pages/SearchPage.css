@@ -82,7 +82,7 @@ body {
 
 .RecommandationBox {
   padding: 6px;
-  border: 1px solid black;
+  border: 2px solid black;
   border-radius: 24px;
   height: 72vh;
   overflow-y: scroll;
@@ -157,4 +157,36 @@ body {
 .RecommandationCheckbox + .RecommandationContainer div:last-child {
   color: white;
   transition: color 0.3s;
+}
+
+.SearchResult {
+  margin-top: 10vh;
+}
+
+.SearchResult > button {
+  background: #ac8b61;
+  border: none;
+  cursor: pointer;
+  border-radius: 24px;
+  height: fit-content;
+  padding: 8px;
+  margin-bottom: 2vh;
+}
+
+.SearchResult > button:hover {
+  opacity: 0.5;
+  background-color: #ac8b61;
+}
+
+.SearchResultBox {
+  padding: 6px;
+  border: 2px solid black;
+  border-radius: 24px;
+  height: 70vh;
+  overflow-y: scroll;
+  max-width: 81vw;
+}
+
+.SearchResultBox::-webkit-scrollbar {
+  display: none;
 }

@@ -6,6 +6,7 @@ import gridfs
 from bson import json_util
 from bson.objectid import ObjectId
 from db import chat_db, post_db, user_db
+from flask import make_response
 from flask_login import current_user, login_required, login_user, logout_user
 from flask_restful import Resource, reqparse
 from login import login_manager
@@ -42,11 +43,6 @@ class GetUser(Resource):
             del response["password_hash"]
             del response["settings"]
             del response["is_admin"]
-            del response["followers"]
-            del response["followees"]
-            del response["email"]
-            del response["date"]
-            del response["bio"]
 
             return response, 200
 
@@ -69,6 +65,26 @@ class GetUsers(Resource):
         return response, 200
 
 
+class GetIcon(Resource):
+    parser = reqparse.RequestParser()
+    parser.add_argument("user_id", type=str, required=True, help="ID of target user.")
+
+    def get(self):
+        data = GetIcon.parser.parse_args()
+        fs = gridfs.GridFS(user_db)
+
+        user = user_db.user.find_one({"_id": ObjectId(data.user_id)})
+        if user:
+            try:
+                f = fs.get(ObjectId(user["icon_id"]))
+            except gridfs.NoFile:
+                return {"msg": "File not found."}, 404
+
+            return {"data": f.read()}, 200
+
+        return {"msg": "User not found."}, 404
+
+
 class UserLogin(Resource):
     parser = reqparse.RequestParser()
     parser.add_argument("username", type=str, required=True, help="Name of user.")
@@ -81,7 +97,7 @@ class UserLogin(Resource):
         if user:
             if check_password_hash(user["password_hash"], data.password):
                 login_user(User(**json.loads(json_util.dumps(user))))
-                return {"msg": "Success."}, 200
+                return {"user_id": str(current_user._id)}, 200
 
             return {"msg": "Invalid password."}, 401
 
@@ -283,7 +299,7 @@ class UserRecommend(Resource):
                 for user in user_db.user.find(
                     {"date": {"$gte": datetime.now() - timedelta(days=30)}}
                 ).sort("date", DESCENDING)
-            ][:5]
+            ][:10]
         }
 
 
@@ -325,7 +341,13 @@ class UserUpdate(Resource):
                 if (
                     user_db.user.update_one(
                         {"_id": current_user._id},
-                        {"$set": {"icon_id": gridfs.GridFS(user_db).put(f.getvalue())}},
+                        {
+                            "$set": {
+                                "icon_id": gridfs.GridFS(user_db).put(
+                                    f.getvalue(), filename=f"{current_user._id}.ico"
+                                )
+                            }
+                        },
                     ).modified_count
                     == 1
                 ):
@@ -351,7 +373,6 @@ class SearchUsers(Resource):
             del d["is_admin"]
             del d["followers"]
             del d["followees"]
-            del d["email"]
             del d["date"]
             del d["bio"]
 

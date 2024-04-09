@@ -86,8 +86,10 @@ function PostList({ posts }) {
       {posts.map((post, index) => (
         <div key={post.postID} className="post">
           <div className="user-info">
-            <img src={post.user.profilePicture} alt="Profile Picture" />
-            <span className="username">{post.user.username}</span>
+            <div className="IconAndName">
+              <img src={post.user.profilePicture} alt="Profile Picture" />
+              <span className="username">{post.user.username}</span>
+            </div>
             <span className="timestamp">{post.timestamp}</span>
           </div>
           <div className="content">

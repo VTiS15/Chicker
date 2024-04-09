@@ -22,16 +22,36 @@ const AdminPage = () => {
     );
   }, []);
 
-  const deleteUser = (userId) => {
-    fetch(`/api/user/delete/${userId}`) // Replace with your Flask API endpoint for deleting a user
-      .then(response => {
-        if (response.ok) {
-          setUsers(users.filter(user => user.id !== userId));
+  const deleteUser = (user_id) => {
+    fetch("/api/user/delete", {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ user_id })
+    })
+      .then(response => response.json())
+      .then(data => {
+        if (data.msg === "Deletion of self is forbidden.") {
+          console.log("Deletion of self is forbidden.");
+          alert("Deletion of self is forbidden.");
+        } else if (data.msg === "Success") {
+          console.log("Delete user successfully");
+          alert("Delete user successfully");
+          window.location.reload();
+        } else if (data.msg === "User not found.") {
+          console.log("User not found.");
+          alert("User not found.");
+        } else if (data.msg === "Permission denied.") {
+          console.log("Permission denied.");
+          alert("Permission denied.");
         } else {
-          console.log('Failed to delete user');
+          console.log("Failed dunno why.");
         }
       })
-      .catch(error => console.log(error));
+      .catch(error => {
+        // Handle any errors
+      });
   };
 
   return (

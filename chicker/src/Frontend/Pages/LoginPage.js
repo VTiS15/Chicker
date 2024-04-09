@@ -15,7 +15,7 @@ export const getUserLogin = () => {
 };
 
 export default function LoginPage() {
-  const [name, setName] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const users = useGetUsers();
   const navigate = useNavigate();
@@ -23,7 +23,7 @@ export default function LoginPage() {
 
   const handleChange = (event) => {
     if (event.target.id === "fname") {
-      setName(event.target.value);
+      setUsername(event.target.value);
     }
 
     if (event.target.id === "fpassword") {
@@ -34,14 +34,36 @@ export default function LoginPage() {
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    if (name && password) {
-      setUserLogin(true);
-      console.log(login);
-      navigate("/");
-    } else {
-      alert("Please fill out all fields");
-      return;
-    }
+    fetch('/api/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ username, password })
+    })
+      .then(response => response.json())
+      .then(data => {
+        if (data.msg === "Success.") {
+          console.log("Login successfully")
+          setUserLogin(true);
+          navigate("/");
+        } else {
+          console.log("Login failed")
+          alert("Wrong username/password");
+        }
+      })
+      .catch(error => {
+        // Handle any errors
+      });
+
+    // if (username && password) {
+    //   setUserLogin(true);
+    //   console.log(login);
+    //   navigate("/");
+    // } else {
+    //   alert("Please fill out all fields");
+    //   return;
+    // }
   };
 
   return (
@@ -58,15 +80,17 @@ export default function LoginPage() {
             type="text"
             placeholder="UserName"
             id="fname"
-            onChange={handleChange}
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
           ></input>
           <input
             type="password"
             placeholder="Password"
             id="fpassword"
-            onChange={handleChange}
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
           ></input>
-          <button>Sign In</button>
+          <button type="submit">Sign In</button>
         </form>
         <footer>
           Do not have an account? Click{" "}

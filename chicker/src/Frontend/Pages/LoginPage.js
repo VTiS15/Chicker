@@ -2,44 +2,41 @@ import "./LoginPage.css";
 import { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import logo from "../Pictures/IconPicture.jpeg";
+import { useGetUsers } from "../functions/getUsers";
 
-// const loginCheck = () => {
-//   const [users, setUsers] = useState([]);
+let login = false;
 
-//   useEffect(() => {
-//     fetch("/api/users").then((res) =>
-//       res.json().then((data) => {
-//         const modifiedUsers = data.users.map((user) => ({
-//           id: user._id.$oid,
-//           username: user.username,
-//         }));
-//         setUsers(modifiedUsers);
-//       })
-//     );
-//   }, []);
+export const getUserLogin = () => {
+  return login;
+};
 
-//   console.log(users);
-// };
+export const setUserLogin = (updatedUserLogin) => {
+  login = updatedUserLogin;
+};
 
 export default function LoginPage() {
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
+  const users = useGetUsers();
+  const navigate = useNavigate();
+  console.log(users);
 
-  const handleChange = (e) => {
-    if (e.target.id === "fname") {
-      setName(e.target.value);
+  const handleChange = (event) => {
+    if (event.target.id === "fname") {
+      setName(event.target.value);
     }
 
-    if (e.target.id === "fpassword") {
-      setPassword(e.target.value);
+    if (event.target.id === "fpassword") {
+      setPassword(event.target.value);
     }
   };
-  const navigate = useNavigate();
-  const handleSubmit = (e) => {
-    e.preventDefault();
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
 
     if (name && password) {
-      console.log("valid");
+      setUserLogin(true);
+      console.log(login);
       navigate("/");
     } else {
       alert("Please fill out all fields");

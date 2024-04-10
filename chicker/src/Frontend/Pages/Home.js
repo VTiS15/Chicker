@@ -32,7 +32,7 @@ const posts = [
     image: dummy1,
     video: null,
     likes: 10,
-    comments: 5,
+    comments: 13,
     commentContent: [
       { image: profile1, commenter: "John", comment: "On 1st post" },
       {
@@ -86,7 +86,7 @@ const posts = [
     image: null,
     video: null,
     likes: 15,
-    comments: 8,
+    comments: 31,
     commentContent: [
       {
         image: profile1,
@@ -138,7 +138,7 @@ const posts = [
     image: dummy4,
     video: null,
     likes: 7,
-    comments: 2,
+    comments: 0,
     commentContent: [],
     shares: 1,
   },
@@ -153,7 +153,7 @@ const posts = [
     image: dummy5,
     video: null,
     likes: 7,
-    comments: 2,
+    comments: 1,
     commentContent: [
       { image: profile1, commenter: "Jack", comment: "5th post, Nice" },
     ],

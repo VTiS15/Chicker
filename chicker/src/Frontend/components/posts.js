@@ -5,16 +5,25 @@ import liked from "../Pictures/liked.png";
 import comment from "../Pictures/comment.png";
 import share from "../Pictures/share.png";
 import send from "../Pictures/send.png";
+import profile5 from "../Pictures/dummyPictures/profile (5).jpg";
 
 import { getUserLogin } from "../Pages/LoginPage";
 
 function CommentPopup({ post, onClose }) {
+  const [text, setText] = useState('');
   const commentSectionRef = useRef(null);
+
+  const [commentHistory, setCommentHistory] = useState(post.commentContent);
+  const handleSend = () => {
+    const comment = document.getElementById('textArea').value;
+    post.commentContent.unshift({ image: profile5, commenter: "Yuden", comment: comment });
+    setCommentHistory([...commentHistory, {}]);
+    setText('');
+  };
 
   useEffect(() => {
     if (commentSectionRef.current) {
-      commentSectionRef.current.scrollTop =
-        commentSectionRef.current.scrollHeight;
+      commentSectionRef.current.scrollTop = commentSectionRef.current.scrollHeight;
     }
   }, []);
 
@@ -43,8 +52,10 @@ function CommentPopup({ post, onClose }) {
           <textarea
             class="enterCommentText"
             placeholder="Post your comment"
+            id="textArea"
+            value={text} onChange={(e) => setText(e.target.value)}
           ></textarea>
-          <img class="sendIcon" src={send}></img>
+          <img class="sendIcon" src={send} onClick={handleSend}></img>
         </div>
       </div>
     </div>

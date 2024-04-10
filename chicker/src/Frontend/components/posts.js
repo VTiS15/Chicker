@@ -8,26 +8,36 @@ import send from "../Pictures/send.png";
 import profile5 from "../Pictures/dummyPictures/profile (5).jpg";
 
 import { getUserLogin } from "../Pages/LoginPage";
+import { userData } from "../functions/dummydata";
+import { getMyID } from "../Pages/LoginPage";
+
+const myID = getMyID();
+const user = userData.find((user) => user._id === myID);
 
 function CommentPopup({ post, onClose }) {
-  const [text, setText] = useState('');
+  const [text, setText] = useState("");
   const commentSectionRef = useRef(null);
 
   const [commentHistory, setCommentHistory] = useState(post.commentContent);
   const handleSend = () => {
-    const comment = document.getElementById('textArea').value;
-    post.commentContent.unshift({ image: profile5, commenter: "Yuden", comment: comment });
+    const comment = document.getElementById("textArea").value;
+    post.commentContent.unshift({
+      image: user.icon_id,
+      commenter: user.username,
+      comment: comment,
+    });
     setCommentHistory([...commentHistory, {}]);
-    setText('');
+    setText("");
   };
 
   useEffect(() => {
     if (commentSectionRef.current) {
-      commentSectionRef.current.scrollTop = commentSectionRef.current.scrollHeight;
+      commentSectionRef.current.scrollTop =
+        commentSectionRef.current.scrollHeight;
     }
   }, []);
 
-  useEffect(() => {  });
+  useEffect(() => {});
 
   return (
     <div id="commentPopup" className="commentPopup">
@@ -55,7 +65,8 @@ function CommentPopup({ post, onClose }) {
             class="enterCommentText"
             placeholder="Post your comment"
             id="textArea"
-            value={text} onChange={(e) => setText(e.target.value)}
+            value={text}
+            onChange={(e) => setText(e.target.value)}
           ></textarea>
           <img class="sendIcon" src={send} onClick={handleSend}></img>
         </div>

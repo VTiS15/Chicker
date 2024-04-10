@@ -5,13 +5,19 @@ import logo from "../Pictures/IconPicture.jpeg";
 import { useGetUsers } from "../functions/getUsers";
 
 let login = false;
-
 export const setUserLogin = (updatedUserLogin) => {
   login = updatedUserLogin;
 };
-
 export const getUserLogin = () => {
   return login;
+};
+
+let myUserID = 0;
+export const setMyUserID = (updatedUserID) => {
+  myUserID = updatedUserID;
+};
+export const getMyUserID = () => {
+  return myUserID;
 };
 
 export default function LoginPage() {
@@ -34,25 +40,27 @@ export default function LoginPage() {
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    fetch('/api/login', {
-      method: 'POST',
+    fetch("/api/login", {
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json'
+        "Content-Type": "application/json",
       },
-      body: JSON.stringify({ username, password })
+      body: JSON.stringify({ username, password }),
     })
-      .then(response => response.json())
-      .then(data => {
-        if (data.msg === "Success.") {
-          console.log("Login successfully")
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.user_id) {
+          console.log("Login successfully");
           setUserLogin(true);
+          setMyUserID(data.user_id);
+          console.log(myUserID);
           navigate("/");
         } else {
-          console.log("Login failed")
+          console.log("Login failed");
           alert("Wrong username/password");
         }
       })
-      .catch(error => {
+      .catch((error) => {
         // Handle any errors
       });
 

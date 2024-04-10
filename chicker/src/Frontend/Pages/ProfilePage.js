@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from "react";
 import Sidebar from "../components/sidebar";
 import UserCard from "../components/UserCard";
 import profilePic from "../Pictures/cyan.png";
-import defaultAvatar from "../Pictures/DeafaultUserIcon.png";
+import { getMyUserID } from "./LoginPage";
 import "./ProfilePage.css";
 
 import { getStyling } from "../functions/style";
@@ -13,19 +13,27 @@ var posts = [],
 
 export default function ProfilePage() {
   const styling = getStyling();
+  const myUserID = getMyUserID();
   const [isOther, setIsOther] = useState(false);
 
   const postRef = useRef();
   const followerRef = useRef();
   const followingRef = useRef();
   const [activeSection, setActiveSection] = useState("post");
+  const [myData, setMyData] = useState(null);
 
   const handleNavClick = (section) => {
     setActiveSection(section);
   };
 
+  console.log(myUserID);
   useEffect(() => {
-    fetch("/api/user").then((res) =>
+    fetch(`/api/user`, {
+      method: "GET",
+      params: {
+        user_id: myUserID,
+      },
+    }).then((res) =>
       res.json().then((data) => {
         console.log(data);
       })

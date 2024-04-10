@@ -34,6 +34,7 @@ function LogInOut() {
           console.log("Logout successfully");
           setUserLogin(false);
           navigate("/");
+          window.location.reload();
         } else {
           console.log("Logout failed");
           alert("Logout failed");
@@ -52,9 +53,9 @@ function LogInOut() {
             padding: "5px 10px",
             marginBottom: "20px",
           }}
-          onClick={() => handleLogOut()}
+          onClick={handleLogOut}
         >
-          <button className="logoutButton" onClick={() => handleLogOut()}>
+          <button className="logoutButton" onClick={handleLogOut}>
             Logout
           </button>
         </Link>

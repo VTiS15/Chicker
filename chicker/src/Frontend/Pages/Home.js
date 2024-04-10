@@ -8,9 +8,13 @@ import video from "../Pictures/video.png";
 import { getStyling } from "../functions/style.js";
 import { getUserLogin } from "./LoginPage.js";
 import { post } from "../functions/dummyPosts.js";
+import { getMyID } from "./LoginPage";
+import { userData } from "../functions/dummydata";
 
 import profilepic from "../Pictures/UserNeedLogin.jpeg";
 
+const myID = getMyID();
+const user = userData.find((user) => user._id === myID);
 const posts = post;
 const styling = getStyling();
 const commentsOfEachPost = posts.map((post) => post.comments);
@@ -61,8 +65,8 @@ export default function Home() {
       posts.unshift({
         postID: posts.length + 1,
         user: {
-          username: "JC",
-          profilePicture: profilepic,
+          username: user.username,
+          profilePicture: user.icon_id,
         },
         timestamp: date.toLocaleTimeString(),
         text: Text,

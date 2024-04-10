@@ -1,5 +1,8 @@
 import React from "react";
 import "./UserCard.css";
+import { userData } from "../functions/dummydata";
+
+const allUser = userData;
 
 const UserCard = ({ Username, UserIcon, UserEmail, UserStatus }) => {
   return (

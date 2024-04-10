@@ -76,6 +76,8 @@ function CommentPopup({ post, onClose }) {
 }
 
 function SharePopup({ selectedPost, onClose }) {
+  const myID = getMyID();
+  const user = userData.find((user) => user._id === myID);
   const [showMore, setShowMore] = useState(false);
   const [text, setText] = useState("");
 
@@ -85,8 +87,8 @@ function SharePopup({ selectedPost, onClose }) {
       posts.unshift({
         postID: posts.length + 1,
         user: {
-          username: "Yuden",
-          profilePicture: profile5,
+          username: user.username,
+          profilePicture: user.icon_id,
         },
         timestamp: date.toLocaleTimeString(),
         text:

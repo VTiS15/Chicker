@@ -23,7 +23,7 @@ export const post = [
     text: "This is the first post. Lorem ipsum dolor sit amet, adipiscing elit. In this example, the component maintains a state variable isTextColored using the useState hook. It starts with an initial value of false. The handleButtonClick function is responsible for toggling the value of isTextColored when the button is clicked. It uses the setIsTextColored function to update the state. The button's className is conditionally set based on the value of isTextColored. If isTextColored is true, the button will have the additional class colored. You can define CSS styles for the colored class to change the text color. When the button is clicked, the handleButtonClick function is invoked, triggering the state update and causing a re-render of the component. As a result, the button's text color will toggle based on the value of isTextColored. This is the first post. Lorem ipsum dolor sit amet, consectetur adipiscing elit. In this example, the ButtonTextColorToggle component maintains a state variable isTextColored using the useState hook. It starts with an initial value of false. The handleButtonClick function is responsible for toggling the value of isTextColored when the button is clicked. It uses the setIsTextColored function to update the state. The button's className is conditionally set based on the value of isTextColored. If isTextColored is true, the button will have the additional class colored. You can define CSS styles for the colored class to change the text color. When the button is clicked, the handleButtonClick function is invoked, triggering the state update and causing a re-render of the component. As a result, the button's text color will toggle based on the value of isTextColored. This is the first post. Lorem ipsum dolor sit amet, consectetur adipiscing elit. In this example, the ButtonTextColorToggle component maintains a state variable isTextColored using the useState hook. It starts with an initial value of false. The handleButtonClick function is responsible for toggling the value of isTextColored when the button is clicked. It uses the setIsTextColored function to update the state. The button's className is conditionally set based on the value of isTextColored. If isTextColored is true, the button will have the additional class colored. You can define CSS styles for the colored class to change the text color. When the button is clicked, the handleButtonClick function is invoked, triggering the state update and causing a re-render of the component. As a result, the button's text color will toggle based on the value of isTextColored. This is the first post. Lorem ipsum dolor sit amet, consectetur adipiscing elit. In this example, the ButtonTextColorToggle component maintains a state variable isTextColored using the useState hook. It starts with an initial value of false. The handleButtonClick function is responsible for toggling the value of isTextColored when the button is clicked. It uses the setIsTextColored function to update the state. The button's className is conditionally set based on the value of isTextColored. If isTextColored is true, the button will have the additional class colored. You can define CSS styles for the colored class to change the text color. When the button is clicked, the handleButtonClick function is invoked, triggering the state update and causing a re-render of the component. As a result, the button's text color will toggle based on the value of isTextColored.",
     image: dummy1,
     video: null,
-    likes: 10,
+    likes: 1,
     comments: 5,
     commentContent: [
       { image: profile1, commenter: "John", comment: "On 1st post" },
@@ -54,7 +54,7 @@ export const post = [
     text: "Check out this beautiful view!",
     image: null,
     video: video1,
-    likes: 7,
+    likes: 3,
     comments: 2,
     commentContent: [
       {
@@ -77,7 +77,7 @@ export const post = [
     text: "Just had an amazing meal at the new restaurant!",
     image: null,
     video: null,
-    likes: 15,
+    likes: 2,
     comments: 8,
     commentContent: [
       {
@@ -129,7 +129,7 @@ export const post = [
     text: "Check out this beautiful view!",
     image: dummy4,
     video: null,
-    likes: 7,
+    likes: 4,
     comments: 2,
     commentContent: [],
     shares: 1,
@@ -144,7 +144,7 @@ export const post = [
     text: "Check out this beautiful view!",
     image: dummy5,
     video: null,
-    likes: 7,
+    likes: 2,
     comments: 2,
     commentContent: [
       { image: profile1, commenter: "Jack", comment: "5th post, Nice" },

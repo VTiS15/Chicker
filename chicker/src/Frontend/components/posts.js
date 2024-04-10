@@ -5,18 +5,29 @@ import liked from "../Pictures/liked.png";
 import comment from "../Pictures/comment.png";
 import share from "../Pictures/share.png";
 import send from "../Pictures/send.png";
+import profile5 from "../Pictures/dummyPictures/profile (5).jpg";
 
 import { getUserLogin } from "../Pages/LoginPage";
 
 function CommentPopup({ post, onClose }) {
+  const [text, setText] = useState('');
   const commentSectionRef = useRef(null);
+
+  const [commentHistory, setCommentHistory] = useState(post.commentContent);
+  const handleSend = () => {
+    const comment = document.getElementById('textArea').value;
+    post.commentContent.unshift({ image: profile5, commenter: "Yuden", comment: comment });
+    setCommentHistory([...commentHistory, {}]);
+    setText('');
+  };
 
   useEffect(() => {
     if (commentSectionRef.current) {
-      commentSectionRef.current.scrollTop =
-        commentSectionRef.current.scrollHeight;
+      commentSectionRef.current.scrollTop = commentSectionRef.current.scrollHeight;
     }
   }, []);
+
+  useEffect(() => {  });
 
   return (
     <div id="commentPopup" className="commentPopup">
@@ -43,8 +54,10 @@ function CommentPopup({ post, onClose }) {
           <textarea
             class="enterCommentText"
             placeholder="Post your comment"
+            id="textArea"
+            value={text} onChange={(e) => setText(e.target.value)}
           ></textarea>
-          <img class="sendIcon" src={send}></img>
+          <img class="sendIcon" src={send} onClick={handleSend}></img>
         </div>
       </div>
     </div>
@@ -57,6 +70,7 @@ function PostList({ posts }) {
   const [showMore, setShowMore] = useState(false);
   const [selectedPost, setSelectedPost] = useState(null); // Track the selected post for comments
   const [zoomIn, setZoomIn] = useState(false);
+  const [isCommentPopupOpen, setCommentPopupOpen] = useState(false);
 
   const handleImageClick = () => {
     if (zoomIn === false) {
@@ -78,17 +92,19 @@ function PostList({ posts }) {
     if (myPopup) {
       myPopup.classList.add("show");
     }
+    setCommentPopupOpen(true);
   };
   const closeCommentPopup = () => {
     const myPopup = document.getElementById("commentPopup");
     myPopup.classList.remove("show");
+    setCommentPopupOpen(false);
   };
-  window.addEventListener("click", (event) => {
-    const myPopup = document.getElementById("commentPopup");
-    if (event.target === myPopup) {
-      myPopup.classList.remove("show");
-    }
-  });
+  // window.addEventListener("click", (event) => {
+  //   const myPopup = document.getElementById("commentPopup");
+  //   if (event.target === myPopup) {
+  //     myPopup.classList.remove("show");
+  //   }
+  // });
 
   return (
     <div className="grid-item">
@@ -157,7 +173,7 @@ function PostList({ posts }) {
                 disabled={!isLoggedIn}
               >
                 <img src={comment} alt="Comment" />
-                <span className="post-count">{post.comments}</span>
+                <span className="post-count">{post.commentContent.length}</span>
               </button>
               <button
                 className="post-button"

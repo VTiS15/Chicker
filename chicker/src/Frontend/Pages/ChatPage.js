@@ -166,24 +166,3 @@ function ChatHistory({ friendId }) {
     </div>
   );
 }
-
-// function ChatHistory({ friendId }) {
-//   // Assume current user is Yuden
-//   return (
-//     <div className="ChatHistory">
-//       {chatHistory[friendId-1].map((chat) => (
-//         <div className={chat.sender !== 'Yuden' ? 'FriendMessage' : 'UserMessage'} key={chat.id}>
-//           {chat.sender !== 'Yuden' && (<img className="FriendPic" src={chat.image}/>)}
-//           <div className="MessageContent">
-//             <div className={chat.sender !== 'Yuden' ? '' : 'TextRight'}>{chat.message}</div>
-//           </div>
-//           {chat.sender === 'Yuden' && (<img className="FriendPic" src={chat.image}/>)}
-//         </div>
-//       ))}
-//       <div class="enterMessage">
-//         <textarea class="enterMessageText"></textarea>
-//         <img class="sendIcon" src={send}></img>
-//       </div>
-//     </div>
-//   );
-// }

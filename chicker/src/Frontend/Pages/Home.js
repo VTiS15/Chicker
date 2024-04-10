@@ -10,6 +10,7 @@ import { getUserLogin } from "./LoginPage.js";
 import { post } from "../functions/dummyPosts.js";
 
 import profilepic from "../Pictures/UserNeedLogin.jpeg";
+import profile5 from "../Pictures/dummyPictures/profile (5).jpg";
 
 const posts = post;
 const styling = getStyling();
@@ -61,8 +62,8 @@ export default function Home() {
       posts.unshift({
         postID: posts.length + 1,
         user: {
-          username: "JC",
-          profilePicture: profilepic,
+          username: "Yuden",
+          profilePicture: profile5,
         },
         timestamp: date.toLocaleTimeString(),
         text: Text,

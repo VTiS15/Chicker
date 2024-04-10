@@ -2,22 +2,26 @@ import "./LoginPage.css";
 import { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import logo from "../Pictures/IconPicture.jpeg";
-import { useGetUsers } from "../functions/getUsers";
 
 let login = false;
-
 export const setUserLogin = (updatedUserLogin) => {
   login = updatedUserLogin;
 };
-
 export const getUserLogin = () => {
   return login;
+};
+
+let myID = null;
+export const setMyID = (id) => {
+  myID = id;
+};
+export const getMyID = () => {
+  return myID;
 };
 
 export default function LoginPage() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const users = useGetUsers();
   const navigate = useNavigate();
 
   const handleChange = (event) => {
@@ -45,6 +49,8 @@ export default function LoginPage() {
         if (data.user_id) {
           console.log("Login successfully");
           setUserLogin(true);
+          setMyID(data.user_id);
+          console.log(data.user_id);
           navigate("/");
         } else {
           console.log("Login failed");

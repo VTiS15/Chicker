@@ -8,9 +8,8 @@ import video from "../Pictures/video.png";
 import { getStyling } from "../functions/style.js";
 import { getUserLogin } from "./LoginPage.js";
 import { post } from "../functions/dummyPosts.js";
-
-import profilepic from "../Pictures/UserNeedLogin.jpeg";
-import profile5 from "../Pictures/dummyPictures/profile (5).jpg";
+import { getMyID } from "./LoginPage";
+import { userData } from "../functions/dummydata";
 
 const posts = post;
 const styling = getStyling();
@@ -18,6 +17,8 @@ const commentsOfEachPost = posts.map((post) => post.comments);
 const date = new Date();
 
 export default function Home() {
+  const myID = getMyID();
+  const user = userData.find((user) => user._id === myID);
   const isLoggedIn = getUserLogin();
   const [postText, setPostText] = useState("");
   const [uploadedImage, setUploadedImage] = useState(null);
@@ -32,10 +33,12 @@ export default function Home() {
   }, [fileType]);
 
   const handleClickImage = () => {
+    setFileType("image/png, image/jpg, image/jpeg");
     handleClick("image/png, image/jpg, image/jpeg");
   };
 
   const handleClickVideo = () => {
+    setFileType("video/mp4");
     handleClick("video/mp4");
   };
 
@@ -46,7 +49,9 @@ export default function Home() {
 
   const handleUplaod = (e) => {
     const selectedFile = e.target.files[0];
-    if (selectedFile) {
+    if (selectedFile && fileType === "video/mp4") {
+      setUploadedVideo(URL.createObjectURL(selectedFile));
+    } else {
       setUploadedImage(URL.createObjectURL(selectedFile));
     }
   };
@@ -62,8 +67,8 @@ export default function Home() {
       posts.unshift({
         postID: posts.length + 1,
         user: {
-          username: "Yuden",
-          profilePicture: profile5,
+          username: user.username,
+          profilePicture: user.icon_id,
         },
         timestamp: date.toLocaleTimeString(),
         text: Text,
@@ -94,12 +99,13 @@ export default function Home() {
               value={postText}
               onChange={(e) => setPostText(e.target.value)}
             />
-            {(uploadedImage || uploadedVideo) && (
+            {uploadedImage && (
               <img
                 style={{ maxWidth: "20%", borderRadius: "12px" }}
                 src={uploadedImage}
               />
             )}
+            {uploadedVideo && <p>You have uploaded a video</p>}
             <div class="button-container">
               <input
                 type="file"
@@ -108,11 +114,11 @@ export default function Home() {
                 onChange={handleUplaod}
                 style={{ display: "none" }}
               />
-              <button class="left-button" onClick={handleClickImage}>
+              <button class="left-button" onClick={() => handleClickImage()}>
                 <img src={image} />
               </button>
 
-              <button class="left-button" onClick={handleClickVideo}>
+              <button class="left-button" onClick={() => handleClickVideo()}>
                 <img src={video} />
               </button>
 

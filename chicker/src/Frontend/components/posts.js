@@ -8,25 +8,34 @@ import send from "../Pictures/send.png";
 import profile5 from "../Pictures/dummyPictures/profile (5).jpg";
 
 import { getUserLogin } from "../Pages/LoginPage";
+import { userData } from "../functions/dummydata";
+import { getMyID } from "../Pages/LoginPage";
 import { post } from "../functions/dummyPosts";
 const posts = post;
 const date = new Date();
 
 function CommentPopup({ post, onClose }) {
-  const [text, setText] = useState('');
+  const myID = getMyID();
+  const user = userData.find((user) => user._id === myID);
+  const [text, setText] = useState("");
   const commentSectionRef = useRef(null);
 
   const [commentHistory, setCommentHistory] = useState(post.commentContent);
   const handleSend = () => {
-    const comment = document.getElementById('textArea').value;
-    post.commentContent.unshift({ image: profile5, commenter: "Yuden", comment: comment });
+    const comment = document.getElementById("textArea").value;
+    post.commentContent.unshift({
+      image: user.icon_id,
+      commenter: user.username,
+      comment: comment,
+    });
     setCommentHistory([...commentHistory, {}]);
-    setText('');
+    setText("");
   };
 
   useEffect(() => {
     if (commentSectionRef.current) {
-      commentSectionRef.current.scrollTop = commentSectionRef.current.scrollHeight;
+      commentSectionRef.current.scrollTop =
+        commentSectionRef.current.scrollHeight;
     }
   }, []);
 
@@ -56,7 +65,8 @@ function CommentPopup({ post, onClose }) {
             class="enterCommentText"
             placeholder="Post your comment"
             id="textArea"
-            value={text} onChange={(e) => setText(e.target.value)}
+            value={text}
+            onChange={(e) => setText(e.target.value)}
           ></textarea>
           <img class="sendIcon" src={send} onClick={handleSend}></img>
         </div>
@@ -65,21 +75,28 @@ function CommentPopup({ post, onClose }) {
   );
 }
 
-function SharePopup({ selectedPost, onClose }) { 
+function SharePopup({ selectedPost, onClose }) {
+  const myID = getMyID();
+  const user = userData.find((user) => user._id === myID);
   const [showMore, setShowMore] = useState(false);
-  const [text, setText] = useState('');
+  const [text, setText] = useState("");
 
   const handleSend = () => {
-    const repostText = document.getElementById('repostText').value;
+    const repostText = document.getElementById("repostText").value;
     if (repostText) {
       posts.unshift({
         postID: posts.length + 1,
         user: {
-          username: "Yuden",
-          profilePicture: profile5,
+          username: user.username,
+          profilePicture: user.icon_id,
         },
         timestamp: date.toLocaleTimeString(),
-        text: repostText + "\n\nBy @" + selectedPost.user.username + "\n" + selectedPost.text,
+        text:
+          repostText +
+          "\n\nBy @" +
+          selectedPost.user.username +
+          "\n" +
+          selectedPost.text,
         image: selectedPost.image,
         video: selectedPost.video,
         likes: 0,
@@ -87,7 +104,7 @@ function SharePopup({ selectedPost, onClose }) {
         commentContent: [],
         shares: 0,
       });
-      setText('');
+      setText("");
       selectedPost.shares = selectedPost.shares + 1;
       onClose();
     } else {
@@ -105,7 +122,10 @@ function SharePopup({ selectedPost, onClose }) {
           <div key={selectedPost.postID} className="post">
             <div className="user-info">
               <div className="IconAndName">
-                <img src={selectedPost.user.profilePicture} alt="Profile Picture" />
+                <img
+                  src={selectedPost.user.profilePicture}
+                  alt="Profile Picture"
+                />
                 <span className="username">{selectedPost.user.username}</span>
               </div>
               <span className="timestamp">{selectedPost.timestamp}</span>
@@ -147,7 +167,8 @@ function SharePopup({ selectedPost, onClose }) {
             class="enterCommentText"
             placeholder="Repost with your thoughts"
             id="repostText"
-            value={text} onChange={(e) => setText(e.target.value)}
+            value={text}
+            onChange={(e) => setText(e.target.value)}
           ></textarea>
           <img class="sendIcon" src={send} onClick={handleSend}></img>
         </div>
@@ -192,7 +213,7 @@ function PostList({ posts }) {
     myPopup.classList.remove("show");
     setCommentPopupOpen(false);
   };
-  
+
   const openSharePopup = (post) => {
     setSelectedPost(post);
     const myPopup = document.getElementById("sharePopup");
@@ -219,7 +240,7 @@ function PostList({ posts }) {
             <span className="timestamp">{post.timestamp}</span>
           </div>
           <div className="content">
-            <p  style={{ whiteSpace: "pre-line" }} className="post-text">
+            <p style={{ whiteSpace: "pre-line" }} className="post-text">
               {post.text.length > 1000 && showMore
                 ? post.text
                 : `${post.text.substring(0, 500)}`}
@@ -239,7 +260,7 @@ function PostList({ posts }) {
                 className="post-image"
                 src={post.image}
                 alt="Post Image"
-                onClick={handleImageClick}
+                onClick={() => handleImageClick()}
                 style={zoomIn ? { maxWidth: "100%" } : { maxWidth: "20%" }}
               />
             )}

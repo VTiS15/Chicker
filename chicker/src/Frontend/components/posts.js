@@ -27,6 +27,8 @@ function CommentPopup({ post, onClose }) {
     }
   }, []);
 
+  useEffect(() => {  });
+
   return (
     <div id="commentPopup" className="commentPopup">
       <div className="allComment" ref={commentSectionRef}>
@@ -68,6 +70,7 @@ function PostList({ posts }) {
   const [showMore, setShowMore] = useState(false);
   const [selectedPost, setSelectedPost] = useState(null); // Track the selected post for comments
   const [zoomIn, setZoomIn] = useState(false);
+  const [isCommentPopupOpen, setCommentPopupOpen] = useState(false);
 
   const handleImageClick = () => {
     if (zoomIn === false) {
@@ -89,17 +92,19 @@ function PostList({ posts }) {
     if (myPopup) {
       myPopup.classList.add("show");
     }
+    setCommentPopupOpen(true);
   };
   const closeCommentPopup = () => {
     const myPopup = document.getElementById("commentPopup");
     myPopup.classList.remove("show");
+    setCommentPopupOpen(false);
   };
-  window.addEventListener("click", (event) => {
-    const myPopup = document.getElementById("commentPopup");
-    if (event.target === myPopup) {
-      myPopup.classList.remove("show");
-    }
-  });
+  // window.addEventListener("click", (event) => {
+  //   const myPopup = document.getElementById("commentPopup");
+  //   if (event.target === myPopup) {
+  //     myPopup.classList.remove("show");
+  //   }
+  // });
 
   return (
     <div className="grid-item">
@@ -168,7 +173,7 @@ function PostList({ posts }) {
                 disabled={!isLoggedIn}
               >
                 <img src={comment} alt="Comment" />
-                <span className="post-count">{post.comments}</span>
+                <span className="post-count">{post.commentContent.length}</span>
               </button>
               <button
                 className="post-button"

@@ -67,6 +67,15 @@ function PostList({ posts }) {
   const [likeStates, setLikeStates] = useState(posts.map(() => false));
   const [showMore, setShowMore] = useState(false);
   const [selectedPost, setSelectedPost] = useState(null); // Track the selected post for comments
+  const [zoomIn, setZoomIn] = useState(false);
+
+  const handleImageClick = () => {
+    if (zoomIn === false) {
+      setZoomIn(true);
+    } else {
+      setZoomIn(false);
+    }
+  };
 
   const handleButtonClick = (index) => {
     const newLikeStates = [...likeStates];
@@ -120,10 +129,16 @@ function PostList({ posts }) {
               )}
             </p>
             {post.image && (
-              <img className="post-image" src={post.image} alt="Post Image" />
+              <img
+                className="post-image"
+                src={post.image}
+                alt="Post Image"
+                onClick={handleImageClick}
+                style={zoomIn ? { maxWidth: "100%" } : { maxWidth: "20%" }}
+              />
             )}
             {post.video && (
-              <video className="post-image" controls>
+              <video className="post-video" controls>
                 <source src={post.video} type="video/mp4" />
               </video>
             )}

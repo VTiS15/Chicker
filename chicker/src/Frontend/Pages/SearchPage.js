@@ -6,14 +6,15 @@ import { Link, useNavigate } from "react-router-dom";
 import Sidebar from "../components/sidebar";
 import UserCard from "../components/UserCard";
 import { userData } from "../functions/dummydata";
-import { getUserLogin } from "./LoginPage";
+import { getMyID } from "./LoginPage";
 import { getStyling } from "../functions/style";
 import CryPic from "../Pictures/crying.jpg";
 const styling = getStyling();
 
 export default function SearchPage() {
   // const userLogin = getUserLogin();
-
+  const myID = getMyID();
+  const user = userData.find((user) => user._id === myID);
   const [recommandationtype, setRecommandationtype] = useToggle(true);
   const [showSearchResult, setShowSearchResult] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
@@ -30,7 +31,10 @@ export default function SearchPage() {
 
   const searchUsers = (term) => {
     return users.filter((user) => {
-      return user.username.toLowerCase().includes(term.toLowerCase());
+      return (
+        user.username.toLowerCase().includes(term.toLowerCase()) &&
+        user.user_id !== myID
+      );
     });
   };
 
@@ -96,7 +100,7 @@ export default function SearchPage() {
                     Username={data.username}
                     UserIcon={data.image}
                     UserEmail={data.email}
-                    UserStatus={data.isfollowing}
+                    UserStatus={user && user.follower.includes(data._id)}
                   />
                 ))}
               </div>
@@ -134,7 +138,7 @@ export default function SearchPage() {
                       Username={data.username}
                       UserIcon={data.icon_id}
                       UserEmail={data.email}
-                      UserStatus={data.isfollowing}
+                      UserStatus={user && user.follower.includes(data._id)}
                     />
                   ))}
                 </>

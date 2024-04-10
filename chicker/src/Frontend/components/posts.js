@@ -11,10 +11,9 @@ import { getUserLogin } from "../Pages/LoginPage";
 import { userData } from "../functions/dummydata";
 import { getMyID } from "../Pages/LoginPage";
 
-const myID = getMyID();
-const user = userData.find((user) => user._id === myID);
-
 function CommentPopup({ post, onClose }) {
+  const myID = getMyID();
+  const user = userData.find((user) => user._id === myID);
   const [text, setText] = useState("");
   const commentSectionRef = useRef(null);
 
@@ -149,7 +148,7 @@ function PostList({ posts }) {
                 className="post-image"
                 src={post.image}
                 alt="Post Image"
-                onClick={handleImageClick}
+                onClick={() => handleImageClick()}
                 style={zoomIn ? { maxWidth: "100%" } : { maxWidth: "20%" }}
               />
             )}

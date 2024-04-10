@@ -4,7 +4,7 @@ import profile3 from "../Pictures/dummyPictures/profile (3).jpg";
 import profile4 from "../Pictures/dummyPictures/profile (4).jpg";
 import profile5 from "../Pictures/dummyPictures/profile (5).jpg";
 
-export const userData = [
+export var userData = [
   {
     _id: "6613961f06197f0460a66274",
     username: "john",

@@ -8,15 +8,18 @@ import { getStyling } from "../functions/style";
 import { getMyID } from "./LoginPage";
 import { userData } from "../functions/dummydata";
 
-const myID = getMyID();
-const user = userData.find((user) => user._id === myID);
-const followees = userData.filter((users) => user.followee.includes(users._id));
-const followers = userData.filter((users) => user.follower.includes(users._id));
-console.log(followees, followers);
-
-const posts = [];
+var posts = [];
+var followees = [];
+var followers = [];
 
 export default function ProfilePage() {
+  const myID = getMyID();
+  const user = userData.find((user) => user._id === myID);
+  if (user) {
+    followees = userData.filter((users) => user.followee.includes(users._id));
+    followers = userData.filter((users) => user.follower.includes(users._id));
+    console.log(followees, followers);
+  }
   const styling = getStyling();
   const [isOther, setIsOther] = useState(false);
 
@@ -55,11 +58,11 @@ export default function ProfilePage() {
           <div className="ProfileCard">
             <div className="SelfInfo">
               <div className="ProfileImange">
-                <img src={user.icon_id} alt="user" />
+                <img src={user && user.icon_id} alt="user" />
               </div>
               <div>
-                <h3 className="Name">{user.username}</h3>
-                <p>{user.bio}</p>
+                <h3 className="Name">{user && user.username}</h3>
+                <p>{user && user.bio}</p>
               </div>
               {isOther ? <a className="FollowButton">Follow</a> : <></>}
             </div>
@@ -106,10 +109,13 @@ export default function ProfilePage() {
                     {followers.map((data) => (
                       <UserCard
                         key={data._id}
+                        UserID={data.user_id}
                         Username={data.username}
                         UserIcon={data.icon_id}
                         UserEmail={data.email}
-                        UserStatus={true}
+                        UserStatus={
+                          user && user.follower.includes(data.user_id)
+                        }
                       />
                     ))}
                   </>

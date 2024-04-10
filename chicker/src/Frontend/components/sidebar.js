@@ -21,29 +21,23 @@ const disablestyle = {
 };
 
 function LogInOut() {
-
   const isLoggedIn = getUserLogin();
   const navigate = useNavigate();
 
-  const handleLogOut = (event) => {
-    event.preventDefault();
-    fetch('/api/logout', {
-      method: 'POST',
+  const handleLogOut = () => {
+    fetch("/api/logout", {
+      method: "POST",
     })
-      .then(response => response.json())
-      .then(data => {
+      .then((response) => response.json())
+      .then((data) => {
         if (data.msg === "Success.") {
-          console.log("Logout successfully")
+          console.log("Logout successfully");
           setUserLogin(false);
           navigate("/");
-          window.location.reload();
         } else {
-          console.log("Logout failed")
+          console.log("Logout failed");
           alert("Logout failed");
         }
-      })
-      .catch(error => {
-        // Handle any errors
       });
   };
 
@@ -58,9 +52,9 @@ function LogInOut() {
             padding: "5px 10px",
             marginBottom: "20px",
           }}
-          onClick={handleLogOut}
+          onClick={() => handleLogOut()}
         >
-          <button className="logoutButton" onClick={handleLogOut}>
+          <button className="logoutButton" onClick={() => handleLogOut()}>
             Logout
           </button>
         </Link>

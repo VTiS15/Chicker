@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 
 import "./Home.css";
 import Sidebar from "../components/sidebar.js";
@@ -14,6 +14,7 @@ import profilepic from "../Pictures/UserNeedLogin.jpeg";
 const posts = post;
 const styling = getStyling();
 const commentsOfEachPost = posts.map((post) => post.comments);
+const date = new Date();
 
 export default function Home() {
   const isLoggedIn = getUserLogin();
@@ -21,17 +22,25 @@ export default function Home() {
   const [uploadedImage, setUploadedImage] = useState(null);
   const [uploadedVideo, setUploadedVideo] = useState(null);
   const [fileType, setFileType] = useState("");
-  const date = new Date();
-  const photoInputRef = useRef();
+  const fileInputRef = useRef();
+
+  useEffect(() => {
+    if (fileInputRef.current) {
+      fileInputRef.current.accept = fileType;
+    }
+  }, [fileType]);
 
   const handleClickImage = () => {
-    photoInputRef.current.click();
-    setFileType("image/png, image/jpg, image/jpeg");
+    handleClick("image/png, image/jpg, image/jpeg");
   };
 
   const handleClickVideo = () => {
-    photoInputRef.current.click();
-    setFileType("video/mp4");
+    handleClick("video/mp4");
+  };
+
+  const handleClick = (fileType) => {
+    fileInputRef.current.accept = fileType;
+    fileInputRef.current.click();
   };
 
   const handleUplaod = (e) => {
@@ -94,7 +103,7 @@ export default function Home() {
               <input
                 type="file"
                 accept={fileType}
-                ref={photoInputRef}
+                ref={fileInputRef}
                 onChange={handleUplaod}
                 style={{ display: "none" }}
               />

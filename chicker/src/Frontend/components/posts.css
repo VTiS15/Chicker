@@ -107,6 +107,17 @@
   background-color: #d9d9d9;
 }
 
+.SharePopupInner {
+  background-color: white;
+  margin: 10% auto;
+  padding: 20px 20px 0 20px;
+  border: 1px solid #888888;
+  width: 40%;
+  border-radius: 15px;
+  overflow-y: auto;
+  position: relative;
+}
+
 .commentPopup {
   position: fixed;
   z-index: 1;

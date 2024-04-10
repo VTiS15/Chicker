@@ -35,10 +35,12 @@ export default function Home() {
   }, [fileType]);
 
   const handleClickImage = () => {
+    setFileType("image/png, image/jpg, image/jpeg");
     handleClick("image/png, image/jpg, image/jpeg");
   };
 
   const handleClickVideo = () => {
+    setFileType("video/mp4");
     handleClick("video/mp4");
   };
 
@@ -49,7 +51,9 @@ export default function Home() {
 
   const handleUplaod = (e) => {
     const selectedFile = e.target.files[0];
-    if (selectedFile) {
+    if (selectedFile && fileType === "video/mp4") {
+      setUploadedVideo(URL.createObjectURL(selectedFile));
+    } else {
       setUploadedImage(URL.createObjectURL(selectedFile));
     }
   };
@@ -97,12 +101,13 @@ export default function Home() {
               value={postText}
               onChange={(e) => setPostText(e.target.value)}
             />
-            {(uploadedImage || uploadedVideo) && (
+            {uploadedImage && (
               <img
                 style={{ maxWidth: "20%", borderRadius: "12px" }}
                 src={uploadedImage}
               />
             )}
+            {uploadedVideo && <p>You have uploaded a video</p>}
             <div class="button-container">
               <input
                 type="file"

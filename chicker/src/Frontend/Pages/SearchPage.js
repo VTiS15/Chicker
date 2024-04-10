@@ -9,10 +9,10 @@ import { userData } from "../functions/dummydata";
 import { getUserLogin } from "./LoginPage";
 import { getStyling } from "../functions/style";
 import CryPic from "../Pictures/crying.jpg";
+const styling = getStyling();
 
 export default function SearchPage() {
-  const styling = getStyling();
-  const userLogin = getUserLogin();
+  // const userLogin = getUserLogin();
 
   const [recommandationtype, setRecommandationtype] = useToggle(true);
   const [showSearchResult, setShowSearchResult] = useState(false);
@@ -130,8 +130,9 @@ export default function SearchPage() {
                 <>
                   {recommendedUsers.map((data) => (
                     <UserCard
+                      UserID={data.user_id}
                       Username={data.username}
-                      UserIcon={data.image}
+                      UserIcon={data.icon_id}
                       UserEmail={data.email}
                       UserStatus={data.isfollowing}
                     />

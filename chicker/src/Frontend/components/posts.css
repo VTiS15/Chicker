@@ -33,6 +33,15 @@
   border: 1px solid #a8a7a7;
   border-radius: 15px;
   margin-bottom: 10px;
+  max-width: 30%;
+  height: auto;
+  cursor: pointer;
+}
+
+.post-video {
+  border: 1px solid #a8a7a7;
+  border-radius: 15px;
+  margin-bottom: 10px;
   max-width: 100%;
   height: auto;
 }

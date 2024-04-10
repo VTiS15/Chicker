@@ -19,7 +19,6 @@ export default function LoginPage() {
   const [password, setPassword] = useState("");
   const users = useGetUsers();
   const navigate = useNavigate();
-  console.log(users);
 
   const handleChange = (event) => {
     if (event.target.id === "fname") {
@@ -34,15 +33,15 @@ export default function LoginPage() {
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    fetch('/api/login', {
-      method: 'POST',
+    fetch("/api/login", {
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json'
+        "Content-Type": "application/json",
       },
-      body: JSON.stringify({ username, password })
+      body: JSON.stringify({ username, password }),
     })
-      .then(response => response.json())
-      .then(data => {
+      .then((response) => response.json())
+      .then((data) => {
         if (data.user_id) {
           console.log("Login successfully");
           setUserLogin(true);
@@ -50,11 +49,10 @@ export default function LoginPage() {
         } else {
           console.log("Login failed");
           alert("Wrong username/password");
-          console.log(data.user_id);
         }
       })
-      .catch(error => {
-        // Handle any errors
+      .catch((error) => {
+        console.log(error);
       });
 
     // if (username && password) {

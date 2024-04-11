@@ -38,7 +38,6 @@ const AdminPage = () => {
         } else if (data.msg === "Success") {
           console.log("Delete user successfully");
           alert("Delete user successfully");
-          window.location.reload();
         } else if (data.msg === "User not found.") {
           console.log("User not found.");
           alert("User not found.");

@@ -88,6 +88,7 @@ function LogInOut() {
 
 const Sidebar = () => {
   const isLoggedIn = getUserLogin();
+  const [needRender, setNeedRender] = useState(isAdmin);
 
   let user_id = getMyID();
   fetch("/api/user/delete", {
@@ -102,6 +103,7 @@ const Sidebar = () => {
       if (data.msg === "Deletion of self is forbidden.") {
         console.log("Welcome dear admin~");
         setIsAdmin(true);
+        setNeedRender(true);
         console.log(isAdmin);
       } else {
         console.log("You are not admin!");

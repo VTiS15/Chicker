@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from "react";
 import "./SettingPage.css";
 
 import { getStyling, setStyling } from "../functions/style";
+const styling = getStyling();
 
 export default function SettingPage() {
   const [selectedFont, setSelectedFont] = useState("Courier New");
@@ -33,8 +34,6 @@ export default function SettingPage() {
     if (!themeColor) setStyling({ backgroundColor: "#dfb682" });
     else setStyling({ backgroundColor: "#2f2f2f" });
   };
-
-  const styling = getStyling();
 
   const profileRef = useRef();
   const securityRef = useRef();

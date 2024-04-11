@@ -54,6 +54,10 @@
   cursor: pointer;
 }
 
+.left-button:hover {
+  opacity: 0.5;
+}
+
 .right-button {
   width: 10%;
   margin-left: auto;

@@ -11,36 +11,36 @@ export default function RegistrartionPage() {
   const navigate = useNavigate();
 
   const handleSubmit = (event) => {
-    if(password !== password2) {
+    if (password !== password2) {
       alert("Password not same");
     } else {
       event.preventDefault();
 
-      fetch('/api/register', {
-        method: 'POST',
+      fetch("/api/register", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json'
+          "Content-Type": "application/json",
         },
-        body: JSON.stringify({ username, email, password })
+        body: JSON.stringify({ username, email, password }),
       })
-        .then(response => response.json())
-        .then(data => {
+        .then((response) => response.json())
+        .then((data) => {
           if (data.msg === "Success.") {
-            console.log("Register successfully")
+            console.log("Register successfully");
             navigate("/Login");
-          } else if(data.msg === "Username taken.") {
-            console.log("Register failed")
+          } else if (data.msg === "Username taken.") {
+            console.log("Register failed");
             alert("Username taken");
           } else {
-            console.log("Register failed")
+            console.log("Register failed");
             alert("Registered failed");
           }
         })
-        .catch(error => {
+        .catch((error) => {
           // Handle any errors
         });
     }
-  }
+  };
 
   return (
     <div className="RegistrartionPage">
@@ -52,15 +52,27 @@ export default function RegistrartionPage() {
         <img className="logo" src={logo} />
         <h2>Create an account</h2>
         <form className="RegistrartionForm" onSubmit={handleSubmit}>
-          <input type="text" placeholder="Username" id="fname" 
+          <input
+            type="text"
+            placeholder="Username"
+            id="fname"
             value={username}
-            onChange={(e) => setUsername(e.target.value)}/>
-          <input type="email" placeholder="Email" id="femail" 
+            onChange={(e) => setUsername(e.target.value)}
+          />
+          <input
+            type="email"
+            placeholder="Email"
+            id="femail"
             value={email}
-            onChange={(e) => setEmail(e.target.value)}/>
-          <input type="password" placeholder="Password" id="fpassword" 
+            onChange={(e) => setEmail(e.target.value)}
+          />
+          <input
+            type="password"
+            placeholder="Password"
+            id="fpassword"
             value={password}
-            onChange={(e) => setPassword(e.target.value)}/>
+            onChange={(e) => setPassword(e.target.value)}
+          />
           <input
             type="password"
             placeholder="Enter Password again"

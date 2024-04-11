@@ -1,8 +1,10 @@
 import json
+from io import BytesIO
 
 import gridfs
 from bson import ObjectId, json_util
 from db import chat_db
+from flask import send_file
 from flask_login import current_user, login_required
 from flask_restful import Resource, reqparse
 from mongo.chat import Chat
@@ -98,9 +100,19 @@ class MessageSend(Resource):
 
             if data.images:
                 for image in data.images:
-                    if allowed_file(image.filename, ["png", "jpg", "jpeg"]):
+                    if allowed_file(image.filename, {"png", "jpg", "jpeg"}):
+                        extension = image.filename.rsplit(".", 1)[1].lower()
+                        if extension == "png":
+                            mimetype = "image/png"
+                        else:
+                            mimetype = "image/jpeg"
+
                         message["image_ids"].append(
-                            gridfs.GridFS(chat_db).put(image.read())
+                            gridfs.GridFS(chat_db).put(
+                                image.read(),
+                                filename=f"{ObjectId()}.{extension}",
+                                metadata={"contentType": mimetype},
+                            )
                         )
                     else:
                         return {
@@ -109,13 +121,23 @@ class MessageSend(Resource):
 
             if data.videos:
                 for video in data.videos:
-                    if allowed_file(video.filename, ["mp4", "mov"]):
+                    if allowed_file(video.filename, {"mp4", "mov"}):
+                        extension = video.filename.rsplit(".", 1)[1].lower()
+                        if extension == "mp4":
+                            mimetype = "video/mp4"
+                        else:
+                            mimetype = "video/quicktime"
+
                         message["video_ids"].append(
-                            gridfs.GridFS(chat_db).put(video.read())
+                            gridfs.GridFS(chat_db).put(
+                                video.read(),
+                                filename=f"{ObjectId()}.{extension}",
+                                metadata={"contentType": mimetype},
+                            )
                         )
                     else:
                         return {
-                            "msg": 'Only videos with extension "mp4" and "mov" are allowed.'
+                            "msg": 'Only videos with extension "mp4" are allowed.'
                         }, 400
 
             if (
@@ -171,3 +193,24 @@ class GetHistory(Resource):
             return response, 200
 
         return {"msg": "Chat not found."}, 404
+
+
+class GetChatFile(Resource):
+    parser = reqparse.RequestParser()
+    parser.add_argument("file_id", type=str, required=True, help="ID of target file.")
+
+    def get(self):
+        data = GetChatFile.parser.parse_args()
+        fs = gridfs.GridFS(chat_db)
+
+        try:
+            f = fs.get(ObjectId(data.file_id))
+        except gridfs.NoFile:
+            return {"msg": "File not found."}, 404
+
+        return send_file(
+            BytesIO(f.read()),
+            mimetype=f.metadata["contentType"],
+            as_attachment=True,
+            download_name=f.filename,
+        )

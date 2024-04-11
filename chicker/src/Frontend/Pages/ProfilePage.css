@@ -9,11 +9,12 @@ body {
 
 .ProfileCard {
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
   text-align: center;
   padding-left: 13%;
+  flex-direction: column;
+  margin-top: 2vh;
 }
 
 .ProfileImange img {
@@ -28,10 +29,11 @@ body {
 
 .SelfInfo {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
   justify-content: center;
   text-align: center;
+  gap: 2vw;
 }
 
 .DetailContainer {
@@ -40,6 +42,9 @@ body {
   padding: 8px;
   text-align: center;
   width: 400px;
+  display: flex;
+  margin-top: 2vh;
+  justify-content: space-between;
 }
 
 .NumberContainer {
@@ -96,9 +101,9 @@ body {
 
 .Base {
   width: 80%;
-  height: 60vh;
+  height: 80vh;
   position: absolute;
-  margin-top: 2vh;
+  margin-top: 8vh;
   border: 2px solid black;
   max-height: 450px;
 }

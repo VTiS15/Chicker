@@ -5,11 +5,32 @@ import liked from "../Pictures/liked.png";
 import comment from "../Pictures/comment.png";
 import share from "../Pictures/share.png";
 import send from "../Pictures/send.png";
+import profile5 from "../Pictures/dummyPictures/profile (5).jpg";
 
 import { getUserLogin } from "../Pages/LoginPage";
+import { userData } from "../functions/dummydata";
+import { getMyID } from "../Pages/LoginPage";
+import { post } from "../functions/dummyPosts";
+const posts = post;
+const date = new Date();
 
 function CommentPopup({ post, onClose }) {
+  const myID = getMyID();
+  const user = userData.find((user) => user._id === myID);
+  const [text, setText] = useState("");
   const commentSectionRef = useRef(null);
+
+  const [commentHistory, setCommentHistory] = useState(post.commentContent);
+  const handleSend = () => {
+    const comment = document.getElementById("textArea").value;
+    post.commentContent.unshift({
+      image: user.icon_id,
+      commenter: user.username,
+      comment: comment,
+    });
+    setCommentHistory([...commentHistory, {}]);
+    setText("");
+  };
 
   useEffect(() => {
     if (commentSectionRef.current) {
@@ -43,8 +64,113 @@ function CommentPopup({ post, onClose }) {
           <textarea
             class="enterCommentText"
             placeholder="Post your comment"
+            id="textArea"
+            value={text}
+            onChange={(e) => setText(e.target.value)}
           ></textarea>
-          <img class="sendIcon" src={send}></img>
+          <img class="sendIcon" src={send} onClick={handleSend}></img>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function SharePopup({ selectedPost, onClose }) {
+  const myID = getMyID();
+  const user = userData.find((user) => user._id === myID);
+  const [showMore, setShowMore] = useState(false);
+  const [text, setText] = useState("");
+
+  const handleSend = () => {
+    const repostText = document.getElementById("repostText").value;
+    if (repostText) {
+      posts.unshift({
+        postID: posts.length + 1,
+        user: {
+          username: user.username,
+          profilePicture: user.icon_id,
+        },
+        timestamp: date.toLocaleTimeString(),
+        text:
+          repostText +
+          "\n\nBy @" +
+          selectedPost.user.username +
+          "\n" +
+          selectedPost.text,
+        image: selectedPost.image,
+        video: selectedPost.video,
+        likes: 0,
+        comments: 0,
+        commentContent: [],
+        shares: 0,
+      });
+      setText("");
+      selectedPost.shares = selectedPost.shares + 1;
+      onClose();
+    } else {
+      alert("Share something before repost");
+    }
+  };
+
+  return (
+    <div id="sharePopup" className="commentPopup">
+      <div className="SharePopupInner">
+        <button className="closeButton" onClick={onClose}>
+          Close
+        </button>
+        <div className="Comments">
+          <div key={selectedPost.postID} className="post">
+            <div className="user-info">
+              <div className="IconAndName">
+                <img
+                  src={selectedPost.user.profilePicture}
+                  alt="Profile Picture"
+                />
+                <span className="username">{selectedPost.user.username}</span>
+              </div>
+              <span className="timestamp">{selectedPost.timestamp}</span>
+            </div>
+            <div className="content">
+              <p className="post-text">
+                {selectedPost.text.length > 1000 && showMore
+                  ? selectedPost.text
+                  : `${selectedPost.text.substring(0, 100)}`}
+                {selectedPost.text.length > 1000 ? (
+                  <span
+                    className="see-more-button"
+                    onClick={() => setShowMore(!showMore)}
+                  >
+                    {showMore ? " Show less" : " ...Show more"}
+                  </span>
+                ) : (
+                  <></>
+                )}
+              </p>
+              {selectedPost.image && (
+                <img
+                  className="post-image"
+                  src={selectedPost.image}
+                  alt="Post Image"
+                  style={{ maxWidth: "100%" }}
+                />
+              )}
+              {selectedPost.video && (
+                <video className="post-video" controls>
+                  <source src={selectedPost.video} type="video/mp4" />
+                </video>
+              )}
+            </div>
+          </div>
+        </div>
+        <div class="enterComment">
+          <textarea
+            class="enterCommentText"
+            placeholder="Repost with your thoughts"
+            id="repostText"
+            value={text}
+            onChange={(e) => setText(e.target.value)}
+          ></textarea>
+          <img class="sendIcon" src={send} onClick={handleSend}></img>
         </div>
       </div>
     </div>
@@ -56,6 +182,17 @@ function PostList({ posts }) {
   const [likeStates, setLikeStates] = useState(posts.map(() => false));
   const [showMore, setShowMore] = useState(false);
   const [selectedPost, setSelectedPost] = useState(null); // Track the selected post for comments
+  const [zoomIn, setZoomIn] = useState(false);
+  const [isCommentPopupOpen, setCommentPopupOpen] = useState(false);
+  const [isSharePopupOpen, setSharePopupOpen] = useState(false);
+
+  const handleImageClick = () => {
+    if (zoomIn === false) {
+      setZoomIn(true);
+    } else {
+      setZoomIn(false);
+    }
+  };
 
   const handleButtonClick = (index) => {
     const newLikeStates = [...likeStates];
@@ -69,17 +206,27 @@ function PostList({ posts }) {
     if (myPopup) {
       myPopup.classList.add("show");
     }
+    setCommentPopupOpen(true);
   };
   const closeCommentPopup = () => {
     const myPopup = document.getElementById("commentPopup");
     myPopup.classList.remove("show");
+    setCommentPopupOpen(false);
   };
-  window.addEventListener("click", (event) => {
-    const myPopup = document.getElementById("commentPopup");
-    if (event.target === myPopup) {
-      myPopup.classList.remove("show");
+
+  const openSharePopup = (post) => {
+    setSelectedPost(post);
+    const myPopup = document.getElementById("sharePopup");
+    if (myPopup) {
+      myPopup.classList.add("show");
     }
-  });
+    setSharePopupOpen(true);
+  };
+  const closeSharePopup = () => {
+    const myPopup = document.getElementById("sharePopup");
+    myPopup.classList.remove("show");
+    setSharePopupOpen(false);
+  };
 
   return (
     <div className="grid-item">
@@ -93,7 +240,7 @@ function PostList({ posts }) {
             <span className="timestamp">{post.timestamp}</span>
           </div>
           <div className="content">
-            <p className="post-text">
+            <p style={{ whiteSpace: "pre-line" }} className="post-text">
               {post.text.length > 1000 && showMore
                 ? post.text
                 : `${post.text.substring(0, 500)}`}
@@ -109,10 +256,16 @@ function PostList({ posts }) {
               )}
             </p>
             {post.image && (
-              <img className="post-image" src={post.image} alt="Post Image" />
+              <img
+                className="post-image"
+                src={post.image}
+                alt="Post Image"
+                onClick={() => handleImageClick()}
+                style={zoomIn ? { maxWidth: "100%" } : { maxWidth: "20%" }}
+              />
             )}
             {post.video && (
-              <video className="post-image" controls>
+              <video className="post-video" controls>
                 <source src={post.video} type="video/mp4" />
               </video>
             )}
@@ -142,10 +295,11 @@ function PostList({ posts }) {
                 disabled={!isLoggedIn}
               >
                 <img src={comment} alt="Comment" />
-                <span className="post-count">{post.comments}</span>
+                <span className="post-count">{post.commentContent.length}</span>
               </button>
               <button
                 className="post-button"
+                onClick={() => openSharePopup(post)}
                 style={isLoggedIn ? {} : { cursor: "not-allowed" }}
                 disabled={!isLoggedIn}
               >
@@ -156,6 +310,9 @@ function PostList({ posts }) {
           </div>
           {selectedPost && (
             <CommentPopup post={selectedPost} onClose={closeCommentPopup} />
+          )}
+          {selectedPost && (
+            <SharePopup selectedPost={selectedPost} onClose={closeSharePopup} />
           )}
         </div>
       ))}

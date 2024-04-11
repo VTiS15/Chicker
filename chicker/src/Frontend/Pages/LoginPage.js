@@ -19,6 +19,14 @@ export const getMyID = () => {
   return myID;
 };
 
+// let isAdmin = false;
+// export const setIsAdmin = (x) => {
+//   isAdmin = x;
+// };
+// export const getIsAdmin = () => {
+//   return isAdmin;
+// };
+
 export default function LoginPage() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -61,14 +69,30 @@ export default function LoginPage() {
         console.log(error);
       });
 
-    // if (username && password) {
-    //   setUserLogin(true);
-    //   console.log(login);
-    //   navigate("/");
-    // } else {
-    //   alert("Please fill out all fields");
-    //   return;
-    // }
+      // let user_id = getMyID();
+      // fetch("/api/user/delete", {
+      //   method: 'DELETE',
+      //   headers: {
+      //     'Content-Type': 'application/json'
+      //   },
+      //   body: JSON.stringify({ user_id })
+      // })
+      //   .then(response => response.json())
+      //   .then(data => {
+      //     if (data.msg === "Deletion of self is forbidden.") {
+      //       console.log("Welcome dear admin~");
+      //       setIsAdmin(true);
+      //       navigate("/");
+      //     } else {
+      //       console.log("You are not admin!");
+      //       setIsAdmin(false);
+      //       navigate("/");
+      //     }
+      //   })
+      //   .catch(error => {
+      //     console.log(error);
+      //   });
+
   };
 
   return (

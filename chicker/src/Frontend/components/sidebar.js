@@ -1,7 +1,9 @@
 import "./sidebar.css";
 import { Link, useNavigate } from "react-router-dom";
+import { useState } from "react";
 import React from "react";
 import { getUserLogin, setUserLogin } from "../Pages/LoginPage";
+import { getMyID, setMyID } from "../Pages/LoginPage";
 
 import logo from "../Pictures/IconClear.png";
 import home from "../Pictures/home.svg";
@@ -10,6 +12,14 @@ import profile from "../Pictures/profile.svg";
 import chat from "../Pictures/chat.svg";
 import setting from "../Pictures/setting.svg";
 import admin from "../Pictures/admin.svg";
+
+let isAdmin = false;
+export const setIsAdmin = (x) => {
+  isAdmin = x;
+};
+export const getIsAdmin = () => {
+  return isAdmin;
+};
 
 const linkstyle = {
   textDecoration: "none",
@@ -78,6 +88,31 @@ function LogInOut() {
 
 const Sidebar = () => {
   const isLoggedIn = getUserLogin();
+
+  let user_id = getMyID();
+  fetch("/api/user/delete", {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ user_id })
+  })
+    .then(response => response.json())
+    .then(data => {
+      if (data.msg === "Deletion of self is forbidden.") {
+        console.log("Welcome dear admin~");
+        setIsAdmin(true);
+        console.log(isAdmin);
+      } else {
+        console.log("You are not admin!");
+        setIsAdmin(false);
+        console.log(isAdmin);
+      }
+    })
+    .catch(error => {
+      console.log(error);
+    });
+
   return (
     <div className="sidebar">
       <img className="sidebar-image" src={logo} alt="Home" />
@@ -128,7 +163,7 @@ const Sidebar = () => {
             <span className="button-text">Setting</span>
           </button>
         </Link>
-        <Link to="/Admin" style={{ textDecoration: "none" }}>
+        {isAdmin ? <Link to="/Admin" style={{ textDecoration: "none" }}>
           <button
             className="sidebar-button"
             style={isLoggedIn ? linkstyle : disablestyle}
@@ -137,7 +172,7 @@ const Sidebar = () => {
             <img className="icon" src={admin} alt="Home" />
             <span className="button-text">Admin</span>
           </button>
-        </Link>
+        </Link> : <></>}
       </div>
       <LogInOut />
     </div>

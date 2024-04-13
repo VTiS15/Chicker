@@ -155,8 +155,12 @@ class MessageSend(Resource):
 
 class GetHistory(Resource):
     parser = reqparse.RequestParser()
-    parser.add_argument("user1_id", type=str, required=True, help="ID of user1 of chat")
-    parser.add_argument("user2_id", type=str, required=True, help="ID of user2 of chat")
+    parser.add_argument(
+        "user1_id", type=str, required=True, help="ID of user1 of chat", location="args"
+    )
+    parser.add_argument(
+        "user2_id", type=str, required=True, help="ID of user2 of chat", location="args"
+    )
 
     def get(self):
         data = GetHistory.parser.parse_args()
@@ -197,7 +201,9 @@ class GetHistory(Resource):
 
 class GetChatFile(Resource):
     parser = reqparse.RequestParser()
-    parser.add_argument("file_id", type=str, required=True, help="ID of target file.")
+    parser.add_argument(
+        "file_id", type=str, required=True, help="ID of target file.", location="args"
+    )
 
     def get(self):
         data = GetChatFile.parser.parse_args()

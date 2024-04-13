@@ -33,7 +33,9 @@ def unauthorized():
 
 class GetUser(Resource):
     parser = reqparse.RequestParser()
-    parser.add_argument("user_id", type=str, required=True, help="ID of target user.")
+    parser.add_argument(
+        "user_id", type=str, required=True, help="ID of target user.", location="args"
+    )
 
     def get(self):
         data = GetUser.parser.parse_args()
@@ -68,7 +70,9 @@ class GetUsers(Resource):
 
 class GetIcon(Resource):
     parser = reqparse.RequestParser()
-    parser.add_argument("user_id", type=str, required=True, help="ID of target user.")
+    parser.add_argument(
+        "user_id", type=str, required=True, help="ID of target user.", location="args"
+    )
 
     def get(self):
         data = GetIcon.parser.parse_args()
@@ -369,7 +373,7 @@ class UserUpdate(Resource):
 
 class SearchUsers(Resource):
     parser = reqparse.RequestParser()
-    parser.add_argument("prompt", type=str, help="Search prompt.")
+    parser.add_argument("prompt", type=str, help="Search prompt.", location="args")
 
     def get(self):
         data = SearchUsers.parser.parse_args()

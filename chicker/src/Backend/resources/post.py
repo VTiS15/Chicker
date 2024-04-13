@@ -113,11 +113,7 @@ class PostCreate(Resource):
 
 class GetPost(Resource):
     parser = reqparse.RequestParser()
-    parser.add_argument(
-        "post_id",
-        type=str,
-        help="Id of post.",
-    )
+    parser.add_argument("post_id", type=str, help="Id of post.", location="args")
 
     def get(self):
         data = GetPost.parser.parse_args()
@@ -131,7 +127,9 @@ class GetPost(Resource):
 
 class GetPostFile(Resource):
     parser = reqparse.RequestParser()
-    parser.add_argument("file_id", type=str, required=True, help="ID of target file.")
+    parser.add_argument(
+        "file_id", type=str, required=True, help="ID of target file.", location="args"
+    )
 
     def get(self):
         data = GetPostFile.parser.parse_args()

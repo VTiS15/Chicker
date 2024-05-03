@@ -14,6 +14,7 @@ from werkzeug.datastructures import FileStorage
 
 
 class PostCreate(Resource):
+    """RESTful API resource that creates a post."""
     parser = reqparse.RequestParser()
     parser.add_argument(
         "text",
@@ -112,6 +113,7 @@ class PostCreate(Resource):
 
 
 class GetPost(Resource):
+    """RESTful API resource that returns a post."""
     parser = reqparse.RequestParser()
     parser.add_argument("post_id", type=str, help="Id of post.", location="args")
 
@@ -126,6 +128,7 @@ class GetPost(Resource):
 
 
 class GetPostFile(Resource):
+    """RESTful API resource that returns a file from a post."""
     parser = reqparse.RequestParser()
     parser.add_argument(
         "file_id", type=str, required=True, help="ID of target file.", location="args"
@@ -149,6 +152,7 @@ class GetPostFile(Resource):
 
 
 class PostRecommend(Resource):
+    """RESTful API resource that recommends five posts."""
     def get(self):
         posts = list(post_db.post.find({}))
         if len(posts) > 5:
@@ -164,6 +168,7 @@ class PostRecommend(Resource):
 
 
 class PostUpdate(Resource):
+    """RESTful API resource that updates a post's visibility."""
     parser = reqparse.RequestParser()
     parser.add_argument(
         "is_private",
@@ -195,6 +200,7 @@ class PostUpdate(Resource):
 
 
 class PostLike(Resource):
+    """RESTful API resource that likes a post for a user."""
     parser = reqparse.RequestParser()
     parser.add_argument(
         "post_id",
@@ -230,6 +236,7 @@ class PostLike(Resource):
 
 
 class PostUnlike(Resource):
+    """RESTful API resource that  unlikes a post for a user."""
     parser = reqparse.RequestParser()
     parser.add_argument(
         "post_id",
@@ -265,6 +272,7 @@ class PostUnlike(Resource):
 
 
 class Repost(Resource):
+    """RESTful API resource that reposts a post."""
     parser = reqparse.RequestParser()
     parser.add_argument("post_id", type=str, required=True, help="ID of target post.")
     parser.add_argument(
@@ -298,6 +306,7 @@ class Repost(Resource):
 
 
 class PostDelete(Resource):
+    """RESTful API resource that deletes a post."""
     parser = reqparse.RequestParser()
     parser.add_argument(
         "post_id",
@@ -334,6 +343,7 @@ class PostDelete(Resource):
 
 
 class CommentCreate(Resource):
+    """RESTful API resource that creates a comment."""
     parser = reqparse.RequestParser()
     parser.add_argument(
         "post_id",
@@ -367,6 +377,7 @@ class CommentCreate(Resource):
 
 
 class CommentLike(Resource):
+    """RESTful API resource that likes a comment for a user."""
     parser = reqparse.RequestParser()
     parser.add_argument(
         "comment_id",
@@ -402,6 +413,7 @@ class CommentLike(Resource):
 
 
 class CommentUnlike(Resource):
+    """RESTful API resource that unlikes a post for a user."""
     parser = reqparse.RequestParser()
     parser.add_argument(
         "comment_id",
@@ -437,6 +449,7 @@ class CommentUnlike(Resource):
 
 
 class CommentDelete(Resource):
+    """RESTful API resource that deletes a comment."""
     parser = reqparse.RequestParser()
     parser.add_argument(
         "comment_id",

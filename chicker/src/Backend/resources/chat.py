@@ -13,6 +13,7 @@ from werkzeug.datastructures import FileStorage
 
 
 class ChatCreate(Resource):
+    """RESTful API resource that creates a chat room between two users."""
     parser = reqparse.RequestParser()
     parser.add_argument(
         "user_id", type=str, required=True, help="ID of other user of chat."
@@ -40,6 +41,7 @@ class ChatCreate(Resource):
 
 
 class MessageSend(Resource):
+    """RESTful API resource that sends a message to a user."""
     parser = reqparse.RequestParser()
     parser.add_argument(
         "receiver_id",
@@ -154,6 +156,7 @@ class MessageSend(Resource):
 
 
 class GetHistory(Resource):
+    """RESTful API resource that returns the chat history between any two users."""
     parser = reqparse.RequestParser()
     parser.add_argument(
         "user1_id", type=str, required=True, help="ID of user1 of chat", location="args"
@@ -200,6 +203,7 @@ class GetHistory(Resource):
 
 
 class GetChatFile(Resource):
+    """RESTful API resource that returns a file from a chat room."""
     parser = reqparse.RequestParser()
     parser.add_argument(
         "file_id", type=str, required=True, help="ID of target file.", location="args"

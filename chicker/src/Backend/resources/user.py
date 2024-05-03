@@ -20,6 +20,17 @@ from werkzeug.security import check_password_hash, generate_password_hash
 
 @login_manager.user_loader
 def load_user(id):
+    """This is a callback function for login_manager.user_loader.
+    
+    It reload the user object from the user ID stored in the session.
+
+    Args:
+        id (str): ID of a user
+
+    Returns:
+        mongo.user.User: the corresponding user object
+    """
+
     user = user_db.user.find_one({"_id": ObjectId(id)})
     if not user:
         return None
@@ -28,10 +39,17 @@ def load_user(id):
 
 @login_manager.unauthorized_handler
 def unauthorized():
+    """This is a callback function for login_manager.unauthorized_handler.
+
+    Returns:
+        dict: an error message in JSON format.
+        int: 401 HTTP status code
+    """
     return {"msg": "Not logged in."}, 401
 
 
 class GetUser(Resource):
+    """RESTful API resource that returns the information of a user."""
     parser = reqparse.RequestParser()
     parser.add_argument(
         "user_id", type=str, required=True, help="ID of target user.", location="args"
@@ -53,6 +71,7 @@ class GetUser(Resource):
 
 
 class GetUsers(Resource):
+    """RESTful API resource that returns the information of all users."""
     def get(self):
         response = {"users": []}
 
@@ -69,6 +88,7 @@ class GetUsers(Resource):
 
 
 class GetIcon(Resource):
+    """RESTful API resource that returns a user's icon."""
     parser = reqparse.RequestParser()
     parser.add_argument(
         "user_id", type=str, required=True, help="ID of target user.", location="args"
@@ -96,6 +116,7 @@ class GetIcon(Resource):
 
 
 class UserLogin(Resource):
+    """RESTful API resource that logs in a user."""
     parser = reqparse.RequestParser()
     parser.add_argument("username", type=str, required=True, help="Name of user.")
     parser.add_argument("password", type=str, required=True, help="Password of user.")
@@ -115,6 +136,7 @@ class UserLogin(Resource):
 
 
 class UserLogout(Resource):
+    """RESTful API resource that logs out a user."""
     @login_required
     def post(self):
         logout_user()
@@ -122,6 +144,7 @@ class UserLogout(Resource):
 
 
 class UserRegister(Resource):
+    """RESTful API resource that registers a new user."""
     parser = reqparse.RequestParser()
     parser.add_argument("username", type=str, required=True, help="Name of new user.")
     parser.add_argument(
@@ -146,6 +169,7 @@ class UserRegister(Resource):
 
 
 class UserDelete(Resource):
+    """RESTful API resource that deletes a user."""
     parser = reqparse.RequestParser()
     parser.add_argument("user_id", type=str, required=True, help="ID of target user.")
 
@@ -207,6 +231,7 @@ class UserDelete(Resource):
 
 
 class UserFollow(Resource):
+    """RESTful API resource that follows another user for a user."""
     parser = reqparse.RequestParser()
     parser.add_argument("user_id", type=str, required=True, help="ID of target user.")
 
@@ -240,6 +265,7 @@ class UserFollow(Resource):
 
 
 class UserUnfollow(Resource):
+    """RESTful API resource that unfollows another user for a user."""
     parser = reqparse.RequestParser()
     parser.add_argument("user_id", type=str, required=True, help="ID of target user.")
 
@@ -271,6 +297,7 @@ class UserUnfollow(Resource):
 
 
 class UserStatusChange(Resource):
+    """RESTful API resource that changes the status of a user."""
     parser = reqparse.RequestParser()
     parser.add_argument("user_id", type=str, required=True, help="ID of target user.")
     parser.add_argument(
@@ -302,6 +329,7 @@ class UserStatusChange(Resource):
 
 
 class UserRecommend(Resource):
+    """RESTful API resource that recommends maximum 10 users."""
     def get(self):
         return {
             "recommended_users": [
@@ -314,6 +342,7 @@ class UserRecommend(Resource):
 
 
 class UserUpdate(Resource):
+    """RESTful API resource that updates a user's email, bio, or icon."""
     parser = reqparse.RequestParser()
     parser.add_argument("email", type=str, help="New email of user", location="form")
     parser.add_argument("bio", type=str, help="New bio of user.", location="form")
@@ -372,6 +401,7 @@ class UserUpdate(Resource):
 
 
 class SearchUsers(Resource):
+    """RESTful API resource that searches for a user given a text prompt."""
     parser = reqparse.RequestParser()
     parser.add_argument("prompt", type=str, help="Search prompt.", location="args")
 
@@ -397,6 +427,7 @@ class SearchUsers(Resource):
 
 
 class SettingsUpdate(Resource):
+    """RESTful API resource that updates a user's settings."""
     parser = reqparse.RequestParser()
     parser.add_argument("color", type=str, required=True, help="Color of font.")
     parser.add_argument("size", type=int, required=True, help="Size of font.")

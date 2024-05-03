@@ -62,7 +62,7 @@ Make sure you have your .env file set up correctly.
 
 ```
 chicker
-├── src
+└── src
     ├── Backend
     |   ├── mongo
     |   |   ├── chat.py

@@ -1,3 +1,12 @@
+/*
+This is the search page where user can go to search for user they want to view/ follow
+They can enter the username in the search bar, then result will be displayed.
+Moreover, here is where recommanded user/post is shown.
+Functinos:
+- display recommanded users
+- display recommanded post
+- search users
+ */
 import "./SearchPage.css";
 import { useState, useEffect } from "react";
 import { useToggle } from "@uidotdev/usehooks";
@@ -23,12 +32,14 @@ export default function SearchPage() {
   const [recommandUserID, setRecommandUserID] = useState([]);
   const [recommandPostID, setRecommandPostID] = useState([]);
 
+  // this functino is use for handle search when user click the search button
   const handleSearch = (event) => {
     event.preventDefault();
     setShowSearchResult(true);
     setResults(searchUsers(searchTerm, users));
   };
 
+  // this function is use to find the matching username with user input
   const searchUsers = (term) => {
     return users.filter((user) => {
       return (

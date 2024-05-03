@@ -1,3 +1,17 @@
+/*
+This is the home page. There are 2 status.
+First, if the user is not login. They are guest users, they can only read the post post by other users and thay's it. 
+They cannot access to other pages, and they cannot do any actions except login.
+Next, after guest user login. They become normal user/ admin user. Then they can have access to all pages and they can read, like, retweet, comment on post.
+They can also create new post with at least one elements from text, picture, or video is included. Hence, they can post the post.
+Functions:
+- Create new post
+- view other users' post
+- like other post
+- retweet other posts
+- comment on other posts
+*/
+
 import { useState, useRef, useEffect } from "react";
 
 import "./Home.css";
@@ -47,6 +61,7 @@ export default function Home() {
     fileInputRef.current.click();
   };
 
+  // uploading video and pictures
   const handleUplaod = (e) => {
     const selectedFile = e.target.files[0];
     if (selectedFile && fileType === "video/mp4") {
@@ -56,12 +71,15 @@ export default function Home() {
     }
   };
 
+  // after users post new post, then everything they input will clear
   const handleClear = () => {
     setPostText("");
     setUploadedImage(null);
     setUploadedVideo(null);
   };
 
+  // this is for handling submit action where users want to post a new post
+  // it will check if the user at at least input one of three components(Text, picture, video)
   const handleSubmit = (Text, image, video) => {
     if (Text || image || video) {
       posts.unshift({

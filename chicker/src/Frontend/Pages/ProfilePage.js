@@ -1,3 +1,10 @@
+/*
+This is the profile page, where users can view their own information like username, bios, user icon
+They can view their posts they posted, followers, and user following them
+Funcitons:
+- Show username, user icon and bios
+- display user followers, followees and posts
+*/
 import React, { useEffect, useState, useRef } from "react";
 import Sidebar from "../components/sidebar";
 import UserCard from "../components/UserCard";
@@ -14,15 +21,18 @@ var followers = [];
 
 export default function ProfilePage() {
   const myID = getMyID();
+  // getting the user followers and followees from user
   const user = userData.find((user) => user._id === myID);
   if (user) {
     followees = userData.filter((users) => user.followee.includes(users._id));
     followers = userData.filter((users) => user.follower.includes(users._id));
     console.log(followees, followers);
   }
+  // getting the global styling
   const styling = getStyling();
-  const [isOther, setIsOther] = useState(false);
 
+  const [isOther, setIsOther] = useState(false);
+  // allow user to choose different sections will sliding animation
   const postRef = useRef();
   const followerRef = useRef();
   const followingRef = useRef();

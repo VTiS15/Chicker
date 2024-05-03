@@ -69,30 +69,29 @@ export default function LoginPage() {
         console.log(error);
       });
 
-      // let user_id = getMyID();
-      // fetch("/api/user/delete", {
-      //   method: 'DELETE',
-      //   headers: {
-      //     'Content-Type': 'application/json'
-      //   },
-      //   body: JSON.stringify({ user_id })
-      // })
-      //   .then(response => response.json())
-      //   .then(data => {
-      //     if (data.msg === "Deletion of self is forbidden.") {
-      //       console.log("Welcome dear admin~");
-      //       setIsAdmin(true);
-      //       navigate("/");
-      //     } else {
-      //       console.log("You are not admin!");
-      //       setIsAdmin(false);
-      //       navigate("/");
-      //     }
-      //   })
-      //   .catch(error => {
-      //     console.log(error);
-      //   });
-
+    // let user_id = getMyID();
+    // fetch("/api/user/delete", {
+    //   method: 'DELETE',
+    //   headers: {
+    //     'Content-Type': 'application/json'
+    //   },
+    //   body: JSON.stringify({ user_id })
+    // })
+    //   .then(response => response.json())
+    //   .then(data => {
+    //     if (data.msg === "Deletion of self is forbidden.") {
+    //       console.log("Welcome dear admin~");
+    //       setIsAdmin(true);
+    //       navigate("/");
+    //     } else {
+    //       console.log("You are not admin!");
+    //       setIsAdmin(false);
+    //       navigate("/");
+    //     }
+    //   })
+    //   .catch(error => {
+    //     console.log(error);
+    //   });
   };
 
   return (

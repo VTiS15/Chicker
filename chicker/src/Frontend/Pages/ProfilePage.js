@@ -6,7 +6,6 @@ import "./ProfilePage.css";
 
 import { getStyling } from "../functions/style";
 import { getMyID } from "./LoginPage";
-import { userData } from "../functions/dummydata";
 
 var posts = [];
 var followees = [];
@@ -14,6 +13,8 @@ var followers = [];
 
 export default function ProfilePage() {
   const myID = getMyID();
+  const [userData, setUsers] = useState([]);
+
   const user = userData.find((user) => user._id === myID);
   if (user) {
     followees = userData.filter((users) => user.followee.includes(users._id));
@@ -27,6 +28,15 @@ export default function ProfilePage() {
   const followerRef = useRef();
   const followingRef = useRef();
   const [activeSection, setActiveSection] = useState("post");
+
+  useEffect(() => {
+    fetch("/api/users").then((res) =>
+      res.json().then((data) => {
+        setUsers(data);
+        console.log(userData);
+      })
+    );
+  });
 
   const handleNavClick = (section) => {
     setActiveSection(section);

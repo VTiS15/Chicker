@@ -104,7 +104,7 @@ chicker
     |   |   ├── SearchPage.js
     |   |   ├── SettingPage.css
     |   |   └── SettingPage.js
-    |   ├── Layout.js
+    |   └── Layout.js
     ├── App.js
     └── index.js
 ```

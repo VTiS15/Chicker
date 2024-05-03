@@ -1,3 +1,10 @@
+/*
+This is the setting page, where user can change their 1.personal information 2.passowrds 3.theme preference
+Functions:
+- change personal information(Usericon, Username, Bios)
+- change passowrd
+- change theme preference
+ */
 import Sidebar from "../components/sidebar";
 import { useToggle } from "@uidotdev/usehooks";
 import { useState, useEffect, useRef } from "react";

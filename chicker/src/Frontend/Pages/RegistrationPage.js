@@ -1,3 +1,11 @@
+/*
+This is the register page, where users can create their account by entering username and passwords.
+If they already have an account, they can go to login page to login
+Functinos:
+- Create user
+- go to login page 
+ */
+
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import "./RegistrationPage.css";
@@ -10,6 +18,8 @@ export default function RegistrartionPage() {
   const [password2, setPassword2] = useState("");
   const navigate = useNavigate();
 
+  // This is use to check user have enter passwords correctly
+  // If they spell it correct, then they can create their new account
   const handleSubmit = (event) => {
     if (password !== password2) {
       alert("Password not same");

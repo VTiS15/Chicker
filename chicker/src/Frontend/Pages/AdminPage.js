@@ -1,37 +1,43 @@
-import "./AdminPage.css";
+/*
+This is the admin page, where only admin users can access to this page. Also, Admin users can do user managment here.
+Functions:
+- view all users displaying username and userid
+- delete users
+*/
 
-import React, { useState, useEffect } from 'react';
+import "./AdminPage.css";
+import React, { useState, useEffect } from "react";
 import Sidebar from "../components/sidebar";
 
 const AdminPage = () => {
-
   const [users, setUsers] = useState([]);
 
   // Using useEffect for single rendering
   useEffect(() => {
-      // Using fetch to fetch the api from 
-      // flask server it will be redirected to proxy
-      fetch("/api/users").then((res) =>
+    // Using fetch to fetch the api from
+    // flask server it will be redirected to proxy
+    fetch("/api/users").then((res) =>
       res.json().then((data) => {
         const modifiedUsers = data.users.map((user) => ({
           id: user._id.$oid,
-          username: user.username
+          username: user.username,
         }));
         setUsers(modifiedUsers);
       })
     );
   }, []);
 
+  // function for deleting users
   const deleteUser = (user_id) => {
     fetch("/api/user/delete", {
-      method: 'DELETE',
+      method: "DELETE",
       headers: {
-        'Content-Type': 'application/json'
+        "Content-Type": "application/json",
       },
-      body: JSON.stringify({ user_id })
+      body: JSON.stringify({ user_id }),
     })
-      .then(response => response.json())
-      .then(data => {
+      .then((response) => response.json())
+      .then((data) => {
         if (data.msg === "Deletion of self is forbidden.") {
           console.log("Deletion of self is forbidden.");
           alert("Deletion of self is forbidden.");
@@ -47,9 +53,6 @@ const AdminPage = () => {
         } else {
           console.log("Failed dunno why.");
         }
-      })
-      .catch(error => {
-        // Handle any errors
       });
   };
 
@@ -67,7 +70,7 @@ const AdminPage = () => {
             </tr>
           </thead>
           <tbody>
-            {users.map(user => (
+            {users.map((user) => (
               <tr key={user.id}>
                 <td>{user.id}</td>
                 <td>{user.username}</td>

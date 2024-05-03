@@ -1,8 +1,18 @@
+/*
+This is the login page where guest users will login here. 
+If they don't have an account, they can go to register page to create new account
+Functions:
+- Check user password and username
+- user login
+- Go to Register page
+*/
+
 import "./LoginPage.css";
 import { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import logo from "../Pictures/IconPicture.jpeg";
 
+// getting and updating the login status for users
 let login = false;
 export const setUserLogin = (updatedUserLogin) => {
   login = updatedUserLogin;
@@ -11,6 +21,7 @@ export const getUserLogin = () => {
   return login;
 };
 
+// after login successfully, this function will get the userid
 let myID = null;
 export const setMyID = (id) => {
   myID = id;
@@ -42,6 +53,7 @@ export default function LoginPage() {
     }
   };
 
+  // this is use to check username and password is valid after they click submit button
   const handleSubmit = (event) => {
     event.preventDefault();
 
@@ -69,30 +81,29 @@ export default function LoginPage() {
         console.log(error);
       });
 
-      // let user_id = getMyID();
-      // fetch("/api/user/delete", {
-      //   method: 'DELETE',
-      //   headers: {
-      //     'Content-Type': 'application/json'
-      //   },
-      //   body: JSON.stringify({ user_id })
-      // })
-      //   .then(response => response.json())
-      //   .then(data => {
-      //     if (data.msg === "Deletion of self is forbidden.") {
-      //       console.log("Welcome dear admin~");
-      //       setIsAdmin(true);
-      //       navigate("/");
-      //     } else {
-      //       console.log("You are not admin!");
-      //       setIsAdmin(false);
-      //       navigate("/");
-      //     }
-      //   })
-      //   .catch(error => {
-      //     console.log(error);
-      //   });
-
+    // let user_id = getMyID();
+    // fetch("/api/user/delete", {
+    //   method: 'DELETE',
+    //   headers: {
+    //     'Content-Type': 'application/json'
+    //   },
+    //   body: JSON.stringify({ user_id })
+    // })
+    //   .then(response => response.json())
+    //   .then(data => {
+    //     if (data.msg === "Deletion of self is forbidden.") {
+    //       console.log("Welcome dear admin~");
+    //       setIsAdmin(true);
+    //       navigate("/");
+    //     } else {
+    //       console.log("You are not admin!");
+    //       setIsAdmin(false);
+    //       navigate("/");
+    //     }
+    //   })
+    //   .catch(error => {
+    //     console.log(error);
+    //   });
   };
 
   return (

@@ -1,3 +1,11 @@
+/*
+This is the chat page, where users can chat with their followers.
+Functions:
+- Select users to chat(Target)
+- Chat with users
+- Displaying chat history
+*/
+
 import React, { useEffect, useRef, useState } from "react";
 import Sidebar from "../components/sidebar";
 import send from "../Pictures/send.png";
@@ -81,7 +89,10 @@ const dummyHistory = [
   ],
 ];
 
+// for getting global styling data
 const styling = getStyling();
+
+// chat page
 export default function ChatPage() {
   const [selectedFriend, setSelectedFriend] = useState(null);
   const handleFriendClick = (friendId) => {
@@ -113,6 +124,7 @@ export default function ChatPage() {
   );
 }
 
+// displaying all the friends and can select to chat
 function FriendItem({ name, image, onClick, isSelected }) {
   const handleClick = () => {
     onClick();
@@ -130,6 +142,7 @@ function FriendItem({ name, image, onClick, isSelected }) {
   );
 }
 
+// getting chat history
 function ChatHistory({ friendId }) {
   const myID = getMyID();
   const user = userData.find((user) => user._id === myID);

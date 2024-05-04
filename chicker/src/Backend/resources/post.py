@@ -355,6 +355,7 @@ class CommentCreate(Resource):
         "text",
         type=str,
         help="Text of comment.",
+        required=True
     )
 
     @login_required
